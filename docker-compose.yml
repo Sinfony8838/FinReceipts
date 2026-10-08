@@ -1,0 +1,34 @@
+# One-command demo. Default LLM is fake (no API key).
+# Real MiniMax: copy .env.example → .env, set provider/base URL/key env name,
+# then `docker compose --env-file .env up --build`.
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:${FINRECEIPTS_PORT:-8000}:8000"
+    environment:
+      FINRECEIPTS_LLM_PROVIDER: ${FINRECEIPTS_LLM_PROVIDER:-fake}
+      FINRECEIPTS_LLM_BASE_URL: ${FINRECEIPTS_LLM_BASE_URL:-}
+      FINRECEIPTS_LLM_API_KEY_ENV: ${FINRECEIPTS_LLM_API_KEY_ENV:-}
+      FINRECEIPTS_SMALL_MODEL: ${FINRECEIPTS_SMALL_MODEL:-}
+      FINRECEIPTS_LARGE_MODEL: ${FINRECEIPTS_LARGE_MODEL:-}
+      FINRECEIPTS_SEC_USER_AGENT: ${FINRECEIPTS_SEC_USER_AGENT:-FinReceipts demo contact@example.com}
+      FINRECEIPTS_OFFLINE: ${FINRECEIPTS_OFFLINE:-1}
+      FINRECEIPTS_CACHE_DIR: /app/.cache/sec
+      FINRECEIPTS_ALLOW_CODING_PLAN: ${FINRECEIPTS_ALLOW_CODING_PLAN:-}
+      FINRECEIPTS_MIN_CALL_INTERVAL_S: ${FINRECEIPTS_MIN_CALL_INTERVAL_S:-1.0}
+      # Forward the named key env if the host set it (name comes from FINRECEIPTS_LLM_API_KEY_ENV).
+      MINIMAX_API_KEY: ${MINIMAX_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    volumes:
+      # Persist / reuse SEC cache across restarts (optional)
+      - finreceipts_cache:/app/.cache/sec
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  finreceipts_cache:

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FinReceipts demo</title>
+  <style>
+    :root { --bg:#f6f8fa; --fg:#1f2328; --muted:#57606a; --accent:#0969da; --ok:#1a7f37; --bad:#cf222e; }
+    * { box-sizing: border-box; }
+    body { margin:0; font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--fg); background:var(--bg); }
+    header { background:#24292f; color:#f6f8fa; padding:1rem 1.25rem; }
+    header h1 { margin:0; font-size:1.15rem; font-weight:600; }
+    header p { margin:.35rem 0 0; color:#c9d1d9; font-size:13px; }
+    main { max-width:1100px; margin:0 auto; padding:1.25rem; display:grid; gap:1rem; grid-template-columns:1fr; }
+    @media (min-width:900px) { main { grid-template-columns:340px 1fr; } }
+    .card { background:#fff; border:1px solid #d0d7de; border-radius:8px; padding:1rem; }
+    label { display:block; font-size:12px; color:var(--muted); margin:.55rem 0 .15rem; }
+    input, select, textarea { width:100%; padding:.45rem .55rem; border:1px solid #d0d7de; border-radius:6px; font:inherit; }
+    textarea { min-height:90px; resize:vertical; }
+    .row { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .row > * { flex:1; min-width:120px; }
+    button { background:var(--accent); color:#fff; border:0; border-radius:6px; padding:.55rem .9rem; font:inherit; cursor:pointer; }
+    button.secondary { background:#57606a; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    #steps { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; max-height:280px; overflow:auto; white-space:pre-wrap; background:#0d1117; color:#c9d1d9; border-radius:6px; padding:.7rem; }
+    #report { min-height:320px; }
+    #report iframe { width:100%; min-height:420px; border:0; background:#fff; }
+    .hint { font-size:12px; color:var(--muted); margin-top:.5rem; }
+    .pill { display:inline-block; padding:.1rem .45rem; border-radius:999px; font-size:11px; background:#ddf4ff; color:#0550ae; }
+    a { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FinReceipts <span class="pill">demo</span></h1>
+    <p>Every number comes with a receipt. Not investment advice — see DISCLAIMER.md.</p>
+  </header>
+  <main>
+    <section class="card">
+      <h2 style="margin-top:0;font-size:1rem;">Ask</h2>
+      <label>Question</label>
+      <textarea id="question">Summarize NVIDIA's FY2025 results vs FY2024.</textarea>
+      <div class="row">
+        <div><label>Ticker</label><input id="ticker" value="NVDA" /></div>
+        <div><label>Fiscal years</label><input id="years" value="2024,2025" /></div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Mode</label>
+          <select id="mode">
+            <option value="baseline">baseline</option>
+            <option value="verify" selected>verify</option>
+            <option value="cascade">cascade</option>
+          </select>
+        </div>
+        <div>
+          <label>Feedback</label>
+          <select id="feedback">
+            <option value="flags" selected>flags (self-correction)</option>
+            <option value="receipts">receipts (verifier-grounded)</option>
+          </select>
+        </div>
+      </div>
+      <label>as_of (optional ISO date)</label>
+      <input id="as_of" value="2025-06-30" placeholder="2025-06-30" />
+      <div class="row" style="margin-top:.8rem;">
+        <button id="btnStream" type="button">Run with SSE</button>
+        <button id="btnAsk" class="secondary" type="button">Run once</button>
+      </div>
+      <p class="hint">Default LLM is <code>fake</code> (canned demo answers). Set <code>FINRECEIPTS_LLM_PROVIDER</code> for MiniMax. Prefill:
+        <a href="#" id="exNvda">NVDA FY2025</a> ·
+        <a href="#" id="exAapl">AAPL FY2023</a> ·
+        <a href="/reports/synthetic_receipts.html" target="_blank">synthetic example report</a>
+      </p>
+      <h3 style="font-size:.9rem;margin:1rem 0 .4rem;">Agent steps</h3>
+      <div id="steps">Idle.</div>
+    </section>
+    <section class="card">
+      <h2 style="margin-top:0;font-size:1rem;">Receipts report</h2>
+      <div id="report"><p class="hint">Run a question to render hoverable receipts here. Green = matched SEC XBRL; red = unsupported.</p></div>
+    </section>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const stepsEl = $("steps");
+    const reportEl = $("report");
+
+    function years() {
+      return $("years").value.split(",").map(s => parseInt(s.trim(), 10)).filter(Number.isFinite);
+    }
+    function body() {
+      const asOf = $("as_of").value.trim();
+      return {
+        question: $("question").value,
+        ticker: $("ticker").value.trim(),
+        fiscal_years: years(),
+        mode: $("mode").value,
+        feedback: $("feedback").value,
+        max_revisions: 2,
+        as_of: asOf || null,
+      };
+    }
+    function showHtml(html) {
+      reportEl.innerHTML = "";
+      const iframe = document.createElement("iframe");
+      iframe.title = "receipts report";
+      iframe.srcdoc = html;
+      reportEl.appendChild(iframe);
+    }
+    function log(line) {
+      if (stepsEl.textContent === "Idle.") stepsEl.textContent = "";
+      stepsEl.textContent += line + "\n";
+      stepsEl.scrollTop = stepsEl.scrollHeight;
+    }
+    function setBusy(b) {
+      $("btnStream").disabled = b;
+      $("btnAsk").disabled = b;
+    }
+
+    $("exNvda").onclick = (e) => {
+      e.preventDefault();
+      $("question").value = "Summarize NVIDIA's FY2025 results vs FY2024.";
+      $("ticker").value = "NVDA";
+      $("years").value = "2024,2025";
+      $("as_of").value = "2025-06-30";
+    };
+    $("exAapl").onclick = (e) => {
+      e.preventDefault();
+      $("question").value = "What was Apple's revenue for the fiscal year ended September 30, 2023?";
+      $("ticker").value = "AAPL";
+      $("years").value = "2023";
+      $("as_of").value = "";
+    };
+
+    $("btnAsk").onclick = async () => {
+      setBusy(true);
+      stepsEl.textContent = "";
+      log("POST /api/ask …");
+      try {
+        const r = await fetch("/api/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body()),
+        });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.detail || r.statusText);
+        log("revisions=" + data.revisions + " summary=" + JSON.stringify(data.audit_summary));
+        showHtml(data.html);
+      } catch (err) {
+        log("ERROR " + err);
+      } finally {
+        setBusy(false);
+      }
+    };
+
+    $("btnStream").onclick = async () => {
+      setBusy(true);
+      stepsEl.textContent = "";
+      log("POST /api/ask/stream (SSE) …");
+      try {
+        const r = await fetch("/api/ask/stream", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "text/event-stream" },
+          body: JSON.stringify(body()),
+        });
+        if (!r.ok) throw new Error(await r.text());
+        const reader = r.body.getReader();
+        const dec = new TextDecoder();
+        let buf = "";
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += dec.decode(value, { stream: true });
+          const parts = buf.split("\n\n");
+          buf = parts.pop();
+          for (const chunk of parts) {
+            const lines = chunk.split("\n");
+            let ev = "message", data = "";
+            for (const line of lines) {
+              if (line.startsWith("event:")) ev = line.slice(6).trim();
+              if (line.startsWith("data:")) data += line.slice(5).trim();
+            }
+            if (!data) continue;
+            let obj;
+            try { obj = JSON.parse(data); } catch { log(ev + " " + data); continue; }
+            if (ev === "step") {
+              const sum = obj.audit_summary ? " " + JSON.stringify(obj.audit_summary) : "";
+              log("→ " + obj.node + sum + (obj.answer ? "\n  " + String(obj.answer).slice(0, 160) : ""));
+            } else if (ev === "done") {
+              log("done revisions=" + obj.revisions);
+              if (obj.html) showHtml(obj.html);
+            } else if (ev === "error") {
+              log("ERROR " + (obj.detail || data));
+            } else {
+              log(ev + " " + JSON.stringify(obj));
+            }
+          }
+        }
+      } catch (err) {
+        log("ERROR " + err);
+      } finally {
+        setBusy(false);
+      }
+    };
+  </script>
+</body>
+</html>

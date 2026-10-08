@@ -1,0 +1,26 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - name: Install
+        run: |
+          uv venv -p ${{ matrix.python-version }}
+          uv pip install -e ".[dev]"
+      - name: Lint
+        run: uv run ruff check . && uv run ruff format --check .
+      - name: Offline tests (recorded SEC fixtures, fake LLM)
+        env:
+          FINRECEIPTS_OFFLINE: "1"
+        run: uv run pytest -m "not live" --cov --cov-report=term-missing
