@@ -4,6 +4,28 @@
 
 FinReceipts 是金融研究 Agent Harness：将**已提取、属于受支持类型的数值声明**与可用财务证据进行确定性匹配，以核验结果驱动答案修订、模型级联，并生成 HTML「收据」。它不能提取所有声明、核验全部文字，也不能保证整篇答案真实无误。
 
+## 解决什么问题
+
+金融问答里的数字即使写得很像真的，也需要逐项查证：是哪家公司、哪个财年、什么单位、来自哪份披露？FinReceipts 把这一步做成可以检查的工作流：提取受支持的数值声明，匹配财务事实，再把证据附到对应数字上。
+
+```text
+提问 → 模型作答 → 提取数字 → 确定性事实匹配
+          ↑                       │
+          └──── 修订／升级模型 ────┤
+                                  └→ 答案 + HTML 证据收据
+```
+
+收据展示选中的 XBRL 指标、原始数值、期间、申报日期和 SEC 文件链接，方便继续查原文。修订有次数上限，流程结束时仍可能有未找到依据的数字。
+
+### 一个能在本地跑出的前后对照
+
+无需密钥的 Apple 演示从一条刻意写错的固定回答开始：
+
+- 修订前：“Apple 2023 财年营收为 **3,900 亿美元**（$390.0 billion）。”核验器未找到匹配事实。
+- 一次固定修订后：“营收为 **3,833 亿美元**（$383.3 billion）。”收据对应原始值 **383,285,000,000 美元**、所选营收指标、截至 **2023-09-30** 的期间，以及 [2023 年 10-K](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm)。四舍五入后的答案在配置的容差内匹配。
+
+两条回答都由 fake 模型预先写定。这段演示验证流程能否接通，不代表真实模型的纠错能力。[三分钟演示指南](docs/DEMO_WALKTHROUGH.md)提供操作与预期结果；[项目说明](docs/PROJECT_STORY.md)介绍设计取舍和贡献范围。
+
 ## 包含什么
 
 - SEC XBRL 事实查询、数字提取与确定性匹配
@@ -17,9 +39,11 @@ FinReceipts 是金融研究 Agent Harness：将**已提取、属于受支持类�
 
 ## 本地快速开始
 
-声明支持 Python 3.11 及以上。在源码目录执行：
+声明支持 Python 3.11 及以上。以下命令适用于 Linux/macOS 的 POSIX shell，请在自己选择的环境执行：
 
 ```sh
+git clone https://github.com/Sinfony8838/FinReceipts.git
+cd FinReceipts
 python -m venv .venv
 . .venv/bin/activate
 python -m pip install -e ".[dev,web]"
@@ -28,6 +52,8 @@ FINRECEIPTS_HOST=127.0.0.1 FINRECEIPTS_LLM_PROVIDER=fake \
   FINRECEIPTS_OFFLINE=1 FINRECEIPTS_CACHE_DIR=tests/fixtures/sec finreceipts-api
 # 打开 http://127.0.0.1:8000
 ```
+
+打开页面后选择 **AAPL FY2023**，设置 **verify** 和 **receipts**，点击 **Run with SSE**。预期看到 `answer → verify → revise → answer → verify`，最终 $383.3 billion 带有收据。[演示指南](docs/DEMO_WALKTHROUGH.md)还提供不调用模型的核验命令与排错说明。
 
 安装可能访问软件包索引；以上是操作说明，不代表所有平台均完成干净安装验证。随附离线 SEC 缓存仅含 AAPL、NVDA 的 companyfacts，并不覆盖美国评测集中的全部公司。fake 模型仅用于演示，不是模型质量评测。
 
@@ -69,3 +95,7 @@ docker compose up --build
 ## 相关工作
 
 数值 grounding 与引用核验已有先例，包括 [FinDVer](https://github.com/yilunzhao/FinDVer)、XBRL Agent、ALCE、Self-RAG、FActScore。本项目探索将同一个确定性数值核验器用于修订、路由与度量，不宣称首创引用或金融核验。
+
+## SEC 观测快照
+
+新增[观测时点快照流程](docs/sec-snapshots.md)：支持本地 JSON 回放和单次 SEC companyfacts 采集，保存原始响应体哈希、采集时钟、来源说明及事实绑定 catalog。当前聚合数据只按实际采集时点登记，不回填申报日期、不猜测修订关系，也不证明历史时点已知。
