@@ -4,6 +4,30 @@
 
 FinReceipts is a finance research agent harness that verifies **extracted, supported types of numeric claims** against available financial evidence. A deterministic verifier supplies feedback for answer revision and small-to-large model routing, and renders matched facts as HTML receipts. It does not extract every possible claim, validate all prose, or establish that an answer is comprehensively true.
 
+## Why this project
+
+A plausible financial answer can still contain a wrong number. Reviewing it means finding the issuer, fiscal period, unit and filing behind each claim. FinReceipts makes that review visible: extract supported numeric claim types, look for matching financial facts, and attach an inspectable receipt to each extracted number.
+
+The same audit also drives the agent workflow:
+
+```text
+Question → model answer → numeric extraction → deterministic fact matching
+                              ↑                         │
+                              └── revise / escalate ────┤
+                                                       └→ answer + HTML receipts
+```
+
+A receipt contains the selected XBRL concept, reported value, period, filing date and a link to the SEC filing. Reviewers can inspect the evidence rather than relying on the model's confidence. Revision is budgeted; an answer can still finish with unresolved numbers.
+
+### A concrete before / after
+
+The key-free Apple demo starts with a deliberately scripted wrong answer:
+
+- Before: “Apple reported revenue of **$390.0 billion** for fiscal 2023.” The verifier finds no matching fact.
+- After one scripted revision: “Apple's revenue … was **$383.3 billion**.” The receipt points to **$383,285,000,000**, the selected revenue concept, the period ending **2023-09-30**, and the [2023 10-K](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm). The rounded answer matches under the configured tolerance.
+
+This demonstrates the wiring, not model reasoning: both answers are canned. See the [three-minute demo](docs/DEMO_WALKTHROUGH.md) for exact inputs and expected outputs, or the [project story](docs/PROJECT_STORY.md) for design choices and contribution scope.
+
 ## What is included
 
 - SEC XBRL fact lookup, numeric extraction and deterministic matching
@@ -11,15 +35,18 @@ FinReceipts is a finance research agent harness that verifies **extracted, suppo
 - Flags-only feedback and receipts feedback that also supplies retrieved values
 - HTML receipts, FastAPI endpoints and server-sent events
 - Explicit timestamp/catalog evaluation controls and synthetic injection-boundary tests
+- [Observed-now SEC snapshot bundles](docs/sec-snapshots.md) with byte hashes, collection receipts and bound catalogs; no historical availability claim
 - A-share HTTP adapters with **synthetic** offline test inputs
 
 A supported receipt means a match under the verifier's rules. An unsupported result means no supporting match was found; it does not by itself prove the claim false. Matching depends on metric coverage, entity/period interpretation, units, tolerances and the evidence supplied.
 
 ## Local quick start
 
-Python 3.11 or newer is declared. From a source checkout, in your chosen environment:
+Python 3.11 or newer is declared. Run these commands in a POSIX shell (Linux/macOS), using your chosen environment:
 
 ```sh
+git clone https://github.com/Sinfony8838/FinReceipts.git
+cd FinReceipts
 python -m venv .venv
 . .venv/bin/activate
 python -m pip install -e ".[dev,web]"
@@ -28,6 +55,8 @@ FINRECEIPTS_HOST=127.0.0.1 FINRECEIPTS_LLM_PROVIDER=fake \
   FINRECEIPTS_OFFLINE=1 FINRECEIPTS_CACHE_DIR=tests/fixtures/sec finreceipts-api
 # Open http://127.0.0.1:8000
 ```
+
+Select **AAPL FY2023**, choose **verify** and **receipts**, then click **Run with SSE**. Expect `answer → verify → revise → answer → verify` and a receipt for $383.3 billion. The [walkthrough](docs/DEMO_WALKTHROUGH.md) also provides a model-free audit command and troubleshooting.
 
 Installation can access a package index; these are instructions, not a claim of a tested clean install on every supported platform. The offline SEC cache contains company facts for AAPL and NVDA, not all companies in the bundled US evaluation dataset. Fake-model output is a demonstration, not a quality benchmark.
 
