@@ -194,10 +194,14 @@ def create_app() -> FastAPI:
             question=req.question,
             answer=answer,
             audit=audit,
+            verification_mode="numeric_only",
         )
         usage = out.get("usage")
         return {
             "ticker": req.ticker.upper(),
+            "audit_mode": "numeric_only",
+            "verification_level": "numeric_match_only",
+            "semantic_verification_passed": False,
             "question": req.question,
             "answer": answer,
             "mode": req.mode,
@@ -254,13 +258,22 @@ def create_app() -> FastAPI:
                 "ticker": req.ticker.upper(),
                 "mode": req.mode,
                 "feedback": req.feedback,
+                "audit_mode": "numeric_only",
+                "verification_level": "numeric_match_only",
+                "semantic_verification_passed": False,
             }
             yield f"event: start\ndata: {json.dumps(start)}\n\n"
             final: dict[str, Any] = {}
             try:
                 for update in state.graph.stream(init, stream_mode="updates"):
                     for node, delta in update.items():
-                        payload: dict[str, Any] = {"event": "step", "node": node}
+                        payload: dict[str, Any] = {
+                            "event": "step",
+                            "node": node,
+                            "audit_mode": "numeric_only",
+                            "verification_level": "numeric_match_only",
+                            "semantic_verification_passed": False,
+                        }
                         if isinstance(delta, dict):
                             if "answer" in delta:
                                 payload["answer"] = delta["answer"]
@@ -285,6 +298,7 @@ def create_app() -> FastAPI:
                     question=req.question,
                     answer=answer,
                     audit=audit,
+                    verification_mode="numeric_only",
                 )
                 done = {
                     "event": "done",
@@ -293,6 +307,9 @@ def create_app() -> FastAPI:
                     "escalated": bool(final.get("escalated")),
                     "audit_summary": summarize_audit(audit),
                     "html": html,
+                    "audit_mode": "numeric_only",
+                    "verification_level": "numeric_match_only",
+                    "semantic_verification_passed": False,
                 }
                 yield f"event: done\ndata: {json.dumps(done, default=str)}\n\n"
             except Exception as exc:
@@ -342,10 +359,15 @@ def create_app() -> FastAPI:
             question=req.question,
             answer=req.text,
             audit=results,
+            verification_mode="text_scope",
         )
         return JSONResponse(
             {
                 "ticker": req.ticker.upper(),
+                "audit_mode": "text_scope",
+                "verification_level": "bounded_annual_clause",
+                "all_numbers_supported": bool(results) and all(r.ok for r in results),
+                "empty_extraction": not results,
                 "audit_summary": summarize_audit(results),
                 "audit": _audit_to_json(results),
                 "html": html,

@@ -161,6 +161,6 @@ def test_find_receipt_respects_fiscal_year_scope(aapl_lookup):
 
 
 def test_audit_text(aapl_lookup):
-    text = "FY2023 revenue was $383.3 billion; net income $97.0 billion; 161,000 employees."
+    text = "FY2023 revenue was $383.3 billion; FY2023 net income $97.0 billion; 161,000 employees."
     audit = Verifier(aapl_lookup).audit_text(text, fiscal_years={2023})
     assert [r.ok for r in audit] == [True, True, False]

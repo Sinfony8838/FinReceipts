@@ -99,10 +99,11 @@ def _cmd_audit(args: argparse.Namespace) -> int:
             question=args.question or "",
             answer=text,
             audit=audit,
+            verification_mode="text_scope",
         )
         Path(args.html).write_text(html, encoding="utf-8")
         print(f"wrote {args.html}")
-    return 0 if all(r.ok for r in audit) else 1
+    return 0 if audit and all(r.ok for r in audit) else 1
 
 
 def _eval_pit_context(args: argparse.Namespace) -> PitContext | None:

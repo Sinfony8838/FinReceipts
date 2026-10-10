@@ -12,11 +12,12 @@ addition to a small relative tolerance.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date
 
 from finreceipts.models import Claim, Evidence, Verdict, VerificationResult
 from finreceipts.verify.numbers import NumberMention, extract_numbers
+from finreceipts.verify.text_scope import TextScope, scope_for_mention
 from finreceipts.xbrl.metrics import FactLookup
 
 SCALE_FACTORS = (1e3, 1e6, 1e9)
@@ -43,8 +44,7 @@ def _units_compatible(claimed: str | None, expected: str | None) -> bool:
     if claimed == expected:
         return True
     # A per-share amount written as "$6.13" / "6.13元" is parsed as USD / CNY.
-    pairs = ({claimed, expected},)
-    return any(pair == {"USD", "USD/shares"} or pair == {"CNY", "CNY/shares"} for pair in pairs)
+    return (claimed, expected) in {("USD", "USD/shares"), ("CNY", "CNY/shares")}
 
 
 def check_value(
@@ -156,7 +156,11 @@ class Verifier:
         )
 
     def find_receipt(
-        self, mention: NumberMention, *, fiscal_years: set[int] | None = None
+        self,
+        mention: NumberMention,
+        *,
+        fiscal_years: set[int] | None = None,
+        text_scope: TextScope | None = None,
     ) -> VerificationResult:
         """Unbound verification: search all known facts for one matching ``mention``.
 
@@ -168,7 +172,23 @@ class Verifier:
 
         claim = Claim(text=mention.text, value=mention.value, unit=mention.unit, span=mention.span)
         candidates: list[Evidence] = []
-        if mention.unit == "percent":
+        if text_scope is not None:
+            claim.metric = text_scope.metric.name
+            claim.entity = text_scope.entity
+            if fiscal_years and text_scope.fiscal_year not in fiscal_years:
+                return VerificationResult(
+                    claim=claim,
+                    verdict=Verdict.UNSUPPORTED,
+                    reasons=["text fiscal year conflicts with requested scope"],
+                )
+            ev = compute(text_scope.metric, self.lookup, text_scope.fiscal_year)
+            if ev:
+                # Metadata is resolved: retain a real numerical contradiction,
+                # rather than relabelling it as missing/unbound evidence.
+                return self.verify_against(
+                    claim, ev, replace(mention, negative_context=text_scope.negative_context)
+                )
+        elif mention.unit == "percent":
             names = list(self.lookup)
             for name in names:
                 for fy in self.lookup[name]:
@@ -199,14 +219,47 @@ class Verifier:
         if best is not None:
             return best
         return VerificationResult(
-            claim=claim, verdict=Verdict.UNSUPPORTED, reasons=["no matching fact found"]
+            claim=claim,
+            verdict=Verdict.UNSUPPORTED,
+            reasons=[
+                "no matching fact for bound text metric and fiscal year"
+                if text_scope
+                else "no matching fact found"
+            ],
         )
 
     def audit_text(
-        self, text: str, *, fiscal_years: set[int] | None = None
+        self, text: str, *, fiscal_years: set[int] | None = None, numeric_only: bool = False
     ) -> list[VerificationResult]:
-        """Find a receipt for every number in ``text`` (years are ignored)."""
-        return [self.find_receipt(m, fiscal_years=fiscal_years) for m in extract_numbers(text)]
+        """Audit numeric mentions, binding explicit annual financial clauses.
+
+        Missing metadata, unknown modifiers and ambiguous operations abstain.
+        numeric_only=True explicitly requests legacy number-collision matching;
+        it is retained for old numeric QA experiments, not semantic verification.
+        """
+        mentions = extract_numbers(text)
+        if numeric_only:
+            return [self.find_receipt(m, fiscal_years=fiscal_years) for m in mentions]
+        results = []
+        for mention in mentions:
+            scope = scope_for_mention(text, mention, mentions, self.lookup)
+            if isinstance(scope, str):
+                results.append(
+                    VerificationResult(
+                        claim=claim_from_mention(mention),
+                        verdict=Verdict.UNSUPPORTED,
+                        reasons=[scope],
+                    )
+                )
+            else:
+                results.append(
+                    self.find_receipt(
+                        mention,
+                        fiscal_years=fiscal_years,
+                        text_scope=scope,
+                    )
+                )
+        return results
 
 
 def claim_from_mention(mention: NumberMention, period_end: date | None = None) -> Claim:

@@ -21,7 +21,7 @@ def test_audit_command_offline(monkeypatch, tmp_path, capsys):
             "--years",
             "2023",
             "--text",
-            "Revenue was $383.3 billion.",
+            "Revenue in 2023 was $383.3 billion.",
             "--html",
             str(out),
         ]

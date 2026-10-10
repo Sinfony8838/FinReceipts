@@ -137,12 +137,15 @@ def _verify_node(deps: AgentDeps):
         lookup = deps.lookup_provider(state["ticker"], state.get("as_of"))
         verifier = Verifier(lookup, deps.tol)
         years = set(state.get("fiscal_years") or []) or None
-        audit = verifier.audit_text(state.get("answer", ""), fiscal_years=years)
+        # Historical numeric QA routing remains numeric-only. It must not be
+        # described as natural-text semantic attribution verification.
+        audit = verifier.audit_text(state.get("answer", ""), fiscal_years=years, numeric_only=True)
         attempts = [
             *state.get("attempts", []),
             {
                 "answer": state.get("answer", ""),
                 "model": state.get("model", ""),
+                "audit_mode": "numeric_only",
                 **summarize_audit(audit),
                 # Snapshot against this exact answer before revision/escalation
                 # replaces the live audit. Do not backfill historical attempts.
