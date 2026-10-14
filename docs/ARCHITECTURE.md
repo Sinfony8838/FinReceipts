@@ -50,8 +50,17 @@ The catalog controls do not make the bundled QA dataset a validated historical b
 The code was developed with AI assistance. Design choices, implementation and verification
 can be inspected in the repository; model providers and upstream data remain separate dependencies.
 
-## Current operating model
+## Durable runtime in version 0.1.0
 
-The public main-branch API is request-scoped and intended for local research. It does not
-claim durable job recovery, multi-tenant isolation or production service guarantees.
-Engineering extensions should be evaluated against their own source revision and tests.
+The original ask API remains request-scoped. The separate run API freezes the fact set,
+request and implementation identity; persists JSON checkpoints and events atomically;
+reserves dispatch/tool budgets before execution; and uses revisions and leases to fence
+stale updates. Recovery is explicit at committed node boundaries.
+
+The counter-audit holds the answer and evidence constant while comparing numeric-only
+matching with supported annual-clause verification. This exposes a difference between
+finding a matching amount and supporting its meaning, without another model call.
+
+Read the [runtime contract](RUNTIME.md), [fault-validation evidence](VALIDATION.md)
+and [interface design](UI_REDESIGN.md). This extension is local research software,
+not a claim of production isolation or exactly-once provider execution.

@@ -26,11 +26,15 @@ from finreceipts.agent.graph import (
     summarize_audit,
 )
 from finreceipts.app.demo_llm import demo_responder
+from finreceipts.app.runs import run_router
 from finreceipts.config import Settings
 from finreceipts.evals.runner import edgar_lookup_provider
 from finreceipts.llm.client import FakeLLM, make_client
 from finreceipts.models import VerificationResult
 from finreceipts.report.html import render_report
+from finreceipts.runtime.codec import digest
+from finreceipts.runtime.service import RunService
+from finreceipts.runtime.store import RunStore
 from finreceipts.tools.edgar import EdgarClient
 from finreceipts.verify.verifier import Verifier
 
@@ -98,6 +102,7 @@ class AppState:
         self.provider = None
         self.graph = None
         self.llm = None
+        self.runs = None
 
     def start(self) -> None:
         self.settings = Settings.from_env()
@@ -105,6 +110,14 @@ class AppState:
         self.provider = edgar_lookup_provider(self.edgar)
         self.llm = _make_llm(self.settings)
         self.graph = build_graph(AgentDeps(llm=self.llm, lookup_provider=self.provider))
+        self.runs = RunService(
+            RunStore(Path(os.environ.get("FINRECEIPTS_RUN_DB", ".cache/runs.sqlite3"))),
+            self.llm,
+            self.provider,
+            provider_id=digest(
+                {"provider": self.settings.llm_provider, "endpoint": self.settings.llm_base_url}
+            ),
+        )
 
     def stop(self) -> None:
         if self.edgar is not None:
@@ -128,6 +141,7 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     app.state.fin = state
+    app.include_router(run_router(state))
 
     if STATIC_DIR.is_dir():
         app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
@@ -149,6 +163,10 @@ def create_app() -> FastAPI:
         if not index_path.is_file():
             raise HTTPException(404, "demo UI missing")
         return HTMLResponse(index_path.read_text(encoding="utf-8"))
+
+    @app.get("/workbench", response_class=HTMLResponse)
+    def workbench() -> HTMLResponse:
+        return HTMLResponse((STATIC_DIR / "runs.html").read_text(encoding="utf-8"))
 
     @app.get("/reports/{name}", response_class=HTMLResponse)
     def serve_report(name: str) -> HTMLResponse:
@@ -383,7 +401,7 @@ app = create_app()
 def main() -> None:
     import uvicorn
 
-    host = os.environ.get("FINRECEIPTS_HOST", "0.0.0.0")
+    host = os.environ.get("FINRECEIPTS_HOST", "127.0.0.1")
     port = int(os.environ.get("FINRECEIPTS_PORT", "8000"))
     uvicorn.run(
         "finreceipts.app.main:app",

@@ -144,4 +144,4 @@ def test_verification_passed_gate():
     from finreceipts.agent.graph import verification_passed
 
     assert not verification_passed({"answer": "no idea", "audit": []})
-    assert verification_passed({"answer": "ANSWER: $1 billion", "audit": []})
+    assert not verification_passed({"answer": "ANSWER: $1 billion", "audit": []})

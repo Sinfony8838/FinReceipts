@@ -12,6 +12,7 @@ from finreceipts.app.main import create_app
 
 @pytest.fixture
 def client(monkeypatch, tmp_path):
+    monkeypatch.setenv("FINRECEIPTS_RUN_DB", str(tmp_path / "runs.sqlite3"))
     monkeypatch.setenv("FINRECEIPTS_LLM_PROVIDER", "fake")
     monkeypatch.setenv("FINRECEIPTS_OFFLINE", "1")
     # Prefer test fixtures as the SEC cache

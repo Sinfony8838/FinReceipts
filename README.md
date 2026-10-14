@@ -11,6 +11,26 @@ Each matched number gets an HTML receipt showing the selected fact, period and s
 
 The core idea is to make verification part of **execution**, not just a citation added after generation.
 
+## Durable evidence workbench
+
+Version 0.1.0 adds **frozen-evidence runs** alongside the request-scoped demo.
+This preview release is intended for local research and reproducible demonstrations.
+
+![Research workbench](docs/assets/ui-20261014/workbench-light.png)
+
+- **Recover at committed node boundaries:** JSON checkpoints and SQLite transactions keep state and events together.
+- **Bound execution before dispatch:** persisted model/tool reservations survive interruption and explicit recovery.
+- **Fence competing results:** revision checks and lease tokens reject stale advances and late worker commits.
+- **Reconnect without rerunning:** sequenced events support cursor-based catch-up; exports carry evidence and integrity checks.
+- **Compare verification conditions:** replay numeric matching and bounded annual-clause checks on the same evidence without another model call.
+- **Inspect the result:** Chinese workbench, light/dark/system themes, responsive layout and expandable raw records.
+
+Recovery cannot guarantee exactly-once external calls. Dispatch budgets are not billing caps;
+evidence hashes are not independent historical-availability proofs.
+
+[Runtime contract](docs/RUNTIME.md) · [Fault tests and validation](docs/VALIDATION.md) ·
+[UI walkthrough and screenshots](docs/UI_REDESIGN.md) · [Engineering record](docs/ENGINEERING_LOG.md)
+
 ## See the workflow
 
 The offline Apple demo starts with a deliberately incorrect answer and follows the same
@@ -57,13 +77,6 @@ The verifier supplies both the evidence a reader can inspect and the signal that
 revision. The model does not grade its own answer. The scope remains the numeric claims
 the extractor and available evidence can support. [Read the design decisions →](docs/ARCHITECTURE.md)
 
-## Observed-now SEC snapshots
-
-This branch adds raw-response hashes, collection receipts and fact-bound catalogs for
-local replay or a single SEC companyfacts collection. The snapshot records what was
-observed at collection time; it does not infer historical availability from filing dates.
-See the [snapshot workflow](docs/sec-snapshots.md).
-
 ## Run locally
 
 Use Python 3.11+ and a source checkout. The bundled offline facts cover AAPL and NVDA.
@@ -104,10 +117,10 @@ finreceipts-api
 
 </details>
 
-Open **http://127.0.0.1:8000**. In the main-branch demo, select **AAPL FY2023**,
-choose **verify** and **receipts**, then **Run with SSE**. Expect one revision and
-the $383.3 billion receipt. The same number appears in the prose and the ANSWER line;
-two matched mentions are not two independent facts.
+Open **http://127.0.0.1:8000/workbench**. Click **创建任务**, **推进一步**,
+then refresh: the committed answer remains and the next step is verification.
+Click **继续执行** followed by **复核当前回答** to compare numeric matching with bounded
+annual-clause checks. The **快速问答** page retains request-scoped streaming and one-shot responses.
 
 Installation may need network access. Demo fixtures and example reports are supplied by
 the checkout, not a standalone wheel. To use a live provider, see [LLM configuration](docs/llm_access.md).
@@ -128,6 +141,8 @@ See the [environment and validation record](docs/reproducibility.md).
 
 | Interface | Purpose |
 |---|---|
+| `POST /api/runs` | Create an idempotent durable run |
+| `/api/runs/{id}/advance, resume, events, export` | Step execution, recovery and evidence inspection |
 | `POST /api/ask` | Answer, audit and report in one response |
 | `POST /api/ask/stream` | Step events followed by the final report |
 | `POST /api/audit` | Audit supplied text against financial facts |

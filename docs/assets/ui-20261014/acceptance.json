@@ -1,0 +1,498 @@
+{
+  "status": "PASS",
+  "scope": "Edge, offline fake model; interruption states explicitly mocked only in browser",
+  "checks": [
+    "real API completion, revision loop and counter-audit",
+    "45 layout cases: 5 widths x 3 preferences x 3 page states",
+    "theme persistence, navigation, live system changes, denied storage",
+    "real API budget exhaustion and cancellation",
+    "UI-only marked fixtures: running, interrupted, expired lease, acknowledged resume payload, long text",
+    "real API streaming Apple and one-shot NVIDIA, report retained",
+    "keyboard focus, details activation, invalid advanced input is revealed",
+    "native 200% browser zoom, both pages and restored result, light/dark"
+  ],
+  "layouts": [
+    {
+      "label": "workbench-empty-light-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-light-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-light-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-light-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-light-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-dark-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-dark-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-dark-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-dark-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-dark-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-system-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-system-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-system-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-system-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "workbench-empty-system-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-light-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-light-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-light-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-light-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-light-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-dark-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-dark-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-dark-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-dark-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-dark-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-system-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-system-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-system-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-system-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "ask-empty-system-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-light-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-light-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-light-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-light-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-light-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-dark-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-dark-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-dark-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-dark-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-dark-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-system-1440",
+      "width": 1440,
+      "scroll": 1440,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-system-1280",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-system-900",
+      "width": 900,
+      "scroll": 900,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-system-640",
+      "width": 640,
+      "scroll": 640,
+      "clipped": []
+    },
+    {
+      "label": "workbench-result-system-390",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "fixture-running-1280-light",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "fixture-running-1280-dark",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "fixture-running-390-light",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "fixture-running-390-dark",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "fixture-interrupted-1280-light",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "fixture-interrupted-1280-dark",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "fixture-interrupted-390-light",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "fixture-interrupted-390-dark",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "fixture-expired-1280-light",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "fixture-expired-1280-dark",
+      "width": 1280,
+      "scroll": 1280,
+      "clipped": []
+    },
+    {
+      "label": "fixture-expired-390-light",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "fixture-expired-390-dark",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "ask-report-mobile",
+      "width": 390,
+      "scroll": 390,
+      "clipped": []
+    },
+    {
+      "label": "native-200-percent-/workbench-light",
+      "width": 703,
+      "scroll": 703,
+      "clipped": []
+    },
+    {
+      "label": "native-200-percent-/workbench-dark",
+      "width": 703,
+      "scroll": 703,
+      "clipped": []
+    },
+    {
+      "label": "native-200-percent-/workbench#5f3350dfbf2f4842a9042d16d28e2c64-light",
+      "width": 703,
+      "scroll": 703,
+      "clipped": []
+    },
+    {
+      "label": "native-200-percent-/workbench#5f3350dfbf2f4842a9042d16d28e2c64-dark",
+      "width": 703,
+      "scroll": 703,
+      "clipped": []
+    },
+    {
+      "label": "native-200-percent-/-light",
+      "width": 703,
+      "scroll": 703,
+      "clipped": []
+    },
+    {
+      "label": "native-200-percent-/-dark",
+      "width": 703,
+      "scroll": 703,
+      "clipped": []
+    }
+  ],
+  "contrast": [
+    {
+      "theme": "light",
+      "ratios": [
+        {
+          "fg": "--text",
+          "bg": "--surface",
+          "ratio": 15.571134057319037
+        },
+        {
+          "fg": "--muted",
+          "bg": "--surface",
+          "ratio": 5.393431190318184
+        },
+        {
+          "fg": "--muted",
+          "bg": "--bg",
+          "ratio": 5.07553145397846
+        },
+        {
+          "fg": "--accent",
+          "bg": "--surface",
+          "ratio": 6.3615747062123
+        },
+        {
+          "fg": "--good",
+          "bg": "--good-bg",
+          "ratio": 6.137555309257436
+        },
+        {
+          "fg": "--warn",
+          "bg": "--warn-bg",
+          "ratio": 5.490746197972647
+        },
+        {
+          "fg": "--bad",
+          "bg": "--bad-bg",
+          "ratio": 5.916138664581445
+        },
+        {
+          "fg": "#ffffff",
+          "bg": "--accent",
+          "ratio": 6.3615747062123
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "ratios": [
+        {
+          "fg": "--text",
+          "bg": "--surface",
+          "ratio": 13.336399348981395
+        },
+        {
+          "fg": "--muted",
+          "bg": "--surface",
+          "ratio": 7.069762949269197
+        },
+        {
+          "fg": "--muted",
+          "bg": "--bg",
+          "ratio": 7.766454255876003
+        },
+        {
+          "fg": "--accent",
+          "bg": "--surface",
+          "ratio": 7.9412823805136235
+        },
+        {
+          "fg": "--good",
+          "bg": "--good-bg",
+          "ratio": 7.61117700993438
+        },
+        {
+          "fg": "--warn",
+          "bg": "--warn-bg",
+          "ratio": 7.645517797259849
+        },
+        {
+          "fg": "--bad",
+          "bg": "--bad-bg",
+          "ratio": 6.980698768914936
+        },
+        {
+          "fg": "#142039",
+          "bg": "--accent",
+          "ratio": 7.883950525809483
+        }
+      ]
+    }
+  ],
+  "zoomMetrics": {
+    "innerWidth": 703,
+    "outerWidth": 1440,
+    "devicePixelRatio": 2
+  },
+  "errors": []
+}

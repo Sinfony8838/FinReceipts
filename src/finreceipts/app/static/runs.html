@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>研究工作台 · FinReceipts</title>
+  <script src="/static/ui.js"></script>
+  <link rel="stylesheet" href="/static/ui.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+<header class="topbar"><div class="topbar-inner">
+  <a class="brand" href="/workbench"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6"/></svg>FinReceipts</a>
+  <nav aria-label="主导航"><a href="/workbench" aria-current="page">研究工作台</a><a href="/">快速问答</a></nav>
+  <div class="theme-control"><label class="sr-only" for="theme">外观主题</label><select id="theme"><option value="light">浅色</option><option value="dark">深色</option><option value="system">跟随系统</option></select></div>
+</div></header>
+<main id="main" class="page">
+  <div class="page-heading"><div><h1>研究工作台</h1><p>核对财务数字，查看证据与执行记录。</p></div><span id="environment" class="environment">连接中</span></div>
+  <div id="error" class="error-box" role="alert"></div>
+  <div class="workspace">
+    <aside class="settings-pane"><details id="settings" class="panel settings" open>
+      <summary><div id="settings-context" class="settings-context"><strong>任务设置</strong><span>展开查看或创建新任务</span></div></summary>
+      <div class="settings-body"><h2 class="settings-title">新建研究任务</h2>
+        <form id="create-form">
+          <label for="question">研究问题</label><textarea id="question" required maxlength="12000">苹果（AAPL）2023 财年的营业收入是多少？</textarea>
+          <div class="row"><div><label for="ticker">公司代码</label><input id="ticker" value="AAPL" maxlength="16" required></div><div><label for="years">财年</label><input id="years" value="2023" required></div></div>
+          <p class="hint">多个财年用逗号分隔。</p>
+          <details class="advanced"><summary>高级设置</summary><div class="row">
+            <div><label for="budget">调用额度</label><input id="budget" type="number" min="1" max="50" value="6" required></div>
+            <div><label for="revisions">修订上限</label><input id="revisions" type="number" min="0" max="5" value="2" required></div>
+          </div><p class="hint">调用额度在发起请求前占用，中断后保留。</p></details>
+          <div class="form-actions"><button id="create" class="primary" type="submit">创建任务</button></div>
+        </form>
+        <p class="hint">创建时固定财务证据。任务建立后，可逐步执行或继续至结束。</p>
+      </div>
+    </details></aside>
+    <article class="panel" aria-label="研究结果">
+      <div class="panel-header"><div class="run-heading"><h2 id="run-title">研究结果</h2><p id="run-context" class="muted" hidden></p></div><span id="status" class="badge" role="status">未创建任务</span></div>
+      <div id="run-info" hidden>
+        <div class="statusbar"><div>调用额度<strong id="dispatches">—</strong></div><div>核验轮次<strong id="attempts">—</strong></div><div>下一步<strong id="next">—</strong></div></div>
+        <div class="run-toolbar"><div class="actions"><button id="run" class="primary" disabled>继续执行</button><button id="step" disabled>推进一步</button></div><div class="actions right"><button id="refresh" class="ghost" disabled>刷新状态</button><button id="cancel" class="ghost danger" disabled>取消任务</button></div></div>
+      </div>
+      <section id="recovery" class="notice" hidden><h3>恢复中断任务</h3><p>恢复可能重做未提交的模型调用，已占用额度不会返还。</p><label class="check"><input id="ack" type="checkbox">我已了解重复调用的可能性</label><button id="resume" disabled>恢复任务</button></section>
+      <section id="empty" class="panel-section empty">
+        <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="9" y="5" width="22" height="30" rx="3"/><path d="M14 13h12M14 19h12M14 25h7"/></svg>
+        <h3>还没有研究结果</h3><p>从公司与财年开始，创建一个可以逐步核验的研究任务。</p><div class="empty-steps"><span><b>01</b>创建任务</span><span><b>02</b>执行核验</span><span><b>03</b>复查证据</span></div>
+      </section>
+      <section id="answer-section" class="panel-section" hidden><div class="section-title"><h2>当前回答</h2><span class="muted">保留模型原文</span></div><div id="answer"></div><p id="reason"></p></section>
+      <section id="comparison-section" class="panel-section" hidden><div class="section-title"><h2>对照复核</h2><button id="compare" disabled>复核当前回答</button></div><p class="hint">使用同一份证据对照数字与语句，不调用模型。</p><div id="comparison" aria-live="polite"><p class="hint">生成回答后，可以在这里查看每条声明的复核结果。</p></div><p class="hint">数字匹配不等于全文正确；没有提取到数字也不会视为通过。</p></section>
+      <section class="panel-section"><div class="section-title"><h2>执行记录</h2><span id="event-count" class="muted">暂无记录</span></div><ol id="events" class="timeline"><li class="empty-event">创建任务后，执行记录会显示在这里。</li></ol></section>
+      <details id="evidence-details" class="metadata" hidden><summary>任务与证据详情</summary><pre id="identity" class="raw"></pre><p class="hint">证据摘要用于检测记录变化，不证明历史时点或实际计费。</p><div class="actions"><a id="export" class="button" hidden target="_blank" rel="noopener">查看证据包 JSON</a></div></details>
+    </article>
+  </div>
+  <footer class="footer"><span>本地研究工具 · 不构成投资建议</span><span>演示模式使用固定回答，不代表真实模型效果。</span></footer>
+</main>
+<script src="/static/runs.js"></script>
+</body>
+</html>

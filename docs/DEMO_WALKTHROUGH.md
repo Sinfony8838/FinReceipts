@@ -19,13 +19,13 @@ Open http://127.0.0.1:8000. Check http://127.0.0.1:8000/health: `provider` shoul
 
 ## 2. Show a correction / 展示一次修订
 
-1. Click **AAPL FY2023**. This fills the Apple revenue question, ticker `AAPL`, fiscal year `2023`, and clears `as_of`.
-2. Choose **baseline**, then **Run once**. The canned answer says `$390.0 billion`. Both occurrences of the figure are unsupported: `numbers=2`, `supported=0`, `unsupported=2`. Baseline still audits; it does not revise.
-3. Change the mode to **verify**, feedback to **receipts**, then click **Run with SSE**. The expected nodes are `answer → verify → revise → answer → verify`.
-4. The final canned answer says `$383.3 billion`; both occurrences are supported, with one revision. Hover or keyboard-focus a green number to inspect the concept, raw value, period and filing link.
+1. Click **苹果 · 2023**. This fills the Apple revenue question, ticker `AAPL`, fiscal year `2023`, and clears `as_of`.
+2. Expand **核验设置** and choose **回答一次并核验**, then **一次性返回结果**. The canned answer says `$390.0 billion`. Both occurrences of the figure are unsupported: `numbers=2`, `supported=0`, `unsupported=2`. Baseline still audits; it does not revise.
+3. Change the mode to **核验后修订**, feedback to **提供检索数值与证据**, then click **开始问答**. The expected nodes are `answer → verify → revise → answer → verify`.
+4. The final canned answer says `$383.3 billion`; both occurrences are supported, with one revision. Hover or keyboard-focus an amber number to inspect the concept, raw value, period and filing link.
 5. Explain that `$383.3 billion` matches the recorded `$383,285,000,000` within tolerance. A link identifies the original filing for human review; it does not certify every sentence.
 
-中文讲解顺序：先点 **AAPL FY2023**，用 **baseline / Run once** 展示两处无依据数字；再切到 **verify / receipts / Run with SSE**，展示一次修订后两处匹配。悬停或用键盘聚焦绿色数字，查看原始值、指标、期间与申报链接。强调“两处”是同一数字在正文和 `ANSWER` 行各出现一次，不是两个独立事实。
+中文讲解顺序：先点 **苹果 · 2023**，用 **回答一次并核验 / 一次性返回结果** 展示两处无依据数字；再切到 **核验后修订 / 提供检索数值与证据 / 开始问答**，展示一次修订后两处匹配。悬停或用键盘聚焦琥珀色数字，查看原始值、指标、期间与申报链接。强调“两处”是同一数字在正文和 `ANSWER` 行各出现一次，不是两个独立事实。
 
 ### API equivalent / 等价 API 请求
 
@@ -55,11 +55,11 @@ Expected: one supported number and exit status 0. Open the generated local HTML 
 
 **English, about 45 seconds:**
 
-“FinReceipts explores how financial answers can carry inspectable numeric evidence. Here the fake model starts with a deliberately wrong Apple revenue figure. The verifier checks extracted numbers against cached SEC XBRL facts, then feeds the audit into a bounded revision loop. The final number has a receipt showing the selected metric, period, raw value and filing link. This local demo proves the workflow is wired together. The answers are scripted, and a green receipt only means a match under these rules. It does not establish the truth of all prose, historical availability, or investment suitability.”
+“FinReceipts explores how financial answers can carry inspectable numeric evidence. Here the fake model starts with a deliberately wrong Apple revenue figure. The verifier checks extracted numbers against cached SEC XBRL facts, then feeds the audit into a bounded revision loop. The final number has a receipt showing the selected metric, period, raw value and filing link. This local demo proves the workflow is wired together. The answers are scripted, and an amber receipt only means a match under these rules. It does not establish the truth of all prose, historical availability, or investment suitability.”
 
 **中文，约 45 秒：**
 
-“FinReceipts 研究的是，怎样让金融回答里的数字附上可以检查的依据。这里先用固定回答故意写错 Apple 的营收，再用确定性核验器查询缓存中的 SEC XBRL 事实，把核验结果送回有次数上限的修订流程。修订后的数字附有指标、期间、原始值和申报文件链接。这段本地演示说明流程已经接通，但回答是预先写好的。绿色只表示按当前规则匹配到事实，不保证整段话都对，也不证明某个历史时点已知，更不构成投资建议。”
+“FinReceipts 研究的是，怎样让金融回答里的数字附上可以检查的依据。这里先用固定回答故意写错 Apple 的营收，再用确定性核验器查询缓存中的 SEC XBRL 事实，把核验结果送回有次数上限的修订流程。修订后的数字附有指标、期间、原始值和申报文件链接。这段本地演示说明流程已经接通，但回答是预先写好的。琥珀色只表示按当前规则匹配到事实，不保证整段话都对，也不证明某个历史时点已知，更不构成投资建议。”
 
 ## Troubleshooting and boundaries / 排错与边界
 
