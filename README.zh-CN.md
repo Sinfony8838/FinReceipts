@@ -1,101 +1,146 @@
 # FinReceipts
 
-[English](README.md) · Pre-alpha，本地研究软件 · [不构成投资建议](DISCLAIMER.md)
+**用可核验的数字与可检查的证据，构建财务研究 Agent。**
 
-FinReceipts 是金融研究 Agent Harness：将**已提取、属于受支持类型的数值声明**与可用财务证据进行确定性匹配，以核验结果驱动答案修订、模型级联，并生成 HTML「收据」。它不能提取所有声明、核验全部文字，也不能保证整篇答案真实无误。
+[English](README.md) · [架构设计](docs/ARCHITECTURE.md) · [验证记录](docs/reproducibility.md) · [持续集成](https://github.com/Sinfony8838/FinReceipts/actions/workflows/ci.yml) · [Apache-2.0](LICENSE)
 
-## 解决什么问题
+FinReceipts 将财务问答接入确定性核验流程：提取受支持的数值声明，与 SEC XBRL 财务事实匹配，
+再根据核验结果修订回答，或将未解决的问题路由到另一个已配置模型。
+匹配的数字附带 HTML 证据收据，展示所选事实、期间和原始来源。
 
-金融问答里的数字即使写得很像真的，也需要逐项查证：是哪家公司、哪个财年、什么单位、来自哪份披露？FinReceipts 把这一步做成可以检查的工作流：提取受支持的数值声明，匹配财务事实，再把证据附到对应数字上。
+项目的核心是让核验参与**执行决策**，而不只是生成完成后附上引用。
 
-```text
-提问 → 模型作答 → 提取数字 → 确定性事实匹配
-          ↑                       │
-          └──── 修订／升级模型 ────┤
-                                  └→ 答案 + HTML 证据收据
+## 先看一次完整流程
+
+无需密钥的 Apple 离线演示，从一条刻意写错的回答开始：
+
+| 步骤 | 回答或证据 | 结果 |
+|---|---|---|
+| 首次回答 | 2023 财年营收 **3,900 亿美元**（$390.0 billion） | 未找到匹配事实 |
+| 修订回答 | 2023 财年营收 **3,833 亿美元**（$383.3 billion） | 在配置容差内匹配 |
+| 证据收据 | 原始值 **383,285,000,000 美元**，期间截至 **2023-09-30**，所选 SEC 营收指标 | 可继续核对事实与原始披露 |
+
+两条回答均由 fake provider 预设，演示的是“作答 → 核验 → 修订”的完整流程，不是模型准确率。
+数字匹配也不代表上下文中的公司、指标、期间和全部语句均已核实。
+
+## 核心工程设计
+
+| 能力 | 实现方式 | 代码与说明 |
+|---|---|---|
+| 核验驱动的 Agent 编排 | LangGraph 状态路由、有限修订、可选模型升级 | [工作流](src/finreceipts/agent/graph.py) |
+| 确定性财务核验 | 显式数字提取、单位归一、容差和 XBRL 指标计算 | [核验器](src/finreceipts/verify/) · [指标](src/finreceipts/xbrl/) |
+| 可区分的反馈实验 | 错误标记与附带检索数值的证据反馈分别评估 | [评测控制](docs/eval-controls.md) |
+| 可检查的执行结果 | 每轮审计、HTML 收据、步骤级 SSE 事件 | [接口](src/finreceipts/app/main.py) · [报告](src/finreceipts/report/) |
+| 可重复的本地开发 | SEC 录制/回放缓存、离线 fixtures、固定模型响应 | [数据客户端](src/finreceipts/tools/) · [测试](tests/) |
+| 明确的证据使用条件 | 时间戳与 catalog 控制、合成注入边界检查 | [时点与边界约定](docs/pit-redteam.md) |
+
+Python · LangGraph · FastAPI · Pydantic · SSE · SEC XBRL · pytest
+
+## 执行流程
+
+```mermaid
+flowchart LR
+    Q[问题与财务范围] --> A[模型作答]
+    A --> V[提取并核验数字]
+    F[SEC 事实与回放缓存] --> V
+    V --> R[回答与证据收据]
+    V -->|未解决且修订次数剩余| C[核验反馈]
+    C --> A
+    V -->|满足级联条件| E[已配置的升级模型]
+    E --> A
 ```
 
-收据展示选中的 XBRL 指标、原始数值、期间、申报日期和 SEC 文件链接，方便继续查原文。修订有次数上限，流程结束时仍可能有未找到依据的数字。
+核验器同时提供人工可复查的证据和控制修订的信号，模型不负责给自己的回答判分。
+核验范围由提取规则与可用证据共同决定。[查看架构与设计取舍 →](docs/ARCHITECTURE.md)
 
-### 一个能在本地跑出的前后对照
+## SEC 观测快照
 
-无需密钥的 Apple 演示从一条刻意写错的固定回答开始：
+本分支增加本地回放与单次 SEC companyfacts 采集，记录原始响应体哈希、采集凭据及事实绑定目录。
+快照反映实际采集时点观察到的内容，不以申报日期倒推历史可用性。
+详见[快照流程](docs/sec-snapshots.md)。
 
-- 修订前：“Apple 2023 财年营收为 **3,900 亿美元**（$390.0 billion）。”核验器未找到匹配事实。
-- 一次固定修订后：“营收为 **3,833 亿美元**（$383.3 billion）。”收据对应原始值 **383,285,000,000 美元**、所选营收指标、截至 **2023-09-30** 的期间，以及 [2023 年 10-K](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm)。四舍五入后的答案在配置的容差内匹配。
+## 本地启动
 
-两条回答都由 fake 模型预先写定。这段演示验证流程能否接通，不代表真实模型的纠错能力。[三分钟演示指南](docs/DEMO_WALKTHROUGH.md)提供操作与预期结果；[项目说明](docs/PROJECT_STORY.md)介绍设计取舍和贡献范围。
-
-## 包含什么
-
-- SEC XBRL 事实查询、数字提取与确定性匹配
-- LangGraph 作答 → 核验 → 修订／升级模型流程
-- 仅 flags 的反馈，以及额外提供检索数值的 receipts 反馈
-- HTML 收据、FastAPI 接口与 SSE 事件
-- 显式时间戳／目录评测控制，以及合成注入边界测试
-- A股 HTTP 适配器及**合成**离线测试输入
-
-支持收据表示在当前匹配规则下找到依据；未找到依据不等于证明数字错误。结果受指标覆盖、实体与期间理解、单位、容差及输入证据影响。
-
-## 本地快速开始
-
-声明支持 Python 3.11 及以上。以下命令适用于 Linux/macOS 的 POSIX shell，请在自己选择的环境执行：
+需要 Python 3.11+ 和源码检出目录。随附离线财务事实覆盖 AAPL、NVDA。
 
 ```sh
 git clone https://github.com/Sinfony8838/FinReceipts.git
 cd FinReceipts
 python -m venv .venv
-. .venv/bin/activate
-python -m pip install -e ".[dev,web]"
-FINRECEIPTS_OFFLINE=1 FINRECEIPTS_LLM_PROVIDER=fake pytest -m "not live"
-FINRECEIPTS_HOST=127.0.0.1 FINRECEIPTS_LLM_PROVIDER=fake \
-  FINRECEIPTS_OFFLINE=1 FINRECEIPTS_CACHE_DIR=tests/fixtures/sec finreceipts-api
-# 打开 http://127.0.0.1:8000
 ```
 
-打开页面后选择 **AAPL FY2023**，设置 **verify** 和 **receipts**，点击 **Run with SSE**。预期看到 `answer → verify → revise → answer → verify`，最终 $383.3 billion 带有收据。[演示指南](docs/DEMO_WALKTHROUGH.md)还提供不调用模型的核验命令与排错说明。
+<details>
+<summary>Windows PowerShell</summary>
 
-安装可能访问软件包索引；以上是操作说明，不代表所有平台均完成干净安装验证。随附离线 SEC 缓存仅含 AAPL、NVDA 的 companyfacts，并不覆盖美国评测集中的全部公司。fake 模型仅用于演示，不是模型质量评测。
+```powershell
+.venv\Scripts\Activate.ps1
+python -m pip install -e ".[dev,web]"
+$env:FINRECEIPTS_HOST = "127.0.0.1"
+$env:FINRECEIPTS_LLM_PROVIDER = "fake"
+$env:FINRECEIPTS_OFFLINE = "1"
+$env:FINRECEIPTS_CACHE_DIR = "tests/fixtures/sec"
+finreceipts-api
+```
 
-上述快速开始需要源码检出目录，其中提供 `examples/` 和 `tests/fixtures/sec/`。单独安装的 wheel 不包含示例报告或 SEC 测试缓存。仅使用 wheel 时，需通过 `FINRECEIPTS_CACHE_DIR` 配置有权使用的 SEC 缓存；如需静态示例报告，还需在工作目录自行提供 `examples/`。安装成功不代表已具备完整离线演示资源。
+</details>
 
-也提供本地 Docker 配置：
+<details>
+<summary>Linux / macOS</summary>
 
 ```sh
-docker compose up --build
+. .venv/bin/activate
+python -m pip install -e ".[dev,web]"
+FINRECEIPTS_HOST=127.0.0.1 FINRECEIPTS_LLM_PROVIDER=fake \
+  FINRECEIPTS_OFFLINE=1 FINRECEIPTS_CACHE_DIR=tests/fixtures/sec finreceipts-api
 ```
 
-应用尚未完成生产认证与安全审查。请仅绑定本机回环地址，不要携带付费 API 凭据暴露到公网。验证边界见[可复现性说明](docs/reproducibility.md)，启用真实服务前请读[模型配置说明](docs/llm_access.md)。
+</details>
 
-## 接口与源码
+打开 **http://127.0.0.1:8000**。主分支演示页选择 **AAPL FY2023**，将模式设为 **verify**、
+反馈设为 **receipts**，点击 **Run with SSE**，可看到一次修订后的 $383.3 billion 收据。
+正文和 ANSWER 行各出现一次金额，两个匹配提及不代表两个独立事实。
 
-- CLI：`finreceipts audit`、`eval`、`record`、`record-ashare`、`gen-eval`、`gen-eval-cn`
-- HTTP：`GET /health`、`GET /`、`POST /api/ask`、`POST /api/audit`
-- SSE：`POST` 或 `GET /api/ask/stream`
-- 源码位于 `src/finreceipts/`：`tools/` 负责数据查询与缓存，`verify/`、`xbrl/` 负责核数，`agent/`、`llm/` 负责工作流，`pit/`、`redteam/` 负责可用性策略与合成边界检查，`evals/`、`report/`、`app/` 负责评测与本地展示
+安装依赖可能联网。离线 fixtures 和示例报告来自源码目录，单独安装的 wheel 不包含这些资源。
+真实模型接入见[配置说明](docs/llm_access.md)。
 
-## 历史实验来源与限制
+## 验证行为
 
-2026-10-06 至 07 的历史保存实验使用了美国数值问答集的 100 题、23 家公司，以及 MiniMax 中国大陆 Anthropic 兼容端点。这些实验早于后续修改与本次源码发布整理。**本源码版本不包含历史服务输出和结果文件，也不宣称重新执行了真实模型评测。**
+```sh
+python -m pytest -m "not live" -q
+python -m ruff check .
+```
 
-历史 receipts 反馈运行记录为 100 题中答对 96 题。修订模型看到了核数器检索出的 XBRL 数值，因此是**证据辅助修正，不是纯模型自我修正**。仅 flags 反馈是另一个实验条件。历史 small baseline 与 flags-only 各有一次请求错误；准确率以全部 100 题为分母，含无依据数字的答案占比则以 99 个成功响应为分母。
+测试覆盖数字提取、财务指标、修订与路由、API/SSE、证据序列化及评测控制。
+功能测试、固定回答演示与真实模型质量评测分别记录。
+环境和已执行检查见[验证说明](docs/reproducibility.md)。
 
-历史 cascade 与 large baseline 的约 **¥0.69、¥0.73 是各自 100 题运行的人民币估算总成本，不是每题平均成本**。估算取决于当时的 token 记录与假定单价，不代表当前账单。历史实验中的“小／大”分别指 MiniMax-M3 关闭／开启 thinking，并非不同规模的独立模型。保留这些来源说明不等于验证当前实现的性能，也不等于复现了未随附的实验。
+## 接口
 
-## 时点与注入边界
+| 入口 | 用途 |
+|---|---|
+| `POST /api/ask` | 一次返回回答、核验与报告 |
+| `POST /api/ask/stream` | 逐步输出执行事件与最终报告 |
+| `POST /api/audit` | 对给定文本进行财务事实核验 |
+| `GET /health` | 查看模型服务与离线配置 |
+| `finreceipts audit / eval / record` | 本地核验、评测与证据采集 |
 
-旧的日期过滤不证明真实历史公开时间。显式目录／截止时间控制需要独立可信的原始字节、时间戳与事实绑定。随附美国题集不是已验证的真实数据时点评测集。fake 模型合成边界测试不证明真实模型的抗注入能力。详见[评测控制](docs/eval-controls.md)和[时点／边界约定](docs/pit-redteam.md)。
+## 适用范围与评测
 
-## 数据与许可证
+当前是本地研究软件，尚未提供生产认证，不核验所有财务文字，也不以申报日期代替历史公开时间证明。
+演示服务请绑定本机回环地址；合成安全测试不等于真实模型抗注入验证。
 
-保留三个带来源说明的 SEC JSON fixtures。原东方财富／巨潮资讯抓取快照及其生成的 A股题集不随本版分发；合成 A股输入只验证本地逻辑，不反映公司业绩。实时抓取须另外遵守上游访问与复用条款，见[数据来源](docs/data_sources.md)。
+### 历史实验来源与限制
 
-项目代码保留 [Apache-2.0](LICENSE)。依赖与上游数据适用各自条款，依赖中包含 MPL 组件，见[第三方说明](THIRD_PARTY_NOTICES.md)。本版不分发依赖 wheelhouse 或容器镜像。
+早期实验保存在[历史评测说明](docs/EVALUATION_NOTES.md)，不作为当前版本的性能宣传。
+检索数值辅助修正、仅错误标记反馈、统计分母与成本假设分别说明；
+未随附的历史结果文件不能视为当前实现的验证证据。
 
-## 相关工作
+## 数据、许可与相关工作
 
-数值 grounding 与引用核验已有先例，包括 [FinDVer](https://github.com/yilunzhao/FinDVer)、XBRL Agent、ALCE、Self-RAG、FActScore。本项目探索将同一个确定性数值核验器用于修订、路由与度量，不宣称首创引用或金融核验。
+仓库保留三个有来源说明的 SEC JSON fixtures。A股适配器使用合成离线输入，
+不分发原东方财富/巨潮快照及其生成题集。
+详见[数据来源](docs/data_sources.md)、[第三方说明](THIRD_PARTY_NOTICES.md)和[免责声明](DISCLAIMER.md)。
 
-## SEC 观测快照
-
-新增[观测时点快照流程](docs/sec-snapshots.md)：支持本地 JSON 回放和单次 SEC companyfacts 采集，保存原始响应体哈希、采集时钟、来源说明及事实绑定 catalog。当前聚合数据只按实际采集时点登记，不回填申报日期、不猜测修订关系，也不证明历史时点已知。
+代码采用 [Apache-2.0](LICENSE)，依赖和上游数据保留各自条款。
+数值 grounding 与引用核验已有 FinDVer、ALCE、Self-RAG、FActScore 等工作；
+本项目聚焦将确定性财务核验接入 Agent 控制流程与证据复查界面。
