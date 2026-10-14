@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import re
+from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -78,8 +79,8 @@ class AgentDeps:
 def _answer_node(deps: AgentDeps):
     def node(state: AgentState) -> dict[str, Any]:
         messages: list[Message] = list(state["messages"])
-        usage = state.get("usage") or Usage()
-        by_model = dict(state.get("usage_by_model") or {})
+        usage = deepcopy(state.get("usage") or Usage())
+        by_model = deepcopy(state.get("usage_by_model") or {})
         tools = [GET_FACT_SPEC, GET_A_SHARE_FACT_SPEC] if state.get("use_tools") else []
         system = SYSTEM_PROMPT + ("\n" + TOOLS_HINT if tools else "")
         if tools and deps.mark_untrusted:
@@ -137,12 +138,15 @@ def _verify_node(deps: AgentDeps):
         lookup = deps.lookup_provider(state["ticker"], state.get("as_of"))
         verifier = Verifier(lookup, deps.tol)
         years = set(state.get("fiscal_years") or []) or None
-        audit = verifier.audit_text(state.get("answer", ""), fiscal_years=years)
+        # Historical numeric QA routing remains numeric-only. It must not be
+        # described as natural-text semantic attribution verification.
+        audit = verifier.audit_text(state.get("answer", ""), fiscal_years=years, numeric_only=True)
         attempts = [
             *state.get("attempts", []),
             {
                 "answer": state.get("answer", ""),
                 "model": state.get("model", ""),
+                "audit_mode": "numeric_only",
                 **summarize_audit(audit),
                 # Snapshot against this exact answer before revision/escalation
                 # replaces the live audit. Do not backfill historical attempts.
@@ -211,7 +215,8 @@ def verification_passed(state: AgentState) -> bool:
     An answer without any number would otherwise pass vacuously.
     """
     answer = state.get("answer", "")
-    return all(r.ok for r in state.get("audit", [])) and _has_final_number(answer)
+    audit = state.get("audit", [])
+    return bool(audit) and all(r.ok for r in audit) and _has_final_number(answer)
 
 
 def _route_after_verify(state: AgentState) -> str:
@@ -229,13 +234,28 @@ def _route_after_verify(state: AgentState) -> str:
     return END
 
 
+def step_nodes(deps: AgentDeps) -> dict[str, Any]:
+    """Shared node implementations for LangGraph and the durable step runner."""
+    return {
+        "answer": _answer_node(deps),
+        "verify": _verify_node(deps),
+        "revise": _revise_node(deps),
+        "escalate": _escalate_node,
+    }
+
+
+def next_node(node: str, state: AgentState) -> str:
+    """One transition policy, shared with the durable runner."""
+    if node == "verify":
+        return _route_after_verify(state)
+    return {"answer": "verify", "revise": "answer", "escalate": "answer"}[node]
+
+
 def build_graph(deps: AgentDeps):
     """Compile the LangGraph state machine."""
     g = StateGraph(AgentState)
-    g.add_node("answer", _answer_node(deps))
-    g.add_node("verify", _verify_node(deps))
-    g.add_node("revise", _revise_node(deps))
-    g.add_node("escalate", _escalate_node)
+    for name, node in step_nodes(deps).items():
+        g.add_node(name, node)
     g.add_edge(START, "answer")
     g.add_edge("answer", "verify")
     g.add_conditional_edges(

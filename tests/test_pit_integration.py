@@ -70,9 +70,15 @@ def test_lookup_admits_only_pre_cutoff_bound_facts():
 def test_verifier_flags_lookahead_number_under_pit():
     lookup = pit_lookup_provider(facts_provider, ctx())("TST", None)
     v = Verifier(lookup)
-    assert all(r.ok for r in v.audit_text("Revenue was $100.0 billion.", fiscal_years={2023}))
-    assert not any(r.ok for r in v.audit_text("Revenue was $110.0 billion.", fiscal_years={2023}))
-    assert not any(r.ok for r in v.audit_text("Revenue was $555.0 billion.", fiscal_years={2023}))
+    assert all(
+        r.ok for r in v.audit_text("Revenue in 2023 was $100.0 billion.", fiscal_years={2023})
+    )
+    assert not any(
+        r.ok for r in v.audit_text("Revenue in 2023 was $110.0 billion.", fiscal_years={2023})
+    )
+    assert not any(
+        r.ok for r in v.audit_text("Revenue in 2023 was $555.0 billion.", fiscal_years={2023})
+    )
 
 
 def test_ambiguous_stream_fails_closed():

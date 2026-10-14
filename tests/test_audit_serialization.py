@@ -19,7 +19,9 @@ def test_serialized_audit_keeps_full_receipt_and_exact_claim_span():
     fact.fp = "FY"
     fact.frame = "CY2023"
     answer = "营收为 $120。\nANSWER: $120"
-    audit = Verifier({"revenue": {2023: fact}}).audit_text(answer, fiscal_years={2023})
+    audit = Verifier({"revenue": {2023: fact}}).audit_text(
+        answer, fiscal_years={2023}, numeric_only=True
+    )
 
     snapshot = json.loads(json.dumps(serialize_audit(audit), allow_nan=False))
 
@@ -61,7 +63,7 @@ def test_serialized_growth_keeps_both_source_facts_and_formula():
     )
     previous.filing_url = "https://example.test/reported-prior-year"
     audit = Verifier({"revenue": {2023: current, 2022: previous}}).audit_text(
-        "ANSWER: 20%", fiscal_years={2023}
+        "ANSWER: 20%", fiscal_years={2023}, numeric_only=True
     )
 
     result = serialize_audit(audit)[0]
@@ -77,7 +79,9 @@ def test_serialized_growth_keeps_both_source_facts_and_formula():
 
 
 def test_serialized_unsupported_number_has_no_invented_receipt():
-    audit = Verifier({"revenue": {2023: make_fact(120)}}).audit_text("ANSWER: $999")
+    audit = Verifier({"revenue": {2023: make_fact(120)}}).audit_text(
+        "ANSWER: $999", numeric_only=True
+    )
 
     result = serialize_audit(audit)[0]
 
@@ -120,7 +124,7 @@ def test_serialized_contradiction_retains_reasons_and_bound_claim_metadata():
 
 def test_serialized_audit_is_a_detached_snapshot():
     fact = make_fact(120)
-    audit = Verifier({"revenue": {2023: fact}}).audit_text("ANSWER: $120")
+    audit = Verifier({"revenue": {2023: fact}}).audit_text("ANSWER: $120", numeric_only=True)
     snapshot = serialize_audit(audit)
     audit[0].claim.text = "changed later"
     audit[0].reasons.append("changed later")

@@ -80,3 +80,29 @@ def test_dates_are_not_numbers():
     assert [m.text for m in found] == ["$637.9 billion"]
     # a scaled or currency figure right after a month is still a number
     assert [m.text for m in extract_numbers("In May $5 billion was repaid")] == ["$5 billion"]
+
+
+@pytest.mark.parametrize(
+    "literal",
+    [
+        "USD 3 percent",
+        "$3%",
+        "US$ 3 per cent",
+        "CNY 3 percent",
+        "RMB3%",
+        "usd 3%",
+        "(USD 3) percent",
+        "USD 3 million percent",
+    ],
+)
+def test_currency_percentage_conflict_is_retained_per_quantity(literal):
+    (mention,) = extract_numbers(literal)
+    assert mention.unit_conflict
+    assert mention.unit == "percent"  # Historical normalisation is not silently changed.
+    assert literal[mention.span[0] : mention.span[1]] == mention.text
+
+
+def test_separate_amount_and_percentage_do_not_share_unit_conflicts():
+    rows = extract_numbers("USD 383.3 billion, down 3 percent from a year ago")
+    assert [r.unit for r in rows] == ["USD", "percent"]
+    assert all(not r.unit_conflict for r in rows)

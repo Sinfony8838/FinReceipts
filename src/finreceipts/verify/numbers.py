@@ -94,6 +94,8 @@ class NumberMention:
     decimals: int
     scale: float
     negative_context: bool = False
+    # Keep raw-marker conflicts even when the legacy normalised unit is retained.
+    unit_conflict: bool = False
 
     @property
     def rounding_step(self) -> float:
@@ -194,6 +196,7 @@ def extract_numbers(text: str, *, keep_years: bool = False) -> list[NumberMentio
                 decimals=_decimals(num),
                 scale=scale,
                 negative_context=any(w in window for w in NEGATIVE_WORDS),
+                unit_conflict=bool(cur and unit == "percent"),
             )
         )
     return mentions

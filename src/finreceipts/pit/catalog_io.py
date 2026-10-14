@@ -46,6 +46,8 @@ def load_catalog(path: Path) -> tuple[Catalog, dict[str, bytes]]:
     Reject conflicting records, missing bytes and mismatched hashes before
     any model is called. Availability and fact-binding decisions still belong
     to the policy selector. A supplied sidecar is not an authenticated catalog.
+    Sources must stay immutable during loading; shared resolved paths reuse the
+    same in-memory bytes. Each invocation reads the sources anew.
     """
     path = Path(path).resolve(strict=True)
     raw = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_object)
@@ -59,6 +61,9 @@ def load_catalog(path: Path) -> tuple[Catalog, dict[str, bytes]]:
         raise ValueError("catalog requires schema_version=1 and a filings list")
     records: list[Filing] = []
     blobs: dict[str, bytes] = {}
+    # Several accession groups can share one immutable aggregate snapshot.
+    # Keep one copy per resolved path in this invocation, never a global cache.
+    sources: dict[Path, tuple[bytes, str]] = {}
     for row in raw["filings"]:
         if not isinstance(row, dict) or not _REQUIRED <= set(row) <= _REQUIRED | _OPTIONAL:
             raise ValueError("invalid catalog filing fields")
@@ -87,8 +92,11 @@ def load_catalog(path: Path) -> tuple[Catalog, dict[str, bytes]]:
         blob_path = (path.parent / relative).resolve(strict=True)
         if not blob_path.is_relative_to(path.parent) or not blob_path.is_file():
             raise ValueError("raw_path must resolve to a file beneath the catalog directory")
-        content = blob_path.read_bytes()
-        if content_hash(content) != record.sha256:
+        if blob_path not in sources:
+            content = blob_path.read_bytes()
+            sources[blob_path] = (content, content_hash(content))
+        content, actual_hash = sources[blob_path]
+        if actual_hash != record.sha256:
             raise ValueError(f"raw content hash mismatch for {record.accession}")
         if record.accession in blobs:
             raise ValueError(f"duplicate catalog accession: {record.accession}")

@@ -106,7 +106,12 @@ def test_raw_path_cannot_escape_manifest_directory(manifest, tmp_path, kind):
     elif kind == "parent":
         raw_path = "../" + outer.name
     else:
-        (tmp_path / "escape.bin").symlink_to(outer)
+        try:
+            (tmp_path / "escape.bin").symlink_to(outer)
+        except OSError as exc:
+            if getattr(exc, "winerror", None) == 1314:
+                pytest.skip("Windows account lacks symlink privilege; exercised in Linux CI")
+            raise
         raw_path = "escape.bin"
     data["filings"][0]["raw_path"] = raw_path
     path.write_text(json.dumps(data))

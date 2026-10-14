@@ -13,11 +13,10 @@ jobs:
         python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v6
       - name: Install
         run: |
-          uv venv -p ${{ matrix.python-version }}
-          uv pip install -e ".[dev]"
+          uv sync --locked --python ${{ matrix.python-version }} --extra dev --extra web
       - name: Lint
         run: uv run ruff check . && uv run ruff format --check .
       - name: Offline tests (recorded SEC fixtures, fake LLM)

@@ -12,6 +12,7 @@ from finreceipts.app.main import create_app
 
 @pytest.fixture
 def client(monkeypatch, tmp_path):
+    monkeypatch.setenv("FINRECEIPTS_RUN_DB", str(tmp_path / "runs.sqlite3"))
     monkeypatch.setenv("FINRECEIPTS_LLM_PROVIDER", "fake")
     monkeypatch.setenv("FINRECEIPTS_OFFLINE", "1")
     # Prefer test fixtures as the SEC cache
@@ -46,7 +47,7 @@ def test_audit_endpoint(client: TestClient):
             "ticker": "AAPL",
             "fiscal_years": [2023],
             "question": "Revenue?",
-            "text": "Revenue was $383.3 billion and 161,000 employees.",
+            "text": "Revenue in 2023 was $383.3 billion. 161,000 employees.",
         },
     )
     assert r.status_code == 200
@@ -55,6 +56,23 @@ def test_audit_endpoint(client: TestClient):
     assert body["audit_summary"]["unsupported"] >= 1
     assert '<span class="num ok"' in body["html"]
     assert '<span class="num bad"' in body["html"]
+
+
+def test_audit_endpoint_abstains_without_text_period(client: TestClient):
+    body = client.post(
+        "/api/audit", json={"ticker": "AAPL", "text": "Revenue was $383.3 billion."}
+    ).json()
+    assert body["audit_mode"] == "text_scope"
+    assert not body["all_numbers_supported"]
+    assert body["audit"][0]["verdict"] == "unsupported"
+
+
+def test_audit_endpoint_empty_extraction_is_not_success(client: TestClient):
+    body = client.post(
+        "/api/audit", json={"ticker": "AAPL", "text": "No financial figures."}
+    ).json()
+    assert body["empty_extraction"]
+    assert not body["all_numbers_supported"]
 
 
 def test_ask_once(client: TestClient):
@@ -74,6 +92,11 @@ def test_ask_once(client: TestClient):
     assert "ANSWER:" in body["answer"] or "383" in body["answer"]
     assert body["audit_summary"]["numbers"] >= 1
     assert "html" in body and "FinReceipts" in body["html"]
+    assert body["audit_mode"] == "numeric_only"
+    assert body["verification_level"] == "numeric_match_only"
+    assert body["semantic_verification_passed"] is False
+    assert "semantic attribution unchecked" in body["html"]
+    assert 'class="num ok"' not in body["html"]
 
 
 def test_ask_stream_sse(client: TestClient):
@@ -100,6 +123,10 @@ def test_ask_stream_sse(client: TestClient):
     payload = json.loads(done_line.removeprefix("data: "))
     assert payload["event"] == "done"
     assert "html" in payload
+    assert payload["audit_mode"] == "numeric_only"
+    assert payload["semantic_verification_passed"] is False
+    assert "semantic attribution unchecked" in payload["html"]
+    assert 'class="num ok"' not in payload["html"]
 
 
 def test_ask_stream_get(client: TestClient):
@@ -117,3 +144,43 @@ def test_ask_stream_get(client: TestClient):
         assert r.status_code == 200
         raw = "".join(r.iter_text())
     assert "event: done" in raw or "event: error" in raw
+
+
+def test_ask_numeric_collision_is_labelled_without_semantic_success(client: TestClient):
+    from finreceipts.agent.graph import AgentDeps, build_graph
+    from finreceipts.llm.client import FakeLLM
+
+    state = client.app.state.fin
+    collision = "Apple's net income in 2023 was $383.3 billion.\nANSWER: $383.3 billion"
+    state.graph = build_graph(
+        AgentDeps(llm=FakeLLM(lambda *_: collision), lookup_provider=state.provider)
+    )
+    request = {
+        "ticker": "AAPL",
+        "question": "What was net income in 2023?",
+        "fiscal_years": [2023],
+        "mode": "verify",
+        "max_revisions": 0,
+    }
+    body = client.post("/api/ask", json=request).json()
+    assert body["audit_summary"]["supported"] == 2  # Keep historical numeric counts.
+    assert body["audit_mode"] == "numeric_only"
+    assert body["semantic_verification_passed"] is False
+    assert "NUMERIC MATCH ONLY" in body["html"]
+    assert 'class="num ok"' not in body["html"]
+    raw = client.post("/api/ask/stream", json=request).text
+    events = [json.loads(line[6:]) for line in raw.splitlines() if line.startswith("data: ")]
+    assert events and all(e["audit_mode"] == "numeric_only" for e in events)
+    assert all(e["semantic_verification_passed"] is False for e in events)
+    assert 'class="num ok"' not in events[-1]["html"]
+
+
+def test_audit_api_rejects_currency_percent_conflict(client: TestClient):
+    body = client.post(
+        "/api/audit",
+        json={"ticker": "AAPL", "text": "Revenue in 2023 declined USD 3 percent year-over-year."},
+    ).json()
+    assert not body["all_numbers_supported"]
+    assert body["audit"][0]["verdict"] == "unsupported"
+    assert body["audit"][0]["evidence"] is None
+    assert "currency and percentage markers conflict" in body["audit"][0]["reasons"][0]
