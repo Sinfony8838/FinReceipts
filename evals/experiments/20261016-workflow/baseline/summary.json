@@ -1,0 +1,62 @@
+{
+  "result_schema_version": 2,
+  "config": {
+    "model": "MiniMax-M3",
+    "mode": "baseline",
+    "feedback": "flags",
+    "use_tools": false,
+    "point_in_time": true,
+    "max_revisions": 2,
+    "escalate_model": null,
+    "guard_tools": false,
+    "mark_untrusted": false,
+    "sealed_tool_cache": false
+  },
+  "verification_context": {
+    "fact_selection": "legacy_filed_date",
+    "ground_truth_pit_validated": false
+  },
+  "n_items": 30,
+  "n_errors": 0,
+  "accuracy": 0.7,
+  "unsupported_number_rate": 0.3235294117647059,
+  "answers_with_unsupported": 0.5,
+  "numbers_total": 136,
+  "input_tokens": 4988,
+  "output_tokens": 2989,
+  "llm_calls": 30,
+  "mean_revisions": 0.0,
+  "latency_mean_s": 2.8819700433333613,
+  "latency_p50_s": 2.699814399999923,
+  "latency_p95_s": 4.648648700000194,
+  "escalation_rate": 0.0,
+  "tokens_by_model": {
+    "MiniMax-M3": {
+      "input_tokens": 4988,
+      "output_tokens": 2989,
+      "calls": 30,
+      "llm_latency_s": 85.51,
+      "mean_call_latency_s": 2.8503333333333334
+    }
+  },
+  "cost": 0.0355824,
+  "by_kind": {
+    "direct": {
+      "n": 10,
+      "accuracy": 0.7
+    },
+    "ratio": {
+      "n": 10,
+      "accuracy": 0.8
+    },
+    "yoy_growth": {
+      "n": 10,
+      "accuracy": 0.6
+    }
+  },
+  "api_attempts": {
+    "MiniMax-M3": 31
+  },
+  "api_failures": {},
+  "aborted": null
+}

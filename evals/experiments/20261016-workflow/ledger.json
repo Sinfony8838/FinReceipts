@@ -1,0 +1,3404 @@
+[
+  {
+    "sequence": 1,
+    "condition": "probe",
+    "time": "2026-10-16T11:17:00.185360+00:00",
+    "input_bound": 4219,
+    "output_bound": 128,
+    "held_cny": 0.00036960000000000004,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 40,
+      "output_tokens": 2,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 2,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:10.209086+00:00",
+    "input_bound": 4760,
+    "output_bound": 1024,
+    "held_cny": 0.0011298000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 174,
+      "output_tokens": 59,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 3,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:14.657858+00:00",
+    "input_bound": 4790,
+    "output_bound": 1024,
+    "held_cny": 0.0009912,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 180,
+      "output_tokens": 41,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 4,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:16.225976+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0010857,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 185,
+      "output_tokens": 51,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 5,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:18.885068+00:00",
+    "input_bound": 4781,
+    "output_bound": 1024,
+    "held_cny": 0.0019992,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 176,
+      "output_tokens": 162,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 6,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:21.945844+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0016233000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 185,
+      "output_tokens": 115,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 7,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:24.644572+00:00",
+    "input_bound": 4790,
+    "output_bound": 1024,
+    "held_cny": 0.001008,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 52,
+      "output_tokens": 43,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 8,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:26.322934+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0010353000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 185,
+      "output_tokens": 45,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 9,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:27.976247+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0010038,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 174,
+      "output_tokens": 44,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 10,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:30.936662+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0010038,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 182,
+      "output_tokens": 42,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 11,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:33.142586+00:00",
+    "input_bound": 4763,
+    "output_bound": 1024,
+    "held_cny": 0.0010122,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 174,
+      "output_tokens": 45,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 12,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:34.925502+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0011865,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 181,
+      "output_tokens": 64,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 13,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:36.725388+00:00",
+    "input_bound": 4776,
+    "output_bound": 1024,
+    "held_cny": 0.0019593,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 173,
+      "output_tokens": 158,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 14,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:41.001252+00:00",
+    "input_bound": 4820,
+    "output_bound": 1024,
+    "held_cny": 0.0020013,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 181,
+      "output_tokens": 161,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 15,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:44.455483+00:00",
+    "input_bound": 4820,
+    "output_bound": 1024,
+    "held_cny": 0.0014973000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 181,
+      "output_tokens": 101,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 16,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:47.242270+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0014973000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 173,
+      "output_tokens": 103,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 17,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:51.892597+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0018920999999999999,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 53,
+      "output_tokens": 148,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 18,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:54.573988+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0013377,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 173,
+      "output_tokens": 84,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 19,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:57.119074+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0012957,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 173,
+      "output_tokens": 79,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 20,
+    "condition": "baseline",
+    "time": "2026-10-16T11:17:59.870832+00:00",
+    "input_bound": 4776,
+    "output_bound": 1024,
+    "held_cny": 0.0013040999999999999,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 173,
+      "output_tokens": 80,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 21,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:02.466743+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0017241,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 181,
+      "output_tokens": 128,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 22,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:07.342746+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0013566,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 178,
+      "output_tokens": 85,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 23,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:10.029018+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0013566,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 178,
+      "output_tokens": 85,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 24,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:12.426633+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0019278000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 178,
+      "output_tokens": 153,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 25,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:15.759740+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.001344,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 184,
+      "output_tokens": 82,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 26,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:20.047488+00:00",
+    "input_bound": 4849,
+    "output_bound": 1024,
+    "held_cny": 0.0022995,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 187,
+      "output_tokens": 195,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 27,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:23.499455+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.0023142,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 178,
+      "output_tokens": 199,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 28,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:26.232921+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.0013818,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 178,
+      "output_tokens": 88,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 29,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:28.023153+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.0013062,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 178,
+      "output_tokens": 79,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 30,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:30.100832+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.001344,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 56,
+      "output_tokens": 82,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 31,
+    "condition": "baseline",
+    "time": "2026-10-16T11:18:32.813599+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.0022344,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 184,
+      "output_tokens": 188,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 32,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:36.661882+00:00",
+    "input_bound": 4760,
+    "output_bound": 1024,
+    "held_cny": 0.0010962,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 55,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 33,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:38.440165+00:00",
+    "input_bound": 4790,
+    "output_bound": 1024,
+    "held_cny": 0.0010164,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 44,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 307,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 34,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:39.988087+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0009681000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 37,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 312,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 35,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:42.612215+00:00",
+    "input_bound": 4781,
+    "output_bound": 1024,
+    "held_cny": 0.0016715999999999999,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 123,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 303,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 36,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:49.723091+00:00",
+    "input_bound": 5745,
+    "output_bound": 1024,
+    "held_cny": 0.0016191,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 207,
+      "output_tokens": 65,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 304,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 37,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:51.690975+00:00",
+    "input_bound": 6448,
+    "output_bound": 1024,
+    "held_cny": 0.0018227999999999999,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 149,
+      "output_tokens": 52,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 511,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 38,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:53.383880+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0015813000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 57,
+      "output_tokens": 110,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 39,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:56.425783+00:00",
+    "input_bound": 5710,
+    "output_bound": 1024,
+    "held_cny": 0.001491,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 262,
+      "output_tokens": 48,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 40,
+    "condition": "flags",
+    "time": "2026-10-16T11:18:58.921407+00:00",
+    "input_bound": 6314,
+    "output_bound": 1024,
+    "held_cny": 0.0016757999999999999,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 138,
+      "output_tokens": 37,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 512,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 41,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:01.569091+00:00",
+    "input_bound": 4790,
+    "output_bound": 1024,
+    "held_cny": 0.0009576000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 52,
+      "output_tokens": 37,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 42,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:03.659323+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0009849000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 39,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 312,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 43,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:05.177807+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0010962,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 55,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 44,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:07.169596+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0011298,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 57,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 309,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 45,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:09.511035+00:00",
+    "input_bound": 4763,
+    "output_bound": 1024,
+    "held_cny": 0.0010542000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 46,
+      "output_tokens": 50,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 46,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:11.231228+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0010941,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 53,
+      "output_tokens": 53,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 47,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:13.006718+00:00",
+    "input_bound": 4776,
+    "output_bound": 1024,
+    "held_cny": 0.0017073000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 128,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 48,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:15.903860+00:00",
+    "input_bound": 5655,
+    "output_bound": 1024,
+    "held_cny": 0.0016149,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 213,
+      "output_tokens": 64,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 49,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:19.110616+00:00",
+    "input_bound": 6346,
+    "output_bound": 1024,
+    "held_cny": 0.0017241000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 149,
+      "output_tokens": 40,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 512,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 50,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:21.811820+00:00",
+    "input_bound": 4820,
+    "output_bound": 1024,
+    "held_cny": 0.0016905,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 124,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 51,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:24.708353+00:00",
+    "input_bound": 4820,
+    "output_bound": 1024,
+    "held_cny": 0.0013545,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 84,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 52,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:27.732049+00:00",
+    "input_bound": 5475,
+    "output_bound": 1024,
+    "held_cny": 0.0021146999999999997,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 167,
+      "output_tokens": 133,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 53,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:31.273458+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0013209,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 82,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 54,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:33.500061+00:00",
+    "input_bound": 5430,
+    "output_bound": 1024,
+    "held_cny": 0.0022029000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 165,
+      "output_tokens": 146,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 55,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:37.150226+00:00",
+    "input_bound": 6458,
+    "output_bound": 1024,
+    "held_cny": 0.0023499000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 263,
+      "output_tokens": 98,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 464,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 56,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:40.688444+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0020685,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 53,
+      "output_tokens": 169,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 57,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:44.044406+00:00",
+    "input_bound": 6092,
+    "output_bound": 1024,
+    "held_cny": 0.0026775,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 339,
+      "output_tokens": 170,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 58,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:47.348042+00:00",
+    "input_bound": 7317,
+    "output_bound": 1024,
+    "held_cny": 0.0024759,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 351,
+      "output_tokens": 79,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 512,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 59,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:50.267414+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0013965,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 91,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 60,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:52.902807+00:00",
+    "input_bound": 5400,
+    "output_bound": 1024,
+    "held_cny": 0.001869,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 174,
+      "output_tokens": 104,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 61,
+    "condition": "flags",
+    "time": "2026-10-16T11:19:57.561245+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0012201,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 70,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 62,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:01.494690+00:00",
+    "input_bound": 5365,
+    "output_bound": 1024,
+    "held_cny": 0.0015225,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 153,
+      "output_tokens": 68,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 63,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:04.169739+00:00",
+    "input_bound": 5949,
+    "output_bound": 1024,
+    "held_cny": 0.0019299,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 151,
+      "output_tokens": 79,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 452,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 64,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:06.802733+00:00",
+    "input_bound": 4776,
+    "output_bound": 1024,
+    "held_cny": 0.0011529,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 62,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 65,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:11.152850+00:00",
+    "input_bound": 5372,
+    "output_bound": 1024,
+    "held_cny": 0.0018081,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 145,
+      "output_tokens": 104,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 66,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:17.323251+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0013040999999999999,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 78,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 67,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:20.336248+00:00",
+    "input_bound": 5443,
+    "output_bound": 1024,
+    "held_cny": 0.0019425,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 161,
+      "output_tokens": 114,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 68,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:23.317645+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0018942000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 149,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 69,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:26.576346+00:00",
+    "input_bound": 6064,
+    "output_bound": 1024,
+    "held_cny": 0.0025389,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 344,
+      "output_tokens": 140,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 70,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:30.157684+00:00",
+    "input_bound": 7267,
+    "output_bound": 1024,
+    "held_cny": 0.0022617,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 321,
+      "output_tokens": 27,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 648,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 71,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:32.970155+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0025494000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 227,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 72,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:36.655029+00:00",
+    "input_bound": 6372,
+    "output_bound": 1024,
+    "held_cny": 0.0024969000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 407,
+      "output_tokens": 119,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 306,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 73,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:39.228429+00:00",
+    "input_bound": 7436,
+    "output_bound": 1024,
+    "held_cny": 0.0028035,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 266,
+      "output_tokens": 89,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 713,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 74,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:41.600936+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0015582,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 109,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 75,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:44.474042+00:00",
+    "input_bound": 5679,
+    "output_bound": 1024,
+    "held_cny": 0.0015351000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 194,
+      "output_tokens": 58,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 76,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:46.974448+00:00",
+    "input_bound": 6327,
+    "output_bound": 1024,
+    "held_cny": 0.0017997000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 143,
+      "output_tokens": 54,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 498,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 77,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:49.809443+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.002604,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 232,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 311,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 78,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:52.921338+00:00",
+    "input_bound": 6233,
+    "output_bound": 1024,
+    "held_cny": 0.0020139,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 343,
+      "output_tokens": 76,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 312,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 79,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:54.613013+00:00",
+    "input_bound": 7011,
+    "output_bound": 1024,
+    "held_cny": 0.0021819,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 160,
+      "output_tokens": 56,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 655,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 80,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:57.046235+00:00",
+    "input_bound": 4849,
+    "output_bound": 1024,
+    "held_cny": 0.0018627000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 143,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 314,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 81,
+    "condition": "flags",
+    "time": "2026-10-16T11:20:59.489793+00:00",
+    "input_bound": 5861,
+    "output_bound": 1024,
+    "held_cny": 0.0016716,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 257,
+      "output_tokens": 56,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 315,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 82,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:01.451891+00:00",
+    "input_bound": 6521,
+    "output_bound": 1024,
+    "held_cny": 0.002394,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 140,
+      "output_tokens": 107,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 572,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 83,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:03.897269+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.0010206,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 50,
+      "output_tokens": 45,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 84,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:05.852077+00:00",
+    "input_bound": 5388,
+    "output_bound": 1024,
+    "held_cny": 0.0013923,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 179,
+      "output_tokens": 57,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 85,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:08.366030+00:00",
+    "input_bound": 6027,
+    "output_bound": 1024,
+    "held_cny": 0.0015960000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 192,
+      "output_tokens": 46,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 384,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 86,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:10.332083+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.0018942000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 149,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 87,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:12.595507+00:00",
+    "input_bound": 5666,
+    "output_bound": 1024,
+    "held_cny": 0.0022554000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 236,
+      "output_tokens": 133,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 306,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 88,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:15.153495+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.001239,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 71,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 89,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:17.349340+00:00",
+    "input_bound": 5443,
+    "output_bound": 1024,
+    "held_cny": 0.0016527,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 169,
+      "output_tokens": 78,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 306,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 90,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:19.770071+00:00",
+    "input_bound": 6185,
+    "output_bound": 1024,
+    "held_cny": 0.0021294,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 203,
+      "output_tokens": 84,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 475,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 91,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:21.869931+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.0017388000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 56,
+      "output_tokens": 129,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 92,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:24.139294+00:00",
+    "input_bound": 5597,
+    "output_bound": 1024,
+    "held_cny": 0.0024633000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 257,
+      "output_tokens": 165,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 93,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:27.106299+00:00",
+    "input_bound": 6650,
+    "output_bound": 1024,
+    "held_cny": 0.002667,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 238,
+      "output_tokens": 130,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 512,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 94,
+    "condition": "flags",
+    "time": "2026-10-16T11:21:30.070649+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.0018228000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 139,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 311,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 95,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:32.949997+00:00",
+    "input_bound": 4760,
+    "output_bound": 1024,
+    "held_cny": 0.001281,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 77,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 96,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:35.513991+00:00",
+    "input_bound": 4790,
+    "output_bound": 1024,
+    "held_cny": 0.0011172,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 56,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 307,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 97,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:38.610355+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0014217000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 91,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 312,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 98,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:41.801471+00:00",
+    "input_bound": 7815,
+    "output_bound": 1024,
+    "held_cny": 0.003192,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 888,
+      "output_tokens": 80,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 312,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 99,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:44.841810+00:00",
+    "input_bound": 4781,
+    "output_bound": 1024,
+    "held_cny": 0.0017808000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 136,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 303,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 100,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:46.922688+00:00",
+    "input_bound": 7967,
+    "output_bound": 1024,
+    "held_cny": 0.0029652,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 923,
+      "output_tokens": 44,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 313,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 101,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:48.941921+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0016233000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 57,
+      "output_tokens": 115,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 102,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:51.500418+00:00",
+    "input_bound": 7953,
+    "output_bound": 1024,
+    "held_cny": 0.0029568000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 968,
+      "output_tokens": 46,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 103,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:54.866267+00:00",
+    "input_bound": 4790,
+    "output_bound": 1024,
+    "held_cny": 0.001722,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 52,
+      "output_tokens": 128,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 104,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:57.668752+00:00",
+    "input_bound": 7945,
+    "output_bound": 1024,
+    "held_cny": 0.0029736000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 976,
+      "output_tokens": 46,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 105,
+    "condition": "receipts",
+    "time": "2026-10-16T11:21:59.775227+00:00",
+    "input_bound": 4829,
+    "output_bound": 1024,
+    "held_cny": 0.0019089,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 149,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 312,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 106,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:04.335421+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.000987,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 42,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 107,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:07.841084+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0014238000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 92,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 309,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 108,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:10.468666+00:00",
+    "input_bound": 4763,
+    "output_bound": 1024,
+    "held_cny": 0.0010122,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 46,
+      "output_tokens": 45,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 109,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:12.069380+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0013125,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 53,
+      "output_tokens": 79,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 110,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:13.940030+00:00",
+    "input_bound": 7645,
+    "output_bound": 1024,
+    "held_cny": 0.0032802000000000005,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 926,
+      "output_tokens": 95,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 111,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:16.378660+00:00",
+    "input_bound": 4776,
+    "output_bound": 1024,
+    "held_cny": 0.0012705,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 76,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 112,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:19.135548+00:00",
+    "input_bound": 7527,
+    "output_bound": 1024,
+    "held_cny": 0.0030219,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 854,
+      "output_tokens": 71,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 113,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:23.342020+00:00",
+    "input_bound": 10217,
+    "output_bound": 1024,
+    "held_cny": 0.004956000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 850,
+      "output_tokens": 89,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1154,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 114,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:26.257700+00:00",
+    "input_bound": 4820,
+    "output_bound": 1024,
+    "held_cny": 0.0012453,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 71,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 115,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:28.878957+00:00",
+    "input_bound": 7626,
+    "output_bound": 1024,
+    "held_cny": 0.0030366000000000004,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 866,
+      "output_tokens": 68,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 116,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:31.261311+00:00",
+    "input_bound": 10403,
+    "output_bound": 1024,
+    "held_cny": 0.004519200000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 863,
+      "output_tokens": 29,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1173,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 117,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:33.104202+00:00",
+    "input_bound": 4820,
+    "output_bound": 1024,
+    "held_cny": 0.0014973000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 101,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 118,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:35.677337+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0014217000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 94,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 119,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:38.222630+00:00",
+    "input_bound": 7562,
+    "output_bound": 1024,
+    "held_cny": 0.0032781000000000004,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 872,
+      "output_tokens": 97,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 120,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:41.408284+00:00",
+    "input_bound": 10259,
+    "output_bound": 1024,
+    "held_cny": 0.005258400000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 864,
+      "output_tokens": 117,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1172,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 121,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:44.666969+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0019089,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 53,
+      "output_tokens": 150,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 122,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:47.629938+00:00",
+    "input_bound": 8029,
+    "output_bound": 1024,
+    "held_cny": 0.0033243,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1127,
+      "output_tokens": 82,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 128,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 123,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:50.427435+00:00",
+    "input_bound": 10831,
+    "output_bound": 1024,
+    "held_cny": 0.0055503,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 979,
+      "output_tokens": 128,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1152,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 124,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:53.418348+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0015980999999999999,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 115,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 125,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:56.379901+00:00",
+    "input_bound": 7609,
+    "output_bound": 1024,
+    "held_cny": 0.003171,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 889,
+      "output_tokens": 80,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 126,
+    "condition": "receipts",
+    "time": "2026-10-16T11:22:59.749263+00:00",
+    "input_bound": 10267,
+    "output_bound": 1024,
+    "held_cny": 0.0049728,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 855,
+      "output_tokens": 81,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1189,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 127,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:02.356419+00:00",
+    "input_bound": 4764,
+    "output_bound": 1024,
+    "held_cny": 0.0011277000000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 59,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 128,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:04.983365+00:00",
+    "input_bound": 7437,
+    "output_bound": 1024,
+    "held_cny": 0.002919,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 837,
+      "output_tokens": 63,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 301,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 129,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:07.493301+00:00",
+    "input_bound": 10096,
+    "output_bound": 1024,
+    "held_cny": 0.0048783,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 842,
+      "output_tokens": 86,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1137,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 130,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:11.272321+00:00",
+    "input_bound": 4776,
+    "output_bound": 1024,
+    "held_cny": 0.0012033000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 68,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 300,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 131,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:13.614618+00:00",
+    "input_bound": 7455,
+    "output_bound": 1024,
+    "held_cny": 0.0031563000000000003,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 844,
+      "output_tokens": 89,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 303,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 132,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:16.785031+00:00",
+    "input_bound": 4808,
+    "output_bound": 1024,
+    "held_cny": 0.0020181,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 163,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 308,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 133,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:21.804418+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.001701,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 126,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 134,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:25.009583+00:00",
+    "input_bound": 7804,
+    "output_bound": 1024,
+    "held_cny": 0.0038052,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 950,
+      "output_tokens": 139,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 306,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 135,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:28.516819+00:00",
+    "input_bound": 10605,
+    "output_bound": 1024,
+    "held_cny": 0.0056217,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 914,
+      "output_tokens": 127,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1255,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 136,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:32.356032+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.0013985999999999998,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 90,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 137,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:34.148495+00:00",
+    "input_bound": 7658,
+    "output_bound": 1024,
+    "held_cny": 0.003465,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 900,
+      "output_tokens": 111,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 306,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 138,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:36.547670+00:00",
+    "input_bound": 10484,
+    "output_bound": 1024,
+    "held_cny": 0.0048405,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 915,
+      "output_tokens": 46,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1206,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 139,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:38.398587+00:00",
+    "input_bound": 4804,
+    "output_bound": 1024,
+    "held_cny": 0.008143800000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 893,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 140,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:50.061797+00:00",
+    "input_bound": 10670,
+    "output_bound": 1024,
+    "held_cny": 0.0051156000000000005,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1693,
+      "output_tokens": 109,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 307,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 141,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:53.186864+00:00",
+    "input_bound": 13492,
+    "output_bound": 1024,
+    "held_cny": 0.007039200000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 917,
+      "output_tokens": 109,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1999,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 142,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:56.984242+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.0024276000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 211,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 311,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 143,
+    "condition": "receipts",
+    "time": "2026-10-16T11:23:59.917383+00:00",
+    "input_bound": 8292,
+    "output_bound": 1024,
+    "held_cny": 0.0036813,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1018,
+      "output_tokens": 105,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 315,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 144,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:02.232911+00:00",
+    "input_bound": 11176,
+    "output_bound": 1024,
+    "held_cny": 0.0051429,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 924,
+      "output_tokens": 48,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1333,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 145,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:04.246816+00:00",
+    "input_bound": 4849,
+    "output_bound": 1024,
+    "held_cny": 0.005457900000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 571,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 314,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 146,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:14.088252+00:00",
+    "input_bound": 9101,
+    "output_bound": 1024,
+    "held_cny": 0.004088700000000001,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1372,
+      "output_tokens": 65,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 315,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 147,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:16.595750+00:00",
+    "input_bound": 11900,
+    "output_bound": 1024,
+    "held_cny": 0.0059261999999999995,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 891,
+      "output_tokens": 61,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1687,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 148,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:18.964555+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.0013985999999999998,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 50,
+      "output_tokens": 90,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 149,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:20.830627+00:00",
+    "input_bound": 7582,
+    "output_bound": 1024,
+    "held_cny": 0.00336,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 924,
+      "output_tokens": 105,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 150,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:23.652098+00:00",
+    "input_bound": 10481,
+    "output_bound": 1024,
+    "held_cny": 0.0049224,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 952,
+      "output_tokens": 60,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1152,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 151,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:26.965954+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.0017346,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 130,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 152,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:29.492702+00:00",
+    "input_bound": 7857,
+    "output_bound": 1024,
+    "held_cny": 0.0031878,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 940,
+      "output_tokens": 68,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 306,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 153,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:31.708991+00:00",
+    "input_bound": 10645,
+    "output_bound": 1024,
+    "held_cny": 0.0048363,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 889,
+      "output_tokens": 42,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1246,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 154,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:34.218992+00:00",
+    "input_bound": 4805,
+    "output_bound": 1024,
+    "held_cny": 0.001239,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 71,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 155,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:36.266818+00:00",
+    "input_bound": 7647,
+    "output_bound": 1024,
+    "held_cny": 0.0032403,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 871,
+      "output_tokens": 89,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 316,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 156,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:38.367443+00:00",
+    "input_bound": 10448,
+    "output_bound": 1024,
+    "held_cny": 0.0049791,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 892,
+      "output_tokens": 73,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1187,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 157,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:41.189724+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.0016884,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 56,
+      "output_tokens": 123,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 158,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:44.211766+00:00",
+    "input_bound": 7895,
+    "output_bound": 1024,
+    "held_cny": 0.0035028000000000004,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 988,
+      "output_tokens": 106,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 256,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 159,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:46.820281+00:00",
+    "input_bound": 10807,
+    "output_bound": 1024,
+    "held_cny": 0.0053676,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1020,
+      "output_tokens": 96,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1152,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 160,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:50.083024+00:00",
+    "input_bound": 4840,
+    "output_bound": 1024,
+    "held_cny": 0.0018648000000000002,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 1,
+      "output_tokens": 144,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 311,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 161,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:52.697991+00:00",
+    "input_bound": 8077,
+    "output_bound": 1024,
+    "held_cny": 0.0037401,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 993,
+      "output_tokens": 119,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 312,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  },
+  {
+    "sequence": 162,
+    "condition": "receipts",
+    "time": "2026-10-16T11:24:54.896672+00:00",
+    "input_bound": 10996,
+    "output_bound": 1024,
+    "held_cny": 0.0048846,
+    "status": "usage_recorded",
+    "http_status": 200,
+    "usage": {
+      "input_tokens": 941,
+      "output_tokens": 20,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 1305,
+      "service_tier": "standard"
+    },
+    "stop_reason": "end_turn",
+    "block_types": [
+      "text"
+    ]
+  }
+]

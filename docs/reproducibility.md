@@ -1,5 +1,13 @@
 # Source-release reproducibility and validation boundaries
 
+## Current records (2026-10-16)
+
+The sections below preserve the 2026-10-08 source-release checks. Later runtime/UI and
+0.1.0 packaging checks are recorded in [VALIDATION.md](VALIDATION.md); the repository now
+includes `uv.lock`. The new [workflow comparison](WORKFLOW_EVALUATION.md) separately records
+live-model evaluation on retained SEC data. Do not combine results from these different
+source states or interpret historical untested statements as the current validation inventory.
+
 ## Source identity and included evidence
 
 This is a filtered source candidate derived from the continuation of baseline commit `a97d3858ca1a986e34f3f19b1cd4ea5fa1505779`. The candidate replaces uncertain A-share snapshots with synthetic inputs and omits historical model outputs, result bundles and demo media. Tests of the earlier source tree must not be presented as tests of this filtered tree.

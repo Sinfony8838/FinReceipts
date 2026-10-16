@@ -1,6 +1,6 @@
 # LLM configuration and historical provider context
 
-Use `FINRECEIPTS_LLM_PROVIDER=fake` for local tests without an API key. Real providers require separate credentials and may incur charges. This source release does not include credentials, account probe logs or fresh service-availability evidence.
+Use `FINRECEIPTS_LLM_PROVIDER=fake` for local tests without an API key. Real providers require separate credentials and may incur charges. The original 0.1.0 source release did not include account probes or fresh availability evidence. The separate [2026-10-16 comparison](WORKFLOW_EVALUATION.md) records a live MiniMax-M3 probe and evaluation; credentials remain excluded.
 
 ## Configuration
 

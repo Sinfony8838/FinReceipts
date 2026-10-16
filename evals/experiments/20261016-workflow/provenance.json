@@ -1,0 +1,32 @@
+{
+  "application_commit": "9c7135e0f2e7afb4a9e65101fc18798406e5773d",
+  "application_code_modified": false,
+  "helper_sha256": "dd5f628be373a93c6230be2b22af1e92ac3608a4e09d970cd1d0e560921d1720",
+  "lockfile_sha256": "ae52163ee37f294d7bc761c27432f645828da2bf304f04b73750713fb1a784bd",
+  "python": "3.12.11",
+  "packages": {
+    "anthropic": "1.13.0",
+    "httpx": "0.28.1",
+    "httpx2": "2.13.1",
+    "langgraph": "1.2.15",
+    "pydantic": "2.14.1"
+  },
+  "initial_preparation": {
+    "status": "SEC_HTTP_403_BEFORE_ANY_MODEL_CALL",
+    "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000796343.json",
+    "original_sample_sha256": "4d1ea50305582e2594af757a27e4e8c0b4b057a1e519083611d0ef99d9433147",
+    "replacement": "AAPL/NVDA FY2023-2025 recorded fixtures; approved before paid calls"
+  },
+  "offline_regression": {
+    "passed": 643,
+    "skipped": 1,
+    "skip_reason": "Windows symbolic-link privilege"
+  },
+  "artifact_review": {
+    "answer_audit_cost_recomputation": "passed",
+    "altered_answer_negative_control": "rejected",
+    "local_markdown_links": "passed",
+    "environment_secret_scan": "passed",
+    "application_diff": "empty"
+  }
+}

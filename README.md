@@ -39,6 +39,17 @@ Compare direct generation, error-flag revision and evidence-fed revision using f
 answer matching, unsupported numbers, model calls, latency and token usage. Functional tests,
 scripted demonstrations and live-model results are reported separately.
 
+On 2026-10-16, MiniMax-M3 was evaluated on 30 questions generated from recorded AAPL/NVDA SEC data:
+
+| Strategy | Final numeric answers matched | Model calls |
+|---|---:|---:|
+| Direct generation | 21/30 | 30 |
+| Error-flag revision | 17/30 | 63 |
+| Evidence-fed revision | 30/30 | 68 |
+
+This is one run on two companies. Evidence-fed revision supplies retrieved values; these
+results do not establish whole-answer correctness, model fine-tuning gains or marketing impact.
+
 [Current experiment, results and limits](docs/WORKFLOW_EVALUATION.md) · [Historical provenance](docs/EVALUATION_NOTES.md)
 
 ## Engineering highlights

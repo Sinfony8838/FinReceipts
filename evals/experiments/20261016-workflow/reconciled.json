@@ -1,0 +1,49 @@
+{
+  "baseline": {
+    "matched": 21,
+    "n": 30,
+    "errors": 0,
+    "unsupported_rate": 0.3235294117647059,
+    "calls": 30,
+    "revisions": 0,
+    "latency_p50_s": 2.699814399999923,
+    "latency_p95_s": 4.648648700000194,
+    "input_tokens_uncached": 4988,
+    "input_tokens_cached": 4224,
+    "output_tokens": 2989,
+    "estimated_cny": 0.037356480000000004
+  },
+  "flags": {
+    "matched": 17,
+    "n": 30,
+    "errors": 0,
+    "unsupported_rate": 0.11842105263157894,
+    "calls": 63,
+    "revisions": 33,
+    "latency_p50_s": 6.565309599999637,
+    "latency_p95_s": 10.51856510000016,
+    "input_tokens_uncached": 7626,
+    "input_tokens_cached": 21841,
+    "output_tokens": 5817,
+    "estimated_cny": 0.07405062
+  },
+  "receipts": {
+    "matched": 30,
+    "n": 30,
+    "errors": 0,
+    "unsupported_rate": 0.08943089430894309,
+    "calls": 68,
+    "revisions": 38,
+    "latency_p50_s": 6.233266199999889,
+    "latency_p95_s": 14.717062499999884,
+    "input_tokens_uncached": 36517,
+    "input_tokens_cached": 35652,
+    "output_tokens": 7445,
+    "estimated_cny": 0.15419753999999997
+  },
+  "ledger": {
+    "attempts_including_probe": 162,
+    "held_cny_including_probe": 0.3696588,
+    "estimated_cny_including_probe": 0.26575920000000003
+  }
+}
