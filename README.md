@@ -1,16 +1,69 @@
 # FinReceipts
 
-**Financial research agents with verifiable numbers and inspectable evidence.**
+**Financial AI content with evidence, iterative revision and traceable delivery.**
 
 [中文](README.zh-CN.md) · [Architecture](docs/ARCHITECTURE.md) · [Validation](docs/reproducibility.md) · [CI](https://github.com/Sinfony8838/FinReceipts/actions/workflows/ci.yml) · [Apache-2.0](LICENSE)
 
-FinReceipts connects financial question answering to a deterministic verification loop.
-It extracts supported numeric claims, matches them against SEC XBRL facts, and uses the
-audit to revise an answer or route unresolved work to another configured model.
-Each matched number gets an HTML receipt showing the selected fact, period and source.
+A plausible financial number can still belong to the wrong company, metric or period.
+FinReceipts connects model generation to factual checks, bounded revision and evidence
+delivery, so users can inspect sources, review changes and compare feedback strategies.
 
-The core idea is to make verification part of **execution**, not just a citation added after generation.
+The scope is financial research: supported numeric claims are checked against SEC XBRL
+facts. A browser workbench, HTML receipts and JSON exports make results inspectable.
 
+## Workflow and delivery
+
+1. **Generate a draft:** specify the company, fiscal years and research question.
+2. **Check and revise:** verify numeric evidence, then provide error flags or retrieved facts.
+3. **Review and deliver:** inspect attempts, receipts and execution records for human review.
+
+[Workflow case study and design choices](docs/AI_WORKFLOW_CASE.md) (Chinese)
+
+## See the workflow
+
+The offline Apple demo starts with a deliberately incorrect answer and follows the same
+answer → verify → revise path used by the application:
+
+| Step | Answer / evidence | Outcome |
+|---|---|---|
+| First answer | FY2023 revenue: **$390.0 billion** | No matching fact |
+| Revision | FY2023 revenue: **$383.3 billion** | Matches within configured tolerance |
+| Receipt | **$383,285,000,000**, period ending **2023-09-30**, selected SEC revenue concept | Inspect the fact and filing |
+
+No API key is needed. Both answers are scripted by the fake provider: this demonstrates
+the workflow, not a model accuracy result. A numeric match does not establish that every
+surrounding statement has the right issuer, metric or period.
+## Controlled comparison
+
+Compare direct generation, error-flag revision and evidence-fed revision using final numeric
+answer matching, unsupported numbers, model calls, latency and token usage. Functional tests,
+scripted demonstrations and live-model results are reported separately.
+
+On 2026-10-16, MiniMax-M3 was evaluated on 30 questions generated from recorded AAPL/NVDA SEC data:
+
+| Strategy | Final numeric answers matched | Model calls |
+|---|---:|---:|
+| Direct generation | 21/30 | 30 |
+| Error-flag revision | 17/30 | 63 |
+| Evidence-fed revision | 30/30 | 68 |
+
+This is one run on two companies. Evidence-fed revision supplies retrieved values; these
+results do not establish whole-answer correctness, model fine-tuning gains or marketing impact.
+
+[Current experiment, results and limits](docs/WORKFLOW_EVALUATION.md) · [Historical provenance](docs/EVALUATION_NOTES.md)
+
+## Engineering highlights
+
+| Capability | Design choice | Source |
+|---|---|---|
+| Verification-driven orchestration | LangGraph routes between answer, verify, bounded revision and optional model escalation | [Workflow](src/finreceipts/agent/graph.py) |
+| Deterministic financial checks | Explicit number extraction, units, tolerances and XBRL metric calculations | [Verifier](src/finreceipts/verify/) · [Metrics](src/finreceipts/xbrl/) |
+| Controlled feedback experiments | Separate error flags from receipts that also supply retrieved values | [Evaluation controls](docs/eval-controls.md) |
+| Inspectable results | Per-attempt audits, HTML receipts and step-level SSE events | [API](src/finreceipts/app/main.py) · [Reports](src/finreceipts/report/) |
+| Repeatable local development | SEC record/replay cache, offline fixtures and a fake model provider | [Data clients](src/finreceipts/tools/) · [Tests](tests/) |
+| Explicit evidence boundaries | Timestamp/catalog controls and synthetic injection-boundary checks | [PIT contracts](docs/pit-redteam.md) |
+
+Python · LangGraph · FastAPI · Pydantic · SSE · SEC XBRL · pytest
 ## Durable evidence workbench
 
 Version 0.1.0 adds **frozen-evidence runs** alongside the request-scoped demo.
@@ -30,35 +83,6 @@ evidence hashes are not independent historical-availability proofs.
 
 [Runtime contract](docs/RUNTIME.md) · [Fault tests and validation](docs/VALIDATION.md) ·
 [UI walkthrough and screenshots](docs/UI_REDESIGN.md) · [Engineering record](docs/ENGINEERING_LOG.md)
-
-## See the workflow
-
-The offline Apple demo starts with a deliberately incorrect answer and follows the same
-answer → verify → revise path used by the application:
-
-| Step | Answer / evidence | Outcome |
-|---|---|---|
-| First answer | FY2023 revenue: **$390.0 billion** | No matching fact |
-| Revision | FY2023 revenue: **$383.3 billion** | Matches within configured tolerance |
-| Receipt | **$383,285,000,000**, period ending **2023-09-30**, selected SEC revenue concept | Inspect the fact and filing |
-
-No API key is needed. Both answers are scripted by the fake provider: this demonstrates
-the workflow, not a model accuracy result. A numeric match does not establish that every
-surrounding statement has the right issuer, metric or period.
-
-## Engineering highlights
-
-| Capability | Design choice | Source |
-|---|---|---|
-| Verification-driven orchestration | LangGraph routes between answer, verify, bounded revision and optional model escalation | [Workflow](src/finreceipts/agent/graph.py) |
-| Deterministic financial checks | Explicit number extraction, units, tolerances and XBRL metric calculations | [Verifier](src/finreceipts/verify/) · [Metrics](src/finreceipts/xbrl/) |
-| Controlled feedback experiments | Separate error flags from receipts that also supply retrieved values | [Evaluation controls](docs/eval-controls.md) |
-| Inspectable results | Per-attempt audits, HTML receipts and step-level SSE events | [API](src/finreceipts/app/main.py) · [Reports](src/finreceipts/report/) |
-| Repeatable local development | SEC record/replay cache, offline fixtures and a fake model provider | [Data clients](src/finreceipts/tools/) · [Tests](tests/) |
-| Explicit evidence boundaries | Timestamp/catalog controls and synthetic injection-boundary checks | [PIT contracts](docs/pit-redteam.md) |
-
-Python · LangGraph · FastAPI · Pydantic · SSE · SEC XBRL · pytest
-
 ## How it works
 
 ```mermaid
@@ -76,7 +100,6 @@ flowchart LR
 The verifier supplies both the evidence a reader can inspect and the signal that controls
 revision. The model does not grade its own answer. The scope remains the numeric claims
 the extractor and available evidence can support. [Read the design decisions →](docs/ARCHITECTURE.md)
-
 ## Run locally
 
 Use Python 3.11+ and a source checkout. The bundled offline facts cover AAPL and NVDA.
@@ -124,7 +147,6 @@ annual-clause checks. The **快速问答** page retains request-scoped streaming
 
 Installation may need network access. Demo fixtures and example reports are supplied by
 the checkout, not a standalone wheel. To use a live provider, see [LLM configuration](docs/llm_access.md).
-
 ## Verify the behavior
 
 ```sh
@@ -136,7 +158,6 @@ Tests cover extraction, financial metrics, revision/routing, API/SSE responses, 
 serialization and evaluation controls. Functional tests and fake-model demonstrations
 are separate from live-provider quality measurements.
 See the [environment and validation record](docs/reproducibility.md).
-
 ## Interfaces
 
 | Interface | Purpose |
@@ -148,7 +169,6 @@ See the [environment and validation record](docs/reproducibility.md).
 | `POST /api/audit` | Audit supplied text against financial facts |
 | `GET /health` | Inspect active provider and offline configuration |
 | `finreceipts audit / eval / record` | Local auditing, evaluation and evidence capture |
-
 ## Scope and evaluation
 
 FinReceipts is local research software. It does not provide production authentication,
@@ -160,7 +180,6 @@ Keep the demo on loopback. Synthetic security tests do not establish real-model 
 Earlier provider experiments are retained as [historical evaluation notes](docs/EVALUATION_NOTES.md),
 not headline performance claims. Retrieved-value feedback, flags-only correction, denominators
 and cost assumptions are documented separately; omitted result bundles are not current-release evidence.
-
 ## Data, license and related work
 
 Three attributed SEC JSON fixtures are included. A-share adapters use synthetic offline

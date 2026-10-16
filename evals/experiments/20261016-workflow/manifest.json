@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-16",
+  "seed": 42,
+  "items_per_kind": 10,
+  "dataset_sha256": "dafbbe9207c4cf8a6d5aa51b600f5586419d49cdf4efc8a811f6ee6b7312134b",
+  "candidate_count": 66,
+  "sample_sha256": "b7389ce134665286207f13d5fbc47c33309b56f752bbbe6e60dd93a1ded11560",
+  "facts_sha256": "12ab3620139df6f58a51182cc0ce4a582e6d917386a84f94f04d0dc6be95cd46",
+  "sources": [
+    {
+      "ticker": "AAPL",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+      "checked_items": [
+        "AAPL-2024-direct-diluted_EPS",
+        "AAPL-2023-direct-net_cash_provided_by_operating_activities",
+        "AAPL-2025-direct-operating_income",
+        "AAPL-2025-direct-net_cash_provided_by_operating_activities",
+        "AAPL-2025-direct-diluted_EPS",
+        "AAPL-2024-direct-net_cash_provided_by_operating_activities",
+        "AAPL-2023-direct-total_assets",
+        "AAPL-2023-direct-revenue",
+        "AAPL-2023-ratio-net_income",
+        "AAPL-2023-ratio-operating_income",
+        "AAPL-2024-ratio-operating_income",
+        "AAPL-2025-ratio-net_income",
+        "AAPL-2024-ratio-net_income",
+        "AAPL-2024-yoy_growth-revenue",
+        "AAPL-2025-yoy_growth-net_income",
+        "AAPL-2024-yoy_growth-net_income",
+        "AAPL-2023-yoy_growth-net_income",
+        "AAPL-2023-yoy_growth-revenue",
+        "AAPL-2025-yoy_growth-revenue"
+      ],
+      "validated_at": "2026-10-16T11:15:33.204903+00:00",
+      "source_mode": "recorded_fixture",
+      "retrieved_at": null,
+      "fixture_sha256": "02f4dc423d2d47365ceb8d527a90a3c2b8ca5afbb5caa956c81506839f568cce",
+      "status": "evidence_rows_and_answer_arithmetic_match"
+    },
+    {
+      "ticker": "NVDA",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "checked_items": [
+        "NVDA-2025-direct-revenue",
+        "NVDA-2023-direct-total_assets",
+        "NVDA-2025-ratio-operating_income",
+        "NVDA-2024-ratio-net_income",
+        "NVDA-2023-ratio-net_income",
+        "NVDA-2025-ratio-net_income",
+        "NVDA-2024-ratio-operating_income",
+        "NVDA-2025-yoy_growth-net_income",
+        "NVDA-2024-yoy_growth-net_income",
+        "NVDA-2023-yoy_growth-net_income",
+        "NVDA-2023-yoy_growth-revenue"
+      ],
+      "validated_at": "2026-10-16T11:15:33.210939+00:00",
+      "source_mode": "recorded_fixture",
+      "retrieved_at": null,
+      "fixture_sha256": "81f9ba029e4a422d2f378cc130c5f87318737669ba986721e8ffa148009249ef",
+      "status": "evidence_rows_and_answer_arithmetic_match"
+    }
+  ],
+  "model": "MiniMax-M3",
+  "prices_cny_per_million": [
+    2.1,
+    8.4
+  ],
+  "price_url": "https://platform.minimax.cn/docs/pricing/overview",
+  "conditions": [
+    "baseline",
+    "flags",
+    "receipts"
+  ],
+  "max_revisions": 2,
+  "max_output_tokens": 1024,
+  "temperature": 0,
+  "tools": false,
+  "budget_cny": 10,
+  "reservation_ceiling_cny": 8,
+  "scope": "two-company recorded SEC data; original retrieval time unknown; not fresh source verification or independent historical availability proof"
+}

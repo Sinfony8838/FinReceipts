@@ -2,6 +2,9 @@
 
 These are historical records, not current-version benchmark claims.
 
+For the separate 2026-10-16 experiment, see [the workflow comparison](WORKFLOW_EVALUATION.md).
+Its sample, model, source constraints and results are independent of the historical numbers below.
+
 ## English
 
 Earlier saved experiments dated 2026-10-06–07 used 100 US numeric QA items across 23 companies and a mainland MiniMax Anthropic-compatible endpoint. These predate subsequent continuation and source-release edits. Their provider outputs and result artifacts are **not included in this source-first release**, and no fresh live-model benchmark is claimed here.
