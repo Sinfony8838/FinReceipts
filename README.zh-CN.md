@@ -1,15 +1,55 @@
 # FinReceipts
 
-**用可核验的数字与可检查的证据，构建财务研究 Agent。**
+**让 AI 生成的财务内容有依据、可修订、可复查。**
 
 [English](README.md) · [架构设计](docs/ARCHITECTURE.md) · [验证记录](docs/reproducibility.md) · [持续集成](https://github.com/Sinfony8838/FinReceipts/actions/workflows/ci.yml) · [Apache-2.0](LICENSE)
 
-FinReceipts 将财务问答接入确定性核验流程：提取受支持的数值声明，与 SEC XBRL 财务事实匹配，
-再根据核验结果修订回答，或将未解决的问题路由到另一个已配置模型。
-匹配的数字附带 HTML 证据收据，展示所选事实、期间和原始来源。
+财务研究内容中的数字即使看起来合理，也可能对应错误的公司、指标或期间。
+FinReceipts 将模型生成接入“事实核验 → 反馈修订 → 证据交付”流程，
+帮助使用者检查回答依据、追踪修改过程，并比较不同反馈策略的结果和调用开销。
 
-项目的核心是让核验参与**执行决策**，而不只是生成完成后附上引用。
+项目保留金融研究的明确场景：以 SEC XBRL 财务事实核验可提取的数值，
+通过浏览器工作台、HTML 证据收据和 JSON 导出交付可复查的结果。
 
+## 工作流与交付
+
+1. **生成初稿**：明确公司、财年和研究问题，由配置的模型作答。
+2. **核验并修订**：检查数值依据；根据错误标记或检索事实反馈进行有限修订。
+3. **复查并交付**：查看每轮回答、证据和执行记录，必要时继续人工核对。
+
+[阅读工作流案例与方案取舍](docs/AI_WORKFLOW_CASE.md)
+
+## 先看一次完整流程
+
+无需密钥的 Apple 离线演示，从一条刻意写错的回答开始：
+
+| 步骤 | 回答或证据 | 结果 |
+|---|---|---|
+| 首次回答 | 2023 财年营收 **3,900 亿美元**（$390.0 billion） | 未找到匹配事实 |
+| 修订回答 | 2023 财年营收 **3,833 亿美元**（$383.3 billion） | 在配置容差内匹配 |
+| 证据收据 | 原始值 **383,285,000,000 美元**，期间截至 **2023-09-30**，所选 SEC 营收指标 | 可继续核对事实与原始披露 |
+
+两条回答均由 fake provider 预设，演示的是“作答 → 核验 → 修订”的完整流程，不是模型准确率。
+数字匹配也不代表上下文中的公司、指标、期间和全部语句均已核实。
+## 对照实验
+
+比较直接生成、错误提示后修订、证据反馈后修订，记录数值答案匹配率、
+无依据数字比例、调用次数、耗时和 token 用量。工程测试、固定回答演示与真实模型评测分别记录。
+
+[查看本轮样本、结果与限制](docs/WORKFLOW_EVALUATION.md) · [历史实验来源](docs/EVALUATION_NOTES.md)
+
+## 核心工程设计
+
+| 能力 | 实现方式 | 代码与说明 |
+|---|---|---|
+| 核验驱动的 Agent 编排 | LangGraph 状态路由、有限修订、可选模型升级 | [工作流](src/finreceipts/agent/graph.py) |
+| 确定性财务核验 | 显式数字提取、单位归一、容差和 XBRL 指标计算 | [核验器](src/finreceipts/verify/) · [指标](src/finreceipts/xbrl/) |
+| 可区分的反馈实验 | 错误标记与附带检索数值的证据反馈分别评估 | [评测控制](docs/eval-controls.md) |
+| 可检查的执行结果 | 每轮审计、HTML 收据、步骤级 SSE 事件 | [接口](src/finreceipts/app/main.py) · [报告](src/finreceipts/report/) |
+| 可重复的本地开发 | SEC 录制/回放缓存、离线 fixtures、固定模型响应 | [数据客户端](src/finreceipts/tools/) · [测试](tests/) |
+| 明确的证据使用条件 | 时间戳与 catalog 控制、合成注入边界检查 | [时点与边界约定](docs/pit-redteam.md) |
+
+Python · LangGraph · FastAPI · Pydantic · SSE · SEC XBRL · pytest
 ## 可恢复的证据工作台
 
 0.1.0 版本在单次问答之外增加了**固定证据的持久化任务**。
@@ -28,33 +68,6 @@ FinReceipts 将财务问答接入确定性核验流程：提取受支持的数�
 
 [运行契约](docs/RUNTIME.md) · [故障测试与验收](docs/VALIDATION.md) ·
 [界面与截图](docs/UI_REDESIGN.md) · [工程记录](docs/ENGINEERING_LOG.md)
-
-## 先看一次完整流程
-
-无需密钥的 Apple 离线演示，从一条刻意写错的回答开始：
-
-| 步骤 | 回答或证据 | 结果 |
-|---|---|---|
-| 首次回答 | 2023 财年营收 **3,900 亿美元**（$390.0 billion） | 未找到匹配事实 |
-| 修订回答 | 2023 财年营收 **3,833 亿美元**（$383.3 billion） | 在配置容差内匹配 |
-| 证据收据 | 原始值 **383,285,000,000 美元**，期间截至 **2023-09-30**，所选 SEC 营收指标 | 可继续核对事实与原始披露 |
-
-两条回答均由 fake provider 预设，演示的是“作答 → 核验 → 修订”的完整流程，不是模型准确率。
-数字匹配也不代表上下文中的公司、指标、期间和全部语句均已核实。
-
-## 核心工程设计
-
-| 能力 | 实现方式 | 代码与说明 |
-|---|---|---|
-| 核验驱动的 Agent 编排 | LangGraph 状态路由、有限修订、可选模型升级 | [工作流](src/finreceipts/agent/graph.py) |
-| 确定性财务核验 | 显式数字提取、单位归一、容差和 XBRL 指标计算 | [核验器](src/finreceipts/verify/) · [指标](src/finreceipts/xbrl/) |
-| 可区分的反馈实验 | 错误标记与附带检索数值的证据反馈分别评估 | [评测控制](docs/eval-controls.md) |
-| 可检查的执行结果 | 每轮审计、HTML 收据、步骤级 SSE 事件 | [接口](src/finreceipts/app/main.py) · [报告](src/finreceipts/report/) |
-| 可重复的本地开发 | SEC 录制/回放缓存、离线 fixtures、固定模型响应 | [数据客户端](src/finreceipts/tools/) · [测试](tests/) |
-| 明确的证据使用条件 | 时间戳与 catalog 控制、合成注入边界检查 | [时点与边界约定](docs/pit-redteam.md) |
-
-Python · LangGraph · FastAPI · Pydantic · SSE · SEC XBRL · pytest
-
 ## 执行流程
 
 ```mermaid
@@ -71,7 +84,6 @@ flowchart LR
 
 核验器同时提供人工可复查的证据和控制修订的信号，模型不负责给自己的回答判分。
 核验范围由提取规则与可用证据共同决定。[查看架构与设计取舍 →](docs/ARCHITECTURE.md)
-
 ## 本地启动
 
 需要 Python 3.11+ 和源码检出目录。随附离线财务事实覆盖 AAPL、NVDA。
@@ -115,7 +127,6 @@ FINRECEIPTS_HOST=127.0.0.1 FINRECEIPTS_LLM_PROVIDER=fake \
 
 安装依赖可能联网。离线 fixtures 和示例报告来自源码目录，单独安装的 wheel 不包含这些资源。
 真实模型接入见[配置说明](docs/llm_access.md)。
-
 ## 验证行为
 
 ```sh
@@ -126,7 +137,6 @@ python -m ruff check .
 测试覆盖数字提取、财务指标、修订与路由、API/SSE、证据序列化及评测控制。
 功能测试、固定回答演示与真实模型质量评测分别记录。
 环境和已执行检查见[验证说明](docs/reproducibility.md)。
-
 ## 接口
 
 | 入口 | 用途 |
@@ -138,7 +148,6 @@ python -m ruff check .
 | `POST /api/audit` | 对给定文本进行财务事实核验 |
 | `GET /health` | 查看模型服务与离线配置 |
 | `finreceipts audit / eval / record` | 本地核验、评测与证据采集 |
-
 ## 适用范围与评测
 
 当前是本地研究软件，尚未提供生产认证，不核验所有财务文字，也不以申报日期代替历史公开时间证明。
@@ -149,7 +158,6 @@ python -m ruff check .
 早期实验保存在[历史评测说明](docs/EVALUATION_NOTES.md)，不作为当前版本的性能宣传。
 检索数值辅助修正、仅错误标记反馈、统计分母与成本假设分别说明；
 未随附的历史结果文件不能视为当前实现的验证证据。
-
 ## 数据、许可与相关工作
 
 仓库保留三个有来源说明的 SEC JSON fixtures。A股适配器使用合成离线输入，
