@@ -155,6 +155,8 @@ annual-clause checks. The **快速问答** page retains request-scoped streaming
 
 Installation may need network access. Demo fixtures and example reports are supplied by
 the checkout, not a standalone wheel. To use a live provider, see [LLM configuration](docs/llm_access.md).
+The [package installation gate](docs/PACKAGE_INSTALL.md) builds an sdist and wheel, checks their
+contents, and exercises installed API/CLI entrypoints in a fresh environment with locked dependencies.
 ## Verify the behavior
 
 ```sh

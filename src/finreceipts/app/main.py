@@ -21,6 +21,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from finreceipts import __version__
 from finreceipts.agent.graph import (
     AgentDeps,
     build_graph,
@@ -159,7 +160,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="FinReceipts",
         description="Verifiable finance research agent — every number comes with a receipt.",
-        version="0.0.1",
+        version=__version__,
         lifespan=lifespan,
     )
     app.state.fin = state

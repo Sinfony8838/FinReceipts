@@ -59,6 +59,14 @@ On 2026-10-08 UTC, a separate build check on **CPython 3.12.14, Linux x86-64** u
 
 ## Reproduction checklist for additional environments
 
+An additional **2026-10-18 Windows / Python 3.12.11** package check is documented in
+[Package installation](PACKAGE_INSTALL.md). It builds sdist → wheel, installs hashed dependencies
+exported from `uv.lock`, checks actual installed package bytes and entrypoints, serves static assets,
+completes an offline task and verifies unchanged export bytes after restarting the installed service.
+The gate includes a deliberately incomplete wheel as a negative control. This complements the
+historical Linux check above; it does not rerun that historical wheel or certify reproducible builds.
+The configured Windows/Linux CI jobs have not yet been run remotely.
+
 The package check above covers one target. For additional targets and a distributable reproducibility bundle:
 
 1. Record exact Python, OS/architecture, resolver/build tools and requested extras for each target.

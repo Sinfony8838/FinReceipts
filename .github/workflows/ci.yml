@@ -29,6 +29,28 @@ jobs:
         env:
           FINRECEIPTS_OFFLINE: "1"
         run: uv run pytest -m "not live" --cov --cov-report=term-missing
+  package-install:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v6
+      - name: Build and exercise a non-editable installation outside the source directory
+        run: python scripts/package_install_smoke.py --out runs/package-install-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: package-install-${{ matrix.os }}
+          path: |
+            runs/package-install-ci/
+            !runs/package-install-ci/venv/**
   browser-storage-contract:
     runs-on: ubuntu-latest
     timeout-minutes: 5
