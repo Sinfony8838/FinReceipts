@@ -54,6 +54,15 @@ unknown outcomes. Reported token usage covers committed successful node output;
 it can undercount interrupted requests. SDK retries may issue multiple HTTP
 requests per logical dispatch. These are not monetary limits.
 
+SQLite write contention waits up to one second per connection operation by default
+(`RunStore(..., busy_timeout=...)` can override it). `SQLITE_BUSY`, including its
+extended codes, becomes `StoreBusy`; the run API returns 503 with `Retry-After: 1`.
+Disk, corruption and SQL errors are not classified as contention. This timeout is
+not an end-to-end request deadline. The runner never retries a whole node on a
+storage error. A model call may already have happened before a failed commit:
+refresh with GET first, then use the current revision if ready, or explicitly
+resume interrupted/expired work. Active leases must expire before recovery.
+
 A random token fences each worker. Cancelling or recovering an expired lease
 revokes the old token. An expired worker cannot reserve more budget or commit a
 result. The default lease is 300 seconds. Calls longer than the lease cannot
@@ -69,6 +78,8 @@ already sent to a provider cannot be undone.
 | After reservation, before result commit | Reservation retained; last completed node unchanged | Explicit resume may repeat an uncommitted call |
 | After checkpoint commit, before HTTP response arrives | New revision and event exist together | GET state; retry with stale revision returns 409 |
 | Cancellation while provider is responding | Terminal cancellation; worker token revoked | Late output cannot publish; bill may still exist |
+| SQLite busy before claim | Previous checkpoint, no model dispatch | Refresh and retry after contention clears |
+| SQLite busy after model response | Running lease and reservation; answer not committed | Refresh; explicitly resume after expiry; reservation is retained |
 | Source or provider changes | Original run stays readable | Advancing fails; export and start a new run |
 
 There is no exactly-once guarantee for external providers. Creation is idempotent
@@ -145,3 +156,6 @@ expects an offline fake-model server at `127.0.0.1:8791`. Pass a new output fold
 Browser automation is intentionally not a runtime dependency. The script asserts
 reload without recalling the model, revision completion, counter-audit, exports,
 event catch-up, mobile width, and cancellation before dispatch.
+
+For file publication faults, four-process races, actual process termination and
+storage-error recovery, see [reliability scenarios](RELIABILITY.md).

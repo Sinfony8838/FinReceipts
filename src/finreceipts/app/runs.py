@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from finreceipts.runtime.codec import canonical
 from finreceipts.runtime.service import counter_audit
-from finreceipts.runtime.store import IntegrityError, RunConflict
+from finreceipts.runtime.store import IntegrityError, RunConflict, StoreBusy
 
 
 class CreateRun(BaseModel):
@@ -56,6 +56,12 @@ def run_router(state) -> APIRouter:
             raise HTTPException(409, str(exc)) from exc
         except IntegrityError as exc:
             raise HTTPException(409, "run integrity check failed") from exc
+        except StoreBusy as exc:
+            raise HTTPException(
+                503,
+                "run storage is busy; refresh state before retrying with the current revision",
+                headers={"Retry-After": "1"},
+            ) from exc
         except ValueError as exc:
             raise HTTPException(422, "invalid request or no evidence for requested scope") from exc
         except Exception as exc:

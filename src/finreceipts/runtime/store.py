@@ -7,6 +7,7 @@ a signature or protection from an administrator who can rewrite the database.
 from __future__ import annotations
 
 import json
+import math
 import sqlite3
 import time
 import uuid
@@ -25,6 +26,10 @@ class RunConflict(ValueError):
 
 class IntegrityError(ValueError):
     """A checkpoint/evidence/event no longer matches its content digest."""
+
+
+class StoreBusy(RuntimeError):
+    """SQLite contention exceeded its bounded wait; reconcile state before retry."""
 
 
 def verify_export(bundle: dict) -> None:
@@ -51,8 +56,13 @@ def verify_export(bundle: dict) -> None:
 
 
 class RunStore:
-    def __init__(self, path: Path, *, clock=time.time, lease_seconds: float = 300):
+    def __init__(
+        self, path: Path, *, clock=time.time, lease_seconds: float = 300, busy_timeout: float = 1
+    ):
+        if not math.isfinite(busy_timeout) or busy_timeout < 0:
+            raise ValueError("busy_timeout must be finite and non-negative")
         self.path, self.clock, self.lease_seconds = Path(path), clock, lease_seconds
+        self.busy_timeout = busy_timeout
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as db:
             db.execute("PRAGMA journal_mode=WAL")
@@ -69,9 +79,15 @@ class RunStore:
 
     @contextmanager
     def connection(self):
-        db = sqlite3.connect(self.path, timeout=10, isolation_level=None)
+        db = sqlite3.connect(self.path, timeout=self.busy_timeout, isolation_level=None)
         try:
             yield db
+        except sqlite3.OperationalError as exc:
+            # Extended BUSY codes have the same low byte. Do not classify disk
+            # errors, corruption or SQL defects as transient write contention.
+            if getattr(exc, "sqlite_errorcode", 0) & 0xFF == sqlite3.SQLITE_BUSY:
+                raise StoreBusy("run storage is busy; refresh state before retrying") from exc
+            raise
         finally:
             db.close()
 

@@ -21,7 +21,7 @@ from finreceipts.runtime.codec import (
     encode_state,
     implementation_id,
 )
-from finreceipts.runtime.store import BudgetExceeded, RunConflict, RunStore
+from finreceipts.runtime.store import BudgetExceeded, RunConflict, RunStore, StoreBusy
 from finreceipts.verify.verifier import Verifier
 
 
@@ -175,8 +175,10 @@ class RunService:
                     "reason": "awaiting_verification",
                 }
             return self.store.finish(run_id, token, encode_state(state), following, quality)
-        except RunConflict:
-            raise  # Cancelled/expired workers may never publish a result.
+        except (RunConflict, StoreBusy):
+            # Never replay a provider call on contention, or turn an unknown
+            # commit outcome into a second state mutation. Reconcile via GET.
+            raise
         except Exception as exc:
             # Provider errors may contain private prompts/URLs/keys. Persist a code only.
             return self.store.fail(run_id, token, budget=isinstance(exc, BudgetExceeded))

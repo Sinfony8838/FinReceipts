@@ -158,6 +158,8 @@ Tests cover extraction, financial metrics, revision/routing, API/SSE responses, 
 serialization and evaluation controls. Functional tests and fake-model demonstrations
 are separate from live-provider quality measurements.
 See the [environment and validation record](docs/reproducibility.md).
+For cache publication failures, process races and storage contention recovery,
+see the [reliability scenarios and runbook](docs/RELIABILITY.md) (Chinese).
 ## Interfaces
 
 | Interface | Purpose |
