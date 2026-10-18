@@ -80,11 +80,17 @@ already sent to a provider cannot be undone.
 | Cancellation while provider is responding | Terminal cancellation; worker token revoked | Late output cannot publish; bill may still exist |
 | SQLite busy before claim | Previous checkpoint, no model dispatch | Refresh and retry after contention clears |
 | SQLite busy after model response | Running lease and reservation; answer not committed | Refresh; explicitly resume after expiry; reservation is retained |
+| Numeric output exceeds the analysis limit or finite range | Terminal `failed`, safe reason code, previous answer/evidence and reserved budget retained | Inspect/export; narrow or correct the request and create a new run |
 | Source or provider changes | Original run stays readable | Advancing fails; export and start a new run |
 
 There is no exactly-once guarantee for external providers. Creation is idempotent
 for an identical normalized request and key; it does not solve provider-side
 idempotency. Resuming requires an acknowledgement of possible duplicate calls.
+Only `audit_input_limit` and `numeric_out_of_range` are classified as permanent numeric failures.
+Their `failed` runs cannot advance, resume or cancel (409); reads, history and export remain available.
+Counter-auditing the same invalid answer returns the specific 422 code without mutating the run.
+Generic provider failures remain `interrupted`; unknown exceptions are not assumed permanent.
+This classification applies when a current run executes a node, without rewriting historical events.
 The workbench saves an unresolved creation key and its input in tab-scoped session storage
 before sending. After a lost response and reload, explicit confirmation reuses that request;
 the run URL is saved before the record is cleared. See [creation recovery and tests](CREATE_RECOVERY.md)

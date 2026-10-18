@@ -156,7 +156,7 @@ def test_invalid_model_answer_cannot_complete_or_refund_dispatch(tmp_path, provi
     llm = FakeLLM(lambda *_: answer)
     service, doc = setup_run(tmp_path, provider, llm)
     out = finish(service, doc)
-    assert out["status"] == "interrupted"
+    assert out["status"] == "failed"
     assert out["dispatches"] == len(llm.calls) == 1
     assert not out["quality"]["numeric_gate_passed"]
     bundle = service.store.export(out["run_id"])

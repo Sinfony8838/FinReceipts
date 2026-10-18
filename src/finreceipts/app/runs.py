@@ -21,6 +21,7 @@ from finreceipts.runtime.store import (
     RunNotFound,
     StoreBusy,
 )
+from finreceipts.verify.numbers import NumericInputError
 
 
 class CreateRun(BaseModel):
@@ -73,6 +74,8 @@ def run_router(state) -> APIRouter:
             raise APIError(503, "storage_busy", headers={"Retry-After": "1"}) from exc
         except EvidenceUnavailable as exc:
             raise APIError(422, "evidence_unavailable") from exc
+        except NumericInputError as exc:
+            raise APIError(422, exc.code) from exc
         except Exception as exc:
             raise APIError(503, "run_failed") from exc
 

@@ -22,6 +22,7 @@ from finreceipts.runtime.codec import (
     implementation_id,
 )
 from finreceipts.runtime.store import BudgetExceeded, RunConflict, RunStore, StoreBusy
+from finreceipts.verify.numbers import NumericInputError
 from finreceipts.verify.verifier import Verifier
 
 
@@ -179,6 +180,10 @@ class RunService:
                     "reason": "awaiting_verification",
                 }
             return self.store.finish(run_id, token, encode_state(state), following, quality)
+        except NumericInputError as exc:
+            # The committed answer cannot become valid by resuming the same node.
+            # Persist only an allowlisted code, never exception text or a new answer.
+            return self.store.fail(run_id, token, permanent_reason=exc.code)
         except (RunConflict, StoreBusy):
             # Never replay a provider call on contention, or turn an unknown
             # commit outcome into a second state mutation. Reconcile via GET.

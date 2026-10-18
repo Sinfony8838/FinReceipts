@@ -20,7 +20,8 @@ from pathlib import Path
 from finreceipts.runtime.codec import canonical, digest
 
 WORKFLOW_VERSION = "evidence-runtime-v1"
-TERMINAL = {"completed", "budget_exhausted", "cancelled"}
+TERMINAL = {"completed", "budget_exhausted", "cancelled", "failed"}
+PERMANENT_FAILURES = frozenset({"audit_input_limit", "numeric_out_of_range"})
 
 
 class RunConflict(ValueError):
@@ -356,14 +357,25 @@ class RunStore:
 
         return self.edit(run_id, "step_completed", change)
 
-    def fail(self, run_id, token, *, budget=False):
+    def fail(self, run_id, token, *, budget=False, permanent_reason: str | None = None):
+        if permanent_reason is not None and (budget or permanent_reason not in PERMANENT_FAILURES):
+            raise ValueError("invalid permanent failure classification")
+        if permanent_reason:
+            status, reason = "failed", permanent_reason
+        elif budget:
+            status, reason = "budget_exhausted", "dispatch_or_tool_budget"
+        else:
+            status, reason = "interrupted", "step_failed"
+
         def change(doc):
             self.check_lease(doc, token)
-            doc.update(
-                status="budget_exhausted" if budget else "interrupted",
-                lease=None,
-                stop_reason="dispatch_or_tool_budget" if budget else "step_failed",
-            )
+            doc.update(status=status, lease=None, stop_reason=reason)
+            if permanent_reason:
+                doc["quality"] = {
+                    "numeric_gate_passed": False,
+                    "whole_answer_verified": False,
+                    "reason": permanent_reason,
+                }
             return {
                 "node": doc["next_node"],
                 "reason": doc["stop_reason"],

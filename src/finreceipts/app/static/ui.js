@@ -25,8 +25,10 @@
     });
   });
   const nodes = {answer:'生成回答', verify:'核验数字', revise:'修订回答', escalate:'升级模型', __end__:'已结束'};
-  const statuses = {ready:'待继续', running:'执行中', completed:'已完成', interrupted:'已中断', cancelled:'已取消', budget_exhausted:'额度已用尽'};
+  const statuses = {ready:'待继续', running:'执行中', completed:'已完成', interrupted:'已中断', cancelled:'已取消', budget_exhausted:'额度已用尽', failed:'已失败'};
   const reasons = {numeric_match_only:'数字匹配通过，仍需复查语义归属。', unresolved_claims:'仍有未获支持的声明，请查看核验结果。', awaiting_verification:'回答已生成，等待核验。', dispatch_or_tool_budget:'调用额度已用尽，本次任务已停止。', step_failed:'本步骤未完成，可查看详情后恢复。', user_cancelled:'任务已取消，已发送的请求无法撤回。'};
+  reasons.audit_input_limit='回答超过核验范围，当前任务无法恢复。请缩小问题范围后创建新任务；原答案、证据和调用记录仍可导出。';
+  reasons.numeric_out_of_range='回答包含超出可表示范围的数值，当前任务无法恢复。请调整问题后创建新任务；原答案、证据和调用记录仍可导出。';
   const verdicts = {supported:'匹配', unsupported:'未支持', contradicted:'矛盾'};
   const eventNames = {created:'任务已创建',step_started:'开始步骤',budget_reserved:'预留调用额度',step_completed:'步骤已完成',step_stopped:'执行已停止',cancelled:'任务已取消',resumed:'任务已恢复'};
   const node = value => nodes[value] || '未知步骤';

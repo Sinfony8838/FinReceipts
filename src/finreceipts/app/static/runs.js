@@ -3,7 +3,7 @@
   let current = null, busy = false, cursor = 0, seen = [], pending = null, pendingProblem = null, layoutRun;
   const journal = window.FinCreateJournal;
   const narrow = matchMedia('(max-width: 959px)');
-  const terminal = new Set(['completed', 'cancelled', 'budget_exhausted']);
+  const terminal = new Set(['completed', 'cancelled', 'budget_exhausted', 'failed']);
   function layout() { $('settings').open = !current?.state || !narrow.matches; }
   narrow.addEventListener('change', layout);
   async function api(url, body, headers = {}) {
@@ -37,7 +37,8 @@
     const recoverable = current?.status === 'interrupted' || expired;
     $('recovery').hidden = !recoverable;
     $('resume').disabled = busy || !$('ack').checked || !recoverable;
-    $('compare').disabled = busy || !current?.state?.answer;
+    $('failure-notice').hidden = current?.status !== 'failed';
+    $('compare').disabled = busy || !current?.state?.answer || current.status === 'failed';
   }
   function render() {
     if (!current?.state) return;
@@ -45,7 +46,7 @@
     if (layoutRun !== current.run_id) { layout(); layoutRun = current.run_id; }
     $('status').textContent = U.statuses[current.status] || '未知状态';
     $('status').dataset.tone = current.status === 'running' || current.status === 'ready' ? 'active' :
-      ['interrupted', 'budget_exhausted'].includes(current.status) ? 'warn' : '';
+      current.status === 'failed' ? 'bad' : ['interrupted', 'budget_exhausted'].includes(current.status) ? 'warn' : '';
     $('run-title').textContent = current.request.question;
     $('run-context').hidden = false;
     $('run-context').textContent = current.request.ticker + ' · ' + current.request.fiscal_years.join('、') + ' 财年';
@@ -55,6 +56,8 @@
     $('attempts').textContent = current.state.attempts.length;
     $('next').textContent = terminal.has(current.status) ? '已停止' : U.node(current.next_node);
     $('reason').textContent = U.reason(current.stop_reason || current.quality?.reason);
+    $('reason').hidden = current.status === 'failed';
+    $('failure-reason').textContent = current.status === 'failed' ? U.reason(current.stop_reason) : '';
     $('identity').textContent = '任务编号：' + current.run_id + '\n记录版本：' + current.revision + '\n证据摘要 SHA-256：' + current.evidence_digest;
     $('answer').textContent = current.state.answer || '任务已创建，执行后将在这里显示回答。';
     for (const id of ['run-info','answer-section','comparison-section','evidence-details']) $(id).hidden = false;
