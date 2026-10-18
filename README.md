@@ -60,6 +60,7 @@ results do not establish whole-answer correctness, model fine-tuning gains or ma
 | Deterministic financial checks | Explicit number extraction, units, tolerances and XBRL metric calculations | [Verifier](src/finreceipts/verify/) · [Metrics](src/finreceipts/xbrl/) |
 | Controlled feedback experiments | Separate error flags from receipts that also supply retrieved values | [Evaluation controls](docs/eval-controls.md) |
 | Inspectable results | Per-attempt audits, HTML receipts and step-level SSE events | [API](src/finreceipts/app/main.py) · [Reports](src/finreceipts/report/) |
+| Bounded execution and troubleshooting | Process-local admission, cancellation-aware worker accounting, safe request diagnostics and reproducible fault tests | [Admission](docs/ADMISSION_CONTROL.md) · [Diagnostics](docs/REQUEST_DIAGNOSTICS.md) · [Reliability](docs/RELIABILITY.md) |
 | Repeatable local development | SEC record/replay cache, offline fixtures and a fake model provider | [Data clients](src/finreceipts/tools/) · [Tests](tests/) |
 | Explicit evidence boundaries | Timestamp/catalog controls and synthetic injection-boundary checks | [PIT contracts](docs/pit-redteam.md) |
 

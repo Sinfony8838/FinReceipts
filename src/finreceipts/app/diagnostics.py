@@ -26,6 +26,7 @@ DETAILS = {
     "run_conflict": "revision or run state conflict; refresh before continuing",
     "integrity_failed": "run integrity check failed",
     "storage_busy": "run storage is busy; refresh state before retrying with the current revision",
+    "capacity_exhausted": "execution capacity is full; wait and refresh state before retrying",
     "run_failed": "run operation failed; no raw provider error is exposed",
     "http_error": "request could not be completed",
     "stream_failed": "response stream failed",
@@ -116,7 +117,9 @@ class RequestDiagnostics:
                         {"type": "http.response.body", "body": b"", "more_body": False}
                     )
         finally:
-            route = getattr(scope.get("route"), "path", None) or "unmatched"
+            route = getattr(scope.get("route"), "path", None) or scope["state"].get(
+                "admission_route", "unmatched"
+            )
             method = scope.get("method")
             if method not in {"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS", "TRACE"}:
                 method = "OTHER"

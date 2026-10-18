@@ -27,6 +27,12 @@ from finreceipts.agent.graph import (
     initial_state,
     summarize_audit,
 )
+from finreceipts.app.admission import (
+    AdmissionControl,
+    ExecutionGate,
+    GuardedIterator,
+    execution_work,
+)
 from finreceipts.app.demo_llm import demo_responder
 from finreceipts.app.diagnostics import (
     APIError,
@@ -113,9 +119,11 @@ class AppState:
         self.graph = None
         self.llm = None
         self.runs = None
+        self.admission = ExecutionGate(self.settings.max_inflight)
 
     def start(self) -> None:
         self.settings = Settings.from_env()
+        self.admission = ExecutionGate(self.settings.max_inflight)
         self.edgar = EdgarClient(self.settings)
         self.provider = edgar_lookup_provider(self.edgar)
         self.llm = _make_llm(self.settings)
@@ -151,6 +159,7 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     app.state.fin = state
+    app.add_middleware(AdmissionControl, state=state)
     app.add_middleware(RequestDiagnostics)
     app.add_exception_handler(StarletteHTTPException, http_error)
     app.add_exception_handler(RequestValidationError, validation_error)
@@ -168,6 +177,7 @@ def create_app() -> FastAPI:
             "offline": s.offline,
             "small_model": s.small_model or None,
             "large_model": s.large_model or None,
+            "execution": state.admission.snapshot(),
         }
 
     @app.get("/", response_class=HTMLResponse)
@@ -249,9 +259,10 @@ def create_app() -> FastAPI:
         }
 
     @app.post("/api/ask")
-    def ask(req: AskRequest) -> JSONResponse:
+    def ask(req: AskRequest, request: Request) -> JSONResponse:
         try:
-            return JSONResponse(_run_ask(req))
+            with execution_work(request):
+                return JSONResponse(_run_ask(req))
         except APIError:
             raise
         except Exception as exc:
@@ -346,7 +357,7 @@ def create_app() -> FastAPI:
                 yield f"event: error\ndata: {json.dumps(err)}\n\n"
 
         return StreamingResponse(
-            gen(),
+            GuardedIterator(gen(), request),
             media_type="text/event-stream",
             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
         )
@@ -380,8 +391,7 @@ def create_app() -> FastAPI:
             raise APIError(422, "invalid_request") from exc
         return ask_stream(req, request)
 
-    @app.post("/api/audit")
-    def audit(req: AuditRequest) -> JSONResponse:
+    def _run_audit(req: AuditRequest) -> JSONResponse:
         assert state.provider is not None
         try:
             lookup = state.provider(req.ticker.upper(), req.as_of)
@@ -409,6 +419,11 @@ def create_app() -> FastAPI:
                 "html": html,
             }
         )
+
+    @app.post("/api/audit")
+    def audit(req: AuditRequest, request: Request) -> JSONResponse:
+        with execution_work(request):
+            return _run_audit(req)
 
     return app
 

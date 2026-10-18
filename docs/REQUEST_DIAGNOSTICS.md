@@ -48,6 +48,7 @@ SSE 的 `error` 事件携带同样字段，另外包含 `event: "error"`。
 | `run_not_found` | 任务不存在；检查任务编号 |
 | `integrity_failed` | 数据完整性校验失败；保留数据库副本，停止推进并排查 |
 | `storage_busy` | 带 `Retry-After: 1`；先等待并刷新状态，不能盲目重放整个模型节点 |
+| `capacity_exhausted` | 执行名额已满；稍后刷新再试，仍可查询与取消已有任务，详见[准入控制](ADMISSION_CONTROL.md) |
 | `run_failed` / `internal_error` | 未分类的任务或应用异常；不自动判断为可重试 |
 | `stream_failed` | 响应开始后的未处理异常；日志标记失败，不发送第二组 HTTP 响应头 |
 | `http_error` | 其他 HTTP 错误，例如路由未找到 |

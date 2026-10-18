@@ -162,3 +162,11 @@ storage-error recovery, see [reliability scenarios](RELIABILITY.md).
 HTTP errors now include a stable `code` and server-generated `request_id`, also
 returned as `X-Request-ID`. See [request diagnostics](REQUEST_DIAGNOSTICS.md) for
 safe logging, streaming failure semantics and the troubleshooting workflow.
+
+The HTTP server now applies process-local admission before creating/advancing
+runs and other expensive operations. `FINRECEIPTS_MAX_INFLIGHT` defaults to 4;
+overload returns 503 `capacity_exhausted` with `Retry-After: 1`, without changing
+the run or reserving budget. Reads and cancellation remain available. A client
+disconnect cannot free a slot while its synchronous worker is still running.
+This is not a cross-worker quota or a limit on direct RunService callers.
+See [admission controls and measured scenarios](ADMISSION_CONTROL.md).

@@ -5,10 +5,11 @@ from __future__ import annotations
 from datetime import date
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, Header, HTTPException, Query
+from fastapi import APIRouter, Header, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from finreceipts.app.admission import execution_work
 from finreceipts.app.diagnostics import APIError
 from finreceipts.runtime.codec import canonical
 from finreceipts.runtime.service import EvidenceUnavailable, counter_audit
@@ -67,6 +68,7 @@ def run_router(state) -> APIRouter:
     @router.post("", status_code=201)
     def create_run(
         req: CreateRun,
+        request: Request,
         idempotency_key: Annotated[
             str, Header(min_length=8, max_length=128, pattern=r"^[A-Za-z0-9_\-]+$")
         ],
@@ -77,15 +79,17 @@ def run_router(state) -> APIRouter:
         payload["escalate_model"] = state.settings.large_model or None
         if req.mode == "cascade" and not payload["escalate_model"]:
             raise APIError(422, "cascade_unconfigured")
-        return call(state.runs.create, idempotency_key, payload)
+        with execution_work(request):
+            return call(state.runs.create, idempotency_key, payload)
 
     @router.get("/{run_id}")
     def get_run(run_id: str):
         return call(state.runs.store.get, run_id)
 
     @router.post("/{run_id}/advance")
-    def advance(run_id: str, req: Revision):
-        return call(state.runs.advance, run_id, req.expected_revision)
+    def advance(run_id: str, req: Revision, request: Request):
+        with execution_work(request):
+            return call(state.runs.advance, run_id, req.expected_revision)
 
     @router.post("/{run_id}/cancel")
     def cancel(run_id: str, req: Revision):
@@ -100,8 +104,9 @@ def run_router(state) -> APIRouter:
         return call(state.runs.store.export, run_id)
 
     @router.get("/{run_id}/counter-audit")
-    def replay(run_id: str):
-        return call(counter_audit, call(state.runs.store.get, run_id))
+    def replay(run_id: str, request: Request):
+        with execution_work(request):
+            return call(counter_audit, call(state.runs.store.get, run_id))
 
     @router.get("/{run_id}/events")
     def events(

@@ -31,6 +31,11 @@ class Settings:
     large_model: str = ""
     allow_coding_plan: bool = False
     min_call_interval_s: float = 1.0
+    max_inflight: int = 4
+
+    def __post_init__(self):
+        if type(self.max_inflight) is not int or not 1 <= self.max_inflight <= 32:
+            raise ValueError("max_inflight must be an integer in [1, 32]")
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -45,6 +50,7 @@ class Settings:
             large_model=_env("FINRECEIPTS_LARGE_MODEL"),
             allow_coding_plan=_env("FINRECEIPTS_ALLOW_CODING_PLAN") in {"1", "true", "yes"},
             min_call_interval_s=float(_env("FINRECEIPTS_MIN_CALL_INTERVAL_S", "1.0")),
+            max_inflight=int(_env("FINRECEIPTS_MAX_INFLIGHT", "4")),
         )
 
     def resolve_api_key(self) -> str:
