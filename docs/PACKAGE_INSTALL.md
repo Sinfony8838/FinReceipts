@@ -32,6 +32,8 @@ python scripts/package_install_smoke.py --out runs/package-install-check
 - 结束本次启动的服务进程，再启动同一安装包；原导出字节保持一致，历史列表仍能找到任务。
   Windows 同时结束脚本启动器及其子进程。该实验不替代 Docker 重建或电源故障演练。
 - 调用安装后的 `finreceipts audit`，验证明确年度的收入文本取得 SEC 回放证据。
+  当前使用 `Apple FY2023 revenue was $383.285 billion.`；HTTP `/api/audit` 同时检查
+  该句通过、替换为 `Another Issuer` 后拒绝，并保存 `subject-period-audit.json`。
 
 ## 证据与边界
 
@@ -50,7 +52,8 @@ wheel 包含应用及静态资源，不包含演示数据和示例报告；本�
 2026-10-18 Windows 本地验收 **PASS**，全仓回归 **871 passed / 1 skipped**。
 完整本地记录位于 `runs/package-install-20261018/`。早期轮次保留了 HTML 换行
 比较，以及不满足现有文本范围规则的 CLI 用例失败；最终使用
-`Revenue in 2023 was $383.285 billion.`。`Apple FY2023 revenue ...` 仍会被当前保守的
-范围解析器拒绝，未通过放宽校验掩盖这一能力边界。
+`Revenue in 2023 was $383.285 billion.`。当时的 `Apple FY2023 revenue ...` 拒绝行为
+在后续独立修复中扩展为受支持的明确语法，见[文本范围边界](ARCHITECTURE.md#text-scope-boundary)。
+该修复的新验收位于 `runs/subject-period-20261018/`；没有改写前一轮安装包或失败记录。
 
 Windows/Linux CI job 已配置，只有远程任务实际通过后才能增加相应平台结论。

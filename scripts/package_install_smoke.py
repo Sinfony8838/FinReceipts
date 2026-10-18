@@ -135,6 +135,34 @@ def probe(out: Path) -> None:
                     for name, digest in inventory["package_hashes"].items():
                         if "/static/" in name:
                             assert sha(api("/static/" + name.split("/static/")[1])) == digest
+                    scope_checks = []
+                    for issuer, expected in [
+                        ("Apple", "supported"),
+                        ("Another Issuer", "unsupported"),
+                    ]:
+                        audited = json.loads(
+                            api(
+                                "/api/audit",
+                                {
+                                    "ticker": "AAPL",
+                                    "fiscal_years": [2023],
+                                    "text": f"{issuer} FY2023 revenue was $383.285 billion.",
+                                },
+                            )
+                        )
+                        assert audited["audit_mode"] == "text_scope"
+                        assert audited["verification_level"] == "bounded_annual_clause"
+                        assert audited["all_numbers_supported"] is (expected == "supported")
+                        assert len(audited["audit"]) == 1
+                        assert audited["audit"][0]["verdict"] == expected
+                        if expected == "unsupported":
+                            assert audited["audit"][0]["evidence"] is None
+                        else:
+                            assert audited["audit"][0]["claim"]["entity"] == "Apple Inc."
+                        scope_checks.append(audited)
+                    (out / "subject-period-audit.json").write_text(
+                        json.dumps(scope_checks, indent=2), encoding="utf-8"
+                    )
                     body = {
                         "question": "Apple revenue for 2023?",
                         "ticker": "AAPL",
@@ -181,7 +209,7 @@ def probe(out: Path) -> None:
             "--years",
             "2023",
             "--text",
-            "Revenue in 2023 was $383.285 billion.",
+            "Apple FY2023 revenue was $383.285 billion.",
         ],
         cwd=out / "work",
         env=env,
