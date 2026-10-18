@@ -3,6 +3,7 @@
 const { chromium } = require('playwright');
 const fs = require('node:fs');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 const assert = require('node:assert/strict');
 
 (async () => {
@@ -37,8 +38,17 @@ const assert = require('node:assert/strict');
     await page.screenshot({ path: path.join(out, 'desktop.png'), fullPage: true });
     const eventCount = await page.locator('#events li').count();
     const href = await page.locator('#export').getAttribute('href');
-    const exported = await (await page.request.get(new URL(href, page.url()).href)).json();
-    fs.writeFileSync(path.join(out, 'export.json'), JSON.stringify(exported, null, 2));
+    const exported = await page.request.get(new URL(href, page.url()).href);
+    assert.equal(exported.status(), 200);
+    const exportPath = path.resolve(out, 'export.json');
+    // Preserve HTTP bytes: JSON.stringify turns Python 0.0 into 0 and breaks the hash codec.
+    fs.writeFileSync(exportPath, await exported.body());
+    const root = path.resolve(__dirname, '..');
+    const python = process.env.FINRECEIPTS_TEST_PYTHON || path.join(root, '.venv', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
+    const verification = spawnSync(python, ['-c',
+      'import json,sys; from finreceipts.runtime.store import verify_export; verify_export(json.load(open(sys.argv[1],encoding="utf-8")))',
+      exportPath], {cwd:root,windowsHide:true,encoding:'utf8',timeout:10000});
+    assert.equal(verification.status, 0, verification.stderr || 'export verification failed');
     await page.setViewportSize({ width: 390, height: 844 });
     await page.reload();
     await page.locator('#status').filter({ hasText: '已完成' }).waitFor();
@@ -53,7 +63,7 @@ const assert = require('node:assert/strict');
     await page.locator('#status').filter({ hasText: '已取消' }).waitFor();
     assert.equal(await page.locator('#dispatches').textContent(), '0 / 6');
     assert.deepEqual(errors, []);
-    const summary = { status: 'PASS', runUrl, eventCount, desktop: '1440x1050', mobile: '390x844',
+    const summary = { status: 'PASS', runUrl, eventCount, exportIntegrity: 'PASS', desktop: '1440x1050', mobile: '390x844',
       checks: ['create', 'advance', 'reload without recall', 'revision loop', 'counter-audit',
         'event catch-up', 'JSON export', 'mobile no horizontal overflow', 'cancel before dispatch'],
       scope: 'real Chromium UI with fake model and offline SEC fixtures', errors };

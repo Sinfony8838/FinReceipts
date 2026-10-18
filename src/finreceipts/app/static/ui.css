@@ -18,6 +18,15 @@
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
+.run-history { padding: 16px 22px; margin-bottom: 20px; }
+.run-history > summary { font-size: 14px; color: var(--text); }
+.run-history[open] > summary { margin-bottom: 18px; }
+.history-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.history-list li { border: 1px solid var(--line); border-radius: 6px; padding: 12px; min-width: 0; }
+.history-list a { display: block; font-weight: 600; overflow-wrap: anywhere; }
+.history-list p { margin: 6px 0 0; font-size: 12px; }
+.history-list code { overflow-wrap: anywhere; font-size: 11px; }
+@media (max-width: 700px) { .history-list { grid-template-columns: minmax(0,1fr); } }
 body { margin: 0; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }

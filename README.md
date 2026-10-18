@@ -54,12 +54,20 @@ results do not establish whole-answer correctness, model fine-tuning gains or ma
 
 ## Engineering highlights
 
+[Review four reproducible failure cases](docs/ENGINEERING_CASES.md): database contention after
+a model response, workers that outlive HTTP requests, backups that miss committed WAL data,
+and duplicate task creation after a lost response and page reload.
+
 | Capability | Design choice | Source |
 |---|---|---|
 | Verification-driven orchestration | LangGraph routes between answer, verify, bounded revision and optional model escalation | [Workflow](src/finreceipts/agent/graph.py) |
 | Deterministic financial checks | Explicit number extraction, units, tolerances and XBRL metric calculations | [Verifier](src/finreceipts/verify/) · [Metrics](src/finreceipts/xbrl/) |
 | Controlled feedback experiments | Separate error flags from receipts that also supply retrieved values | [Evaluation controls](docs/eval-controls.md) |
 | Inspectable results | Per-attempt audits, HTML receipts and step-level SSE events | [API](src/finreceipts/app/main.py) · [Reports](src/finreceipts/report/) |
+| Saved task discovery | Bounded read-only pages, stable insertion boundaries and per-record integrity checks | [Task history](docs/RUN_HISTORY.md) |
+| Bounded execution and troubleshooting | Byte, numeric-work and response limits; process-local admission and worker lifetime accounting | [Request limits](docs/REQUEST_LIMITS.md) · [Admission](docs/ADMISSION_CONTROL.md) · [Diagnostics](docs/REQUEST_DIAGNOSTICS.md) · [Reliability](docs/RELIABILITY.md) |
+| Backup and recovery | Online SQLite snapshots, verified event chains and budgets, restore to new directories, offline failure drills | [Restore runbook](docs/BACKUP_RESTORE.md) |
+| Container data retention | Separate runtime volume and a recreation gate; existing writable-layer databases require migration | [Storage and verification status](docs/CONTAINER_STORAGE.md) |
 | Repeatable local development | SEC record/replay cache, offline fixtures and a fake model provider | [Data clients](src/finreceipts/tools/) · [Tests](tests/) |
 | Explicit evidence boundaries | Timestamp/catalog controls and synthetic injection-boundary checks | [PIT contracts](docs/pit-redteam.md) |
 
@@ -75,6 +83,7 @@ This preview release is intended for local research and reproducible demonstrati
 - **Bound execution before dispatch:** persisted model/tool reservations survive interruption and explicit recovery.
 - **Fence competing results:** revision checks and lease tokens reject stale advances and late worker commits.
 - **Reconnect without rerunning:** sequenced events support cursor-based catch-up; exports carry evidence and integrity checks.
+- **Distinguish failure recovery:** permanent numeric-output errors stop with evidence and budget retained; transient execution failures remain explicitly recoverable.
 - **Compare verification conditions:** replay numeric matching and bounded annual-clause checks on the same evidence without another model call.
 - **Inspect the result:** Chinese workbench, light/dark/system themes, responsive layout and expandable raw records.
 
@@ -83,6 +92,9 @@ evidence hashes are not independent historical-availability proofs.
 
 [Runtime contract](docs/RUNTIME.md) · [Fault tests and validation](docs/VALIDATION.md) ·
 [UI walkthrough and screenshots](docs/UI_REDESIGN.md) · [Engineering record](docs/ENGINEERING_LOG.md)
+
+[Verification by commit and remaining delivery gaps](docs/VERIFICATION_INDEX.md) separates current
+source tests, historical package/browser checks and unrun deployment gates.
 ## How it works
 
 ```mermaid
@@ -147,6 +159,8 @@ annual-clause checks. The **快速问答** page retains request-scoped streaming
 
 Installation may need network access. Demo fixtures and example reports are supplied by
 the checkout, not a standalone wheel. To use a live provider, see [LLM configuration](docs/llm_access.md).
+The [package installation gate](docs/PACKAGE_INSTALL.md) builds an sdist and wheel, checks their
+contents, and exercises installed API/CLI entrypoints in a fresh environment with locked dependencies.
 ## Verify the behavior
 
 ```sh
@@ -158,6 +172,8 @@ Tests cover extraction, financial metrics, revision/routing, API/SSE responses, 
 serialization and evaluation controls. Functional tests and fake-model demonstrations
 are separate from live-provider quality measurements.
 See the [environment and validation record](docs/reproducibility.md).
+For cache publication failures, process races and storage contention recovery,
+see the [reliability scenarios and runbook](docs/RELIABILITY.md) (Chinese).
 ## Interfaces
 
 | Interface | Purpose |
@@ -174,6 +190,8 @@ See the [environment and validation record](docs/reproducibility.md).
 FinReceipts is local research software. It does not provide production authentication,
 validate all financial prose, or prove historical public availability from filing dates.
 Keep the demo on loopback. Synthetic security tests do not establish real-model injection resistance.
+Exact Host validation and browser-origin checks protect the local API from explicitly cross-origin
+browser requests; they are not authentication. See [browser boundary and tests](docs/BROWSER_BOUNDARY.md).
 
 ### Historical experiment provenance
 

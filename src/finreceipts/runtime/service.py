@@ -21,8 +21,13 @@ from finreceipts.runtime.codec import (
     encode_state,
     implementation_id,
 )
-from finreceipts.runtime.store import BudgetExceeded, RunConflict, RunStore
+from finreceipts.runtime.store import BudgetExceeded, RunConflict, RunStore, StoreBusy
+from finreceipts.verify.numbers import NumericInputError
 from finreceipts.verify.verifier import Verifier
+
+
+class EvidenceUnavailable(ValueError):
+    """No selected facts cover this request; not a provider parsing failure."""
 
 
 def counter_audit(doc: dict) -> dict:
@@ -107,7 +112,7 @@ class RunService:
             {k: {y: f for y, f in v.items() if y in allowed} for k, v in lookup.items()}
         )
         if not any(evidence.values()):
-            raise ValueError("no financial evidence for the requested scope")
+            raise EvidenceUnavailable("no financial evidence for the requested scope")
         serialized = {**request, "as_of": state["as_of"].isoformat() if state["as_of"] else None}
         return self.store.create(key, serialized, evidence, encode_state(state))
 
@@ -175,8 +180,14 @@ class RunService:
                     "reason": "awaiting_verification",
                 }
             return self.store.finish(run_id, token, encode_state(state), following, quality)
-        except RunConflict:
-            raise  # Cancelled/expired workers may never publish a result.
+        except NumericInputError as exc:
+            # The committed answer cannot become valid by resuming the same node.
+            # Persist only an allowlisted code, never exception text or a new answer.
+            return self.store.fail(run_id, token, permanent_reason=exc.code)
+        except (RunConflict, StoreBusy):
+            # Never replay a provider call on contention, or turn an unknown
+            # commit outcome into a second state mutation. Reconcile via GET.
+            raise
         except Exception as exc:
             # Provider errors may contain private prompts/URLs/keys. Persist a code only.
             return self.store.fail(run_id, token, budget=isinstance(exc, BudgetExceeded))

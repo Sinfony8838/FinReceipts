@@ -1,5 +1,9 @@
 # 本轮验收记录
 
+本文件保留 2026-10-13 至 14 的原始验收。2026-10-18 的故障、容量、浏览器和恢复结果
+统一索引于[验证索引](VERIFICATION_INDEX.md)与[工程案例](ENGINEERING_CASES.md)，
+不以新测试数量覆盖下文的历史记录。
+
 验收日期：2026-10-13 至 14（Asia/Shanghai）。
 基线：未合并 PR #1 的 `165aba5adb382f504f8c11d96a935dcd3da8bcb5`。
 改进分支：`codex/evidence-runtime`。

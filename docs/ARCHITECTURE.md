@@ -50,6 +50,26 @@ The catalog controls do not make the bundled QA dataset a validated historical b
 The code was developed with AI assistance. Design choices, implementation and verification
 can be inspected in the repository; model providers and upstream data remain separate dependencies.
 
+## Text scope boundary
+
+The text-audit path binds a bounded annual-clause grammar, not arbitrary prose. Supported subjects
+come from the selected evidence's legal entity name and its suffix-stripped form; there is no
+hard-coded Apple/NVIDIA issuer allowlist. Both `FY2023 Apple revenue ...` and
+`Apple FY2023 revenue ...` bind the same issuer, metric and annual period. Explicit `fiscal year
+2023`, possessives and legal names such as `Apple Inc.'s` are also supported.
+
+The complete subject and numeric clause must still parse. Unknown issuers, quarterly or segment
+modifiers, non-GAAP wording, duplicated period attachments and unresolved pronoun antecedents
+abstain. A recognized but wrong year is compared with that year's evidence, rather than searching
+another year for the same number. A caller-supplied year filter must agree with the text. Bare
+`Apple 2023 revenue ...`, two-digit fiscal years and unrestricted narrative remain outside this
+grammar. Numeric-only matching remains a separate explicit mode.
+
+Regression examples use retained SEC facts for both companies and preserve original numeric spans:
+[subject and period tests](../tests/test_subject_period.py),
+[existing scope tests](../tests/test_text_scope.py). The installed-package gate checks both a valid
+issuer and a wrong-issuer collision through the real HTTP audit endpoint, plus the CLI entrypoint.
+
 ## Durable runtime in version 0.1.0
 
 The original ask API remains request-scoped. The separate run API freezes the fact set,

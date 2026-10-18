@@ -7,10 +7,16 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     strategy:
+      fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         python-version: ["3.11", "3.12"]
+        include:
+          - os: windows-latest
+            python-version: "3.12"
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -23,3 +29,50 @@ jobs:
         env:
           FINRECEIPTS_OFFLINE: "1"
         run: uv run pytest -m "not live" --cov --cov-report=term-missing
+  package-install:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v6
+      - name: Build and exercise a non-editable installation outside the source directory
+        run: python scripts/package_install_smoke.py --out runs/package-install-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: package-install-${{ matrix.os }}
+          path: |
+            runs/package-install-ci/
+            !runs/package-install-ci/venv/**
+  browser-storage-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Test pending-creation storage contract (no browser dependencies)
+        run: node --test tests/test_create_journal.cjs
+  container-persistence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify real container replacement and persistent runtime storage
+        run: python scripts/container_persistence_smoke.py --out runs/container-persistence-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: container-persistence-evidence
+          path: runs/container-persistence-ci/

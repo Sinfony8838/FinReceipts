@@ -26,7 +26,7 @@
   function handleEvent(event, data) {
     if (event === 'step') log(U.node(data.node), data.audit_summary ? '数值核验已更新，展开查看完整记录。' : '本步骤已完成。', data);
     else if (event === 'done') { log('问答已完成', '修订次数：' + data.revisions, data.audit_summary); if (data.html) showHtml(data.html); status('已完成'); }
-    else if (event === 'error') throw new Error(data.detail || JSON.stringify(data));
+    else if (event === 'error') throw U.apiError(data);
     else log(event === 'start' ? '开始问答' : '执行记录', undefined, data);
   }
   async function run(streaming) {
@@ -35,7 +35,7 @@
     try {
       const response = await fetch(streaming ? '/api/ask/stream' : '/api/ask',
         {method: 'POST', headers: {'Content-Type': 'application/json', ...(streaming ? {'Accept': 'text/event-stream'} : {})}, body: JSON.stringify(body())});
-      if (!response.ok) throw new Error(await response.text());
+      if (!response.ok) throw U.apiError(await response.json(), response.headers.get('X-Request-ID'));
       if (!streaming) { const data = await response.json(); handleEvent('done', data); return; }
       const reader = response.body.getReader(), decoder = new TextDecoder();
       let buffer = '', doneEvent = false;
@@ -57,7 +57,7 @@
           if (done) { if (buffer.trim()) consume(buffer); break; }
         }
       } finally { await reader.cancel().catch(() => {}); reader.releaseLock(); }
-      if (!doneEvent) throw new Error('响应流已结束，但未收到完成记录。');
+      if (!doneEvent) throw U.apiError({detail:'响应流已结束，但未收到完成记录。'}, response.headers.get('X-Request-ID'));
     } catch (error) { status('未完成', 'warn'); U.showError($('error'), error); log('本次请求未完成', '请查看页面上方的错误详情。'); }
     finally { setBusy(false); }
   }

@@ -19,7 +19,7 @@ def client(monkeypatch, tmp_path):
     fixtures = __import__("pathlib").Path(__file__).parent / "fixtures" / "sec"
     monkeypatch.setenv("FINRECEIPTS_CACHE_DIR", str(fixtures))
     app = create_app()
-    with TestClient(app) as c:
+    with TestClient(app, base_url="http://127.0.0.1") as c:
         yield c
 
 

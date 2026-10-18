@@ -50,12 +50,19 @@ FinReceipts 将模型生成接入“事实核验 → 反馈修订 → 证据交�
 
 ## 核心工程设计
 
+[按故障场景阅读实现与验证](docs/ENGINEERING_CASES.md)：模型返回后写库失败、断连后的并发占用、
+备份遗漏 WAL、创建响应丢失后刷新导致重复任务。每个案例都给出复现命令和适用边界。
+
 | 能力 | 实现方式 | 代码与说明 |
 |---|---|---|
 | 核验驱动的 Agent 编排 | LangGraph 状态路由、有限修订、可选模型升级 | [工作流](src/finreceipts/agent/graph.py) |
 | 确定性财务核验 | 显式数字提取、单位归一、容差和 XBRL 指标计算 | [核验器](src/finreceipts/verify/) · [指标](src/finreceipts/xbrl/) |
 | 可区分的反馈实验 | 错误标记与附带检索数值的证据反馈分别评估 | [评测控制](docs/eval-controls.md) |
 | 可检查的执行结果 | 每轮审计、HTML 收据、步骤级 SSE 事件 | [接口](src/finreceipts/app/main.py) · [报告](src/finreceipts/report/) |
+| 可控执行与故障排查 | 输入字节与上传限制、响应等待时限、单进程准入及线程名额保留 | [请求限制](docs/REQUEST_LIMITS.md) · [准入控制](docs/ADMISSION_CONTROL.md) · [请求诊断](docs/REQUEST_DIAGNOSTICS.md) · [可靠性](docs/RELIABILITY.md) |
+| 已保存任务发现 | 只读分页、固定创建范围、逐条完整性检查；关闭页面后重新查找已有任务 | [任务列表](docs/RUN_HISTORY.md) |
+| 备份与恢复 | 在线 SQLite 快照、事件链与预算校验、新目录恢复和离线故障演练 | [恢复操作与验证](docs/BACKUP_RESTORE.md) |
+| 容器数据保留 | 独立运行库卷与重建验收门禁；旧容器可写层数据库需先迁移 | [存储与验证状态](docs/CONTAINER_STORAGE.md) |
 | 可重复的本地开发 | SEC 录制/回放缓存、离线 fixtures、固定模型响应 | [数据客户端](src/finreceipts/tools/) · [测试](tests/) |
 | 明确的证据使用条件 | 时间戳与 catalog 控制、合成注入边界检查 | [时点与边界约定](docs/pit-redteam.md) |
 
@@ -147,6 +154,7 @@ python -m ruff check .
 测试覆盖数字提取、财务指标、修订与路由、API/SSE、证据序列化及评测控制。
 功能测试、固定回答演示与真实模型质量评测分别记录。
 环境和已执行检查见[验证说明](docs/reproducibility.md)。
+缓存写入中断、四进程竞争、事务回滚及数据库争用的复现与恢复步骤见[故障与并发验证](docs/RELIABILITY.md)。
 ## 接口
 
 | 入口 | 用途 |
@@ -162,6 +170,8 @@ python -m ruff check .
 
 当前是本地研究软件，尚未提供生产认证，不核验所有财务文字，也不以申报日期代替历史公开时间证明。
 演示服务请绑定本机回环地址；合成安全测试不等于真实模型抗注入验证。
+已补精确 Host 和浏览器来源检查，拒绝明确跨源的 API 请求；这不等于身份认证。
+验证范围和配置限制见[浏览器访问边界](docs/BROWSER_BOUNDARY.md)。
 
 ### 历史实验来源与限制
 

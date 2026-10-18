@@ -44,6 +44,10 @@ _LEADING_PERIOD = re.compile(
     r"^(?:" + _PERIOD + r"|(?:FY\s*|fiscal\s+year\s+)" + _YEAR_TEXT + r")\s*[, :]\s*",
     re.I,
 )
+_TRAILING_PERIOD = re.compile(
+    r"(?<=\s)(?:FY\s*|fiscal\s+year\s+)(?P<year>" + _YEAR_TEXT + r")\Z",
+    re.I,
+)
 _COMPARISON = re.compile(
     r"(?P<cur>"
     + _YEAR_TEXT
@@ -88,7 +92,11 @@ def _entity_form(value: str) -> str:
 def _cuts(text: str) -> list[int]:
     cuts = [0]
     for separator in re.finditer(r"[;\n]|(?<=[.!?])\s+", text):
-        if re.search(r"\b(?:Inc|Corp|Ltd|U\.S|vs)\.$", text[: separator.start()], re.I):
+        # Longest abbreviation is "Corp." (five characters). Keep one prior
+        # character for the word boundary instead of rescanning the whole text
+        # prefix at every separator, for every numeric mention.
+        tail = text[max(0, separator.start() - 6) : separator.start()]
+        if re.search(r"\b(?:Inc|Corp|Ltd|U\.S|vs)\.$", tail, re.I):
             continue
         cuts.append(separator.end())
     return [*cuts, len(text)]
@@ -101,12 +109,24 @@ def _prefix(prefix: str, entity: str) -> tuple[bool, bool, list[int]]:
     years = [int(m.group()) for m in _YEAR.finditer(period.group())] if period else []
     if period:
         prefix = (prefix + " ")[period.end() :].strip(" ,:")
+    else:
+        # Accept issuer-before-period only when the entire prefix matches.
+        # The remaining subject still has to be an evidence-derived alias;
+        # do not search-and-delete fiscal years from arbitrary modifiers.
+        # Search only for an anchored fiscal suffix: a wildcard subject followed
+        # by whitespace would backtrack quadratically over long whitespace runs.
+        subject_period = _TRAILING_PERIOD.search(prefix)
+        if subject_period:
+            prefix = prefix[: subject_period.start()].rstrip()
+            years = [int(subject_period["year"])]
     entity_short = re.sub(
         r"\s+(?:inc\.?|corp\.?|corporation|ltd\.?|limited)$", "", entity, flags=re.I
     )
     explicit = set()
     for alias in (entity, entity_short):
-        explicit.update((_entity_form(alias), _entity_form(alias) + "'s"))
+        explicit.update(
+            (_entity_form(alias), _entity_form(alias) + "'s", _entity_form(alias + "'s"))
+        )
     generic = {"", "the company", "the company's", "our", "its", "the issuer", "the issuer's"}
     form = _entity_form(prefix)
     return form in explicit | generic, form in explicit, years

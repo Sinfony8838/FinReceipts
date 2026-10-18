@@ -25,8 +25,10 @@
     });
   });
   const nodes = {answer:'生成回答', verify:'核验数字', revise:'修订回答', escalate:'升级模型', __end__:'已结束'};
-  const statuses = {ready:'待继续', running:'执行中', completed:'已完成', interrupted:'已中断', cancelled:'已取消', budget_exhausted:'额度已用尽'};
+  const statuses = {ready:'待继续', running:'执行中', completed:'已完成', interrupted:'已中断', cancelled:'已取消', budget_exhausted:'额度已用尽', failed:'已失败'};
   const reasons = {numeric_match_only:'数字匹配通过，仍需复查语义归属。', unresolved_claims:'仍有未获支持的声明，请查看核验结果。', awaiting_verification:'回答已生成，等待核验。', dispatch_or_tool_budget:'调用额度已用尽，本次任务已停止。', step_failed:'本步骤未完成，可查看详情后恢复。', user_cancelled:'任务已取消，已发送的请求无法撤回。'};
+  reasons.audit_input_limit='回答超过核验范围，当前任务无法恢复。请缩小问题范围后创建新任务；原答案、证据和调用记录仍可导出。';
+  reasons.numeric_out_of_range='回答包含超出可表示范围的数值，当前任务无法恢复。请调整问题后创建新任务；原答案、证据和调用记录仍可导出。';
   const verdicts = {supported:'匹配', unsupported:'未支持', contradicted:'矛盾'};
   const eventNames = {created:'任务已创建',step_started:'开始步骤',budget_reserved:'预留调用额度',step_completed:'步骤已完成',step_stopped:'执行已停止',cancelled:'任务已取消',resumed:'任务已恢复'};
   const node = value => nodes[value] || '未知步骤';
@@ -68,16 +70,43 @@
     t.dateTime=new Date(event.time*1000).toISOString();head.append(t);
     li.append(head,el('p',eventNote(event),'event-note'),rawDetails(event)); return li;
   }
+  function apiError(data, requestId) {
+    const error = new Error(typeof data.detail === 'string' ? data.detail : '请求未完成，请检查输入或稍后重试。');
+    const id = data.request_id || requestId;
+    if (/^[a-f0-9]{32}$/.test(id || '')) error.requestId = id;
+    error.code = data.code;
+    return error;
+  }
   function showError(container, error) {
     const original=error.message || String(error);
+    const guidance = {
+      cascade_unconfigured:'尚未配置升级模型，请在核验设置中选择其他执行方式，或配置升级模型后重试。',
+      invalid_request:'请求参数不符合要求，请检查输入内容与核验设置。',
+      creation_storage_unavailable:'浏览器无法保存或读取创建恢复记录。请允许会话存储后重新加载，确认原请求结果。',
+      creation_record_invalid:'创建恢复记录无法读取。请先处理上方的恢复提示，避免另建重复任务。',
+      history_cursor_expired:'任务列表位置已变化，请点击“刷新列表”重新读取。',
+      evidence_unavailable:'当前公司和财年没有可用证据，请调整范围或检查已录制的数据。',
+      storage_busy:'任务存储暂时繁忙，请稍候刷新状态后继续。',
+      capacity_exhausted:'当前执行名额已满，请稍候刷新状态后重试。已有任务仍可查看或取消。',
+      request_too_large:'输入内容超过服务接收上限，请缩短问题或待核验文本。',
+      audit_input_limit:'单次核验最多 65,536 个字符、256 个数值。请按完整句子分段核验；本次未返回部分核验结果。',
+      numeric_out_of_range:'存在超出可表示范围的数值，请检查数字位数和单位倍率后重试。',
+      query_too_large:'查询参数过长，请缩短问题后重试。',
+      request_body_timeout:'请求内容未能及时上传完成，请检查连接后重试。',
+      response_timeout:'等待已超时，后台工作可能仍在继续。已保存任务请先刷新状态；快速问答请等待执行名额释放后重试。',
+      ask_failed:'本次回答生成失败，请保留请求编号并检查模型服务后重试。',
+      audit_failed:'财务证据核验未完成，请保留请求编号并检查数据服务。'
+    };
     let message='操作未完成，请刷新任务状态后重试。';
-    if (original.startsWith('财年')) message=original;
+    if (Object.hasOwn(guidance, error.code)) message=guidance[error.code];
+    else if (original.startsWith('财年')) message=original;
     else if (/fetch|network/i.test(original)) message='暂时无法连接服务，请检查本地服务是否正在运行。';
     else if (/revision|lease|not ready/i.test(original)) message='任务状态已变化，请刷新后继续。';
     else if (/implementation|provider configuration/i.test(original)) message='运行配置已更新，请保留原任务记录并创建新任务。';
     else if (/integrity/i.test(original)) message='任务记录完整性检查未通过，无法继续执行。';
     else if (/not found/i.test(original)) message='未找到该任务，请检查任务地址。';
     container.replaceChildren(el('div',message),rawDetails(original,'错误详情'));
+    if (error.requestId) container.append(el('p', '排障请求编号：' + error.requestId, 'hint'));
   }
   async function environment() {
     const e=document.getElementById('environment'); if(!e)return;
@@ -94,5 +123,5 @@
     const details = event.target.closest('details');
     if (details) details.open = true;
   }, true);
-  window.FinUI={node, statuses, reason, badge, el, rawDetails, renderEvent, showError, environment, years};
+  window.FinUI={node, statuses, reason, badge, el, rawDetails, renderEvent, apiError, showError, environment, years};
 })();

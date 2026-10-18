@@ -6,6 +6,7 @@ import argparse
 import json
 import math
 import random
+import sqlite3
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -31,6 +32,7 @@ from finreceipts.report.html import render_report
 from finreceipts.tools.akshare_a import DEFAULT_A_SHARE_UNIVERSE, AShareClient
 from finreceipts.tools.cninfo import CninfoClient
 from finreceipts.tools.edgar import EdgarClient
+from finreceipts.verify.numbers import MAX_NUMBER_MENTIONS, MAX_TEXT_CHARS, NumericInputError
 from finreceipts.verify.verifier import Verifier
 
 
@@ -222,9 +224,41 @@ def _print_item(r) -> None:
     )
 
 
+def _cmd_runtime_snapshot(args: argparse.Namespace) -> int:
+    from finreceipts.runtime.backup import create_backup, restore_backup, verify_backup
+
+    try:
+        if args.cmd == "runtime-backup":
+            result = create_backup(Path(args.database), Path(args.out), timeout=args.copy_timeout)
+        elif args.cmd == "runtime-restore":
+            result = restore_backup(Path(args.backup), Path(args.out))
+        else:
+            result = verify_backup(Path(args.backup))
+    except (OSError, ValueError, KeyError, TypeError, sqlite3.Error) as exc:
+        print(f"{args.cmd} failed: {type(exc).__name__}: {exc}", file=sys.stderr)
+        return 2
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="finreceipts", description=__doc__)
     sub = p.add_subparsers(dest="cmd", required=True)
+
+    backup = sub.add_parser("runtime-backup", help="create a verified online SQLite backup")
+    backup.add_argument("--database", required=True, help="existing runtime SQLite file")
+    backup.add_argument("--out", required=True, help="new bundle directory; parent must exist")
+    backup.add_argument(
+        "--copy-timeout", type=float, default=30, help="copy phase deadline seconds"
+    )
+    backup.set_defaults(func=_cmd_runtime_snapshot)
+    verify = sub.add_parser("runtime-verify-backup", help="verify a standalone backup bundle")
+    verify.add_argument("--backup", required=True)
+    verify.set_defaults(func=_cmd_runtime_snapshot)
+    restore = sub.add_parser("runtime-restore", help="restore verified bytes to a new directory")
+    restore.add_argument("--backup", required=True)
+    restore.add_argument("--out", required=True, help="new directory; never overwrite a live DB")
+    restore.set_defaults(func=_cmd_runtime_snapshot)
 
     r = sub.add_parser("record", help="fetch and cache SEC companyfacts")
     r.add_argument("tickers", nargs="*", default=DEFAULT_TICKERS)
@@ -299,7 +333,16 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    return int(args.func(args))
+    try:
+        return int(args.func(args))
+    except NumericInputError as exc:
+        detail = (
+            f"split input: at most {MAX_TEXT_CHARS} characters and {MAX_NUMBER_MENTIONS} numbers"
+            if exc.code == "audit_input_limit"
+            else "check numeric digits and scale; quantity is outside the finite range"
+        )
+        print(f"{exc.code}: {detail}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":  # pragma: no cover

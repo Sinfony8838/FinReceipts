@@ -5,13 +5,23 @@ from __future__ import annotations
 from datetime import date
 from typing import Annotated, Literal
 
-from fastapi import APIRouter, Header, HTTPException, Query
+from fastapi import APIRouter, Header, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from finreceipts.app.admission import execution_work
+from finreceipts.app.diagnostics import APIError
 from finreceipts.runtime.codec import canonical
-from finreceipts.runtime.service import counter_audit
-from finreceipts.runtime.store import IntegrityError, RunConflict
+from finreceipts.runtime.service import EvidenceUnavailable, counter_audit
+from finreceipts.runtime.store import (
+    HistoryCursorExpired,
+    HistoryCursorInvalid,
+    IntegrityError,
+    RunConflict,
+    RunNotFound,
+    StoreBusy,
+)
+from finreceipts.verify.numbers import NumericInputError
 
 
 class CreateRun(BaseModel):
@@ -50,22 +60,29 @@ def run_router(state) -> APIRouter:
     def call(fn, *args):
         try:
             return fn(*args)
-        except KeyError as exc:
-            raise HTTPException(404, "run not found") from exc
+        except RunNotFound as exc:
+            raise APIError(404, "run_not_found") from exc
+        except HistoryCursorInvalid as exc:
+            raise APIError(422, "invalid_request") from exc
+        except HistoryCursorExpired as exc:
+            raise APIError(409, "history_cursor_expired") from exc
         except RunConflict as exc:
-            raise HTTPException(409, str(exc)) from exc
+            raise APIError(409, "run_conflict") from exc
         except IntegrityError as exc:
-            raise HTTPException(409, "run integrity check failed") from exc
-        except ValueError as exc:
-            raise HTTPException(422, "invalid request or no evidence for requested scope") from exc
+            raise APIError(409, "integrity_failed") from exc
+        except StoreBusy as exc:
+            raise APIError(503, "storage_busy", headers={"Retry-After": "1"}) from exc
+        except EvidenceUnavailable as exc:
+            raise APIError(422, "evidence_unavailable") from exc
+        except NumericInputError as exc:
+            raise APIError(422, exc.code) from exc
         except Exception as exc:
-            raise HTTPException(
-                503, "run operation failed; no raw provider error is exposed"
-            ) from exc
+            raise APIError(503, "run_failed") from exc
 
     @router.post("", status_code=201)
     def create_run(
         req: CreateRun,
+        request: Request,
         idempotency_key: Annotated[
             str, Header(min_length=8, max_length=128, pattern=r"^[A-Za-z0-9_\-]+$")
         ],
@@ -75,16 +92,25 @@ def run_router(state) -> APIRouter:
         payload["model"] = state.settings.small_model or "demo"
         payload["escalate_model"] = state.settings.large_model or None
         if req.mode == "cascade" and not payload["escalate_model"]:
-            raise HTTPException(422, "cascade requires a server-configured large model")
-        return call(state.runs.create, idempotency_key, payload)
+            raise APIError(422, "cascade_unconfigured")
+        with execution_work(request):
+            return call(state.runs.create, idempotency_key, payload)
+
+    @router.get("")
+    def list_runs(
+        limit: Annotated[int, Query(ge=1, le=50)] = 20,
+        cursor: Annotated[str | None, Query(max_length=256)] = None,
+    ):
+        return call(state.runs.store.list_runs, limit, cursor)
 
     @router.get("/{run_id}")
     def get_run(run_id: str):
         return call(state.runs.store.get, run_id)
 
     @router.post("/{run_id}/advance")
-    def advance(run_id: str, req: Revision):
-        return call(state.runs.advance, run_id, req.expected_revision)
+    def advance(run_id: str, req: Revision, request: Request):
+        with execution_work(request):
+            return call(state.runs.advance, run_id, req.expected_revision)
 
     @router.post("/{run_id}/cancel")
     def cancel(run_id: str, req: Revision):
@@ -99,8 +125,9 @@ def run_router(state) -> APIRouter:
         return call(state.runs.store.export, run_id)
 
     @router.get("/{run_id}/counter-audit")
-    def replay(run_id: str):
-        return call(counter_audit, call(state.runs.store.get, run_id))
+    def replay(run_id: str, request: Request):
+        with execution_work(request):
+            return call(counter_audit, call(state.runs.store.get, run_id))
 
     @router.get("/{run_id}/events")
     def events(

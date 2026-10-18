@@ -1,12 +1,23 @@
 # Source-release reproducibility and validation boundaries
 
-## Current records (2026-10-16)
+## Current records (2026-10-18)
 
 The sections below preserve the 2026-10-08 source-release checks. Later runtime/UI and
 0.1.0 packaging checks are recorded in [VALIDATION.md](VALIDATION.md); the repository now
 includes `uv.lock`. The new [workflow comparison](WORKFLOW_EVALUATION.md) separately records
 live-model evaluation on retained SEC data. Do not combine results from these different
 source states or interpret historical untested statements as the current validation inventory.
+
+The [engineering cases](ENGINEERING_CASES.md) index the current local fault, concurrency,
+browser and recovery evidence. The [verification index](VERIFICATION_INDEX.md) pins each result to
+its source state: the full Windows run at `2101f7d` is 939 passed / 1 skipped; the isolated wheel
+and installed Edge failure-recovery check at `19be01f` have the same runtime implementation identity.
+This is local branch validation, not a new published v0.1.0 package or remote CI result.
+The [saved-task list](RUN_HISTORY.md) covers bounded discovery, concurrent paging and damaged-record isolation.
+The [request-limit drill](REQUEST_LIMITS.md) additionally covers real slow uploads, chunked overflow,
+HTTP/SSE timeouts and continued worker capacity accounting after the response ends.
+Container storage configuration has been checked, but actual container recreation is BLOCKED_UNRUN
+and the new Docker CI job has not run remotely. Those limits remain separate from local API tests.
 
 ## Source identity and included evidence
 
@@ -50,6 +61,14 @@ On 2026-10-08 UTC, a separate build check on **CPython 3.12.14, Linux x86-64** u
 **Docker build/runtime, server deployment, real-model quality and a full Python-version matrix remain untested.** Docker `COPY` paths were inspected only. These package checks establish one environment, not byte-identical builds, every optional extra, or all versions allowed by the dependency lower bounds.
 
 ## Reproduction checklist for additional environments
+
+An additional **2026-10-18 Windows / Python 3.12.11** package check is documented in
+[Package installation](PACKAGE_INSTALL.md). It builds sdist → wheel, installs hashed dependencies
+exported from `uv.lock`, checks actual installed package bytes and entrypoints, serves static assets,
+completes an offline task and verifies unchanged export bytes after restarting the installed service.
+The gate includes a deliberately incomplete wheel as a negative control. This complements the
+historical Linux check above; it does not rerun that historical wheel or certify reproducible builds.
+The configured Windows/Linux CI jobs have not yet been run remotely.
 
 The package check above covers one target. For additional targets and a distributable reproducibility bundle:
 

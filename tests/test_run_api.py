@@ -1,4 +1,5 @@
 import json
+import sqlite3
 from pathlib import Path
 
 import pytest
@@ -14,7 +15,7 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setenv("FINRECEIPTS_LLM_PROVIDER", "fake")
     monkeypatch.setenv("FINRECEIPTS_OFFLINE", "1")
     monkeypatch.setenv("FINRECEIPTS_CACHE_DIR", str(Path(__file__).parent / "fixtures/sec"))
-    with TestClient(create_app()) as c:
+    with TestClient(create_app(), base_url="http://127.0.0.1") as c:
         yield c
 
 
@@ -77,3 +78,38 @@ def test_api_validation_and_idempotency_conflict(client):
     cancelled = client.post(url + "/cancel", json={"expected_revision": doc["revision"]}).json()
     assert cancelled["status"] == "cancelled"
     assert client.get("/api/runs/missing").status_code == 404
+
+
+def test_database_contention_is_retryable_without_dispatch_or_state_change(client):
+    doc = client.post("/api/runs", json=BODY, headers=HEADERS).json()
+    url = "/api/runs/" + doc["run_id"]
+    state = client.app.state.fin
+    state.runs.store.busy_timeout = 0
+    before = client.get(url + "/export").json()
+    with sqlite3.connect(state.runs.store.path, isolation_level=None) as blocker:
+        blocker.execute("BEGIN IMMEDIATE")
+        try:
+            response = client.post(url + "/advance", json={"expected_revision": doc["revision"]})
+            assert response.status_code == 503
+            assert response.headers.get("Retry-After") == "1"
+            assert "refresh" in response.json()["detail"]
+            assert client.get(url + "/export").json() == before
+            assert not state.llm.calls
+        finally:
+            blocker.rollback()
+    response = client.post(url + "/advance", json={"expected_revision": doc["revision"]})
+    assert response.status_code == 200
+    assert response.json()["dispatches"] == len(state.llm.calls) == 1
+
+
+def test_storage_io_error_is_sanitized_without_contention_retry_hint(client, monkeypatch):
+    def broken(*_):
+        error = sqlite3.OperationalError("private-path secret-key")
+        error.sqlite_errorcode = sqlite3.SQLITE_IOERR
+        raise error
+
+    monkeypatch.setattr(client.app.state.fin.runs.store, "get", broken)
+    response = client.get("/api/runs/example")
+    assert response.status_code == 503
+    assert "Retry-After" not in response.headers
+    assert "private-path" not in response.text and "secret-key" not in response.text

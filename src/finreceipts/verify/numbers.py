@@ -10,8 +10,21 @@ rounding-aware tolerance.
 
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass
+
+MAX_TEXT_CHARS = 65536
+MAX_NUMBER_MENTIONS = 256
+
+
+class NumericInputError(ValueError):
+    """Deterministic input failure, without echoing potentially sensitive text."""
+
+    def __init__(self, code: str):
+        self.code = code
+        super().__init__(code)
+
 
 SCALE_WORDS: dict[str, float] = {
     "thousand": 1e3,
@@ -58,9 +71,12 @@ NEGATIVE_WORDS = (
 
 _NUM = r"(?P<num>\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)"
 _PATTERN = re.compile(
-    r"(?P<neg_paren>\()?"
-    r"(?P<sign>[-−–])?\s*"
-    r"(?P<cur>US\$|\$|USD\s?|RMB\s?|CNY\s?|¥)?\s*" + _NUM + r"(?P<close_paren>\))?"
+    # A quantity starts at a marker or digit, never at whitespace. Possessive
+    # whitespace is safe because every following token starts with a nonspace;
+    # it prevents repeated repartitioning when there is no number to match.
+    r"(?=\S)(?P<neg_paren>\()?"
+    r"(?P<sign>[-−–])?\s*+"
+    r"(?P<cur>US\$|\$|USD\s?|RMB\s?|CNY\s?|¥)?\s*+" + _NUM + r"(?P<close_paren>\))?"
     r"(?:\s*(?P<scale>万亿|百万|千万|thousand|millions?|billions?|trillion|mn|bn|tn|mm|[kKmMbBtT](?![a-zA-Z])|千|万|亿))?"
     r"\s*(?P<suffix>%|percent|per\s?cent|个百分点|percentage points?|pp\b|美元|元|dollars?|USD)?",
     re.IGNORECASE,
@@ -121,7 +137,11 @@ def extract_numbers(text: str, *, keep_years: bool = False) -> list[NumberMentio
     """Find all numeric mentions in ``text``.
 
     Bare four-digit years (``2023``) are dropped unless ``keep_years``.
+    Oversized input and non-finite quantities fail the whole extraction; never
+    return a truncated list that could make a partial audit appear complete.
     """
+    if len(text) > MAX_TEXT_CHARS:
+        raise NumericInputError("audit_input_limit")
     mentions: list[NumberMention] = []
     dates = _date_spans(text)
     for m in _PATTERN.finditer(text):
@@ -163,6 +183,8 @@ def extract_numbers(text: str, *, keep_years: bool = False) -> list[NumberMentio
             scale_word = ""
             dropped_scale = True
         value *= scale
+        if not math.isfinite(value):
+            raise NumericInputError("numeric_out_of_range")
         negative = bool(m.group("sign")) or bool(m.group("neg_paren") and m.group("close_paren"))
         if negative:
             value = -value
@@ -187,6 +209,8 @@ def extract_numbers(text: str, *, keep_years: bool = False) -> list[NumberMentio
         rstrip = len(surface) - len(surface.rstrip())
         s, e = s + lstrip, e - rstrip
         window = text[max(0, s - 40) : s].lower()
+        if len(mentions) >= MAX_NUMBER_MENTIONS:
+            raise NumericInputError("audit_input_limit")
         mentions.append(
             NumberMention(
                 text=text[s:e],

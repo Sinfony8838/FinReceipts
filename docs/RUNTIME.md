@@ -54,6 +54,15 @@ unknown outcomes. Reported token usage covers committed successful node output;
 it can undercount interrupted requests. SDK retries may issue multiple HTTP
 requests per logical dispatch. These are not monetary limits.
 
+SQLite write contention waits up to one second per connection operation by default
+(`RunStore(..., busy_timeout=...)` can override it). `SQLITE_BUSY`, including its
+extended codes, becomes `StoreBusy`; the run API returns 503 with `Retry-After: 1`.
+Disk, corruption and SQL errors are not classified as contention. This timeout is
+not an end-to-end request deadline. The runner never retries a whole node on a
+storage error. A model call may already have happened before a failed commit:
+refresh with GET first, then use the current revision if ready, or explicitly
+resume interrupted/expired work. Active leases must expire before recovery.
+
 A random token fences each worker. Cancelling or recovering an expired lease
 revokes the old token. An expired worker cannot reserve more budget or commit a
 result. The default lease is 300 seconds. Calls longer than the lease cannot
@@ -69,11 +78,23 @@ already sent to a provider cannot be undone.
 | After reservation, before result commit | Reservation retained; last completed node unchanged | Explicit resume may repeat an uncommitted call |
 | After checkpoint commit, before HTTP response arrives | New revision and event exist together | GET state; retry with stale revision returns 409 |
 | Cancellation while provider is responding | Terminal cancellation; worker token revoked | Late output cannot publish; bill may still exist |
+| SQLite busy before claim | Previous checkpoint, no model dispatch | Refresh and retry after contention clears |
+| SQLite busy after model response | Running lease and reservation; answer not committed | Refresh; explicitly resume after expiry; reservation is retained |
+| Numeric output exceeds the analysis limit or finite range | Terminal `failed`, safe reason code, previous answer/evidence and reserved budget retained | Inspect/export; narrow or correct the request and create a new run |
 | Source or provider changes | Original run stays readable | Advancing fails; export and start a new run |
 
 There is no exactly-once guarantee for external providers. Creation is idempotent
 for an identical normalized request and key; it does not solve provider-side
 idempotency. Resuming requires an acknowledgement of possible duplicate calls.
+Only `audit_input_limit` and `numeric_out_of_range` are classified as permanent numeric failures.
+Their `failed` runs cannot advance, resume or cancel (409); reads, history and export remain available.
+Counter-auditing the same invalid answer returns the specific 422 code without mutating the run.
+Generic provider failures remain `interrupted`; unknown exceptions are not assumed permanent.
+This classification applies when a current run executes a node, without rewriting historical events.
+The workbench saves an unresolved creation key and its input in tab-scoped session storage
+before sending. After a lost response and reload, explicit confirmation reuses that request;
+the run URL is saved before the record is cleared. See [creation recovery and tests](CREATE_RECOVERY.md)
+for storage failures, process-restart evidence and the same-tab limitation.
 The checkpoint is one **whole answer node**, which may contain several tool/model
 exchanges, so an interrupted answer node may repeat those uncommitted exchanges.
 
@@ -82,6 +103,7 @@ exchanges, so an interrupted answer node may repeat those uncommitted exchanges.
 | Method / path | Contract |
 |---|---|
 | POST `/api/runs` | `Idempotency-Key` header, validated request, fixed evidence, no LLM call |
+| GET `/api/runs` | Read-only metadata; limit 1..50, opaque cursor, no model calls; [pagination contract](RUN_HISTORY.md) |
 | GET `/api/runs/{id}` | Current persisted state; never advances work |
 | POST `/api/runs/{id}/advance` | `{ "expected_revision": 1 }`; executes one node |
 | POST `/api/runs/{id}/cancel` | Expected revision; revokes lease |
@@ -89,6 +111,11 @@ exchanges, so an interrupted answer node may repeat those uncommitted exchanges.
 | GET `/api/runs/{id}/events` | Finite SSE catch-up; `Last-Event-ID` or `after` cursor |
 | GET `/api/runs/{id}/export` | State, request, evidence, full ordered event chain |
 | GET `/api/runs/{id}/counter-audit` | Same evidence and answer, two verifier modes, zero model calls |
+
+Save export responses as their original HTTP bytes. The current hash codec normalizes parsed
+values with Python JSON rules; reserializing through another runtime can change `0.0` to `0`
+and invalidate the chain. It is not an RFC 8785 cross-language encoding contract. The browser
+smoke script now preserves response bytes and verifies the saved file, not only the in-memory object.
 
 The event endpoint is a finite snapshot stream. Poll/reconnect from the last
 sequence after an advance. It does not keep a connection alive with heartbeats,
@@ -145,3 +172,29 @@ expects an offline fake-model server at `127.0.0.1:8791`. Pass a new output fold
 Browser automation is intentionally not a runtime dependency. The script asserts
 reload without recalling the model, revision completion, counter-audit, exports,
 event catch-up, mobile width, and cancellation before dispatch.
+
+For file publication faults, four-process races, actual process termination and
+storage-error recovery, see [reliability scenarios](RELIABILITY.md).
+HTTP errors now include a stable `code` and server-generated `request_id`, also
+returned as `X-Request-ID`. See [request diagnostics](REQUEST_DIAGNOSTICS.md) for
+safe logging, streaming failure semantics and the troubleshooting workflow.
+
+The HTTP server now applies process-local admission before creating/advancing
+runs and other expensive operations. `FINRECEIPTS_MAX_INFLIGHT` defaults to 4;
+overload returns 503 `capacity_exhausted` with `Retry-After: 1`, without changing
+the run or reserving budget. Reads and cancellation remain available. A client
+disconnect cannot free a slot while its synchronous worker is still running.
+This is not a cross-worker quota or a limit on direct RunService callers.
+See [admission controls and measured scenarios](ADMISSION_CONTROL.md).
+
+For online SQLite backups, semantic verification, and restoration to a new directory,
+see the [backup and restore runbook](BACKUP_RESTORE.md). Restoring preserves reservations,
+leases and implementation checks; it never automatically replays an external call.
+
+The HTTP service now checks exact allowed hosts and browser-origin headers before execution.
+See [browser access boundary](BROWSER_BOUNDARY.md) for configuration, real browser evidence,
+and why these controls do not provide authentication or tenant isolation.
+
+Compose stores runtime SQLite files in a separate named volume. Existing containers with
+writable-layer databases require migration before recreation; see [container storage](CONTAINER_STORAGE.md)
+for the runbook and the distinction between configuration validation and actual Docker evidence.
