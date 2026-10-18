@@ -170,3 +170,7 @@ the run or reserving budget. Reads and cancellation remain available. A client
 disconnect cannot free a slot while its synchronous worker is still running.
 This is not a cross-worker quota or a limit on direct RunService callers.
 See [admission controls and measured scenarios](ADMISSION_CONTROL.md).
+
+For online SQLite backups, semantic verification, and restoration to a new directory,
+see the [backup and restore runbook](BACKUP_RESTORE.md). Restoring preserves reservations,
+leases and implementation checks; it never automatically replays an external call.

@@ -103,7 +103,7 @@ CI 新增 Windows Python 3.12，与既有 Ubuntu Python 3.11 / 3.12 一起执行
 - 可观测性：已补充[安全错误码、请求关联与日志验证](REQUEST_DIAGNOSTICS.md)；集中采集和指标后端仍待实现。
 - 容量与背压：已实现[单进程准入、过载拒绝与断连实验](ADMISSION_CONTROL.md)；分布式协调、排队公平性与生产容量仍待验证。
 - 安全边界：先明确用户和数据访问模型，再实现认证、授权及越权负例；当前仍为本地研究软件。
-- 长期运维：数据库备份与恢复演练、版本迁移及数据保留策略；不得直接用真实历史记录做破坏测试。
+- 长期运维：已实现[在线备份、非覆盖恢复与故障演练](BACKUP_RESTORE.md)；版本迁移、异地存储及数据保留策略仍待实现。不得直接用真实历史记录做破坏测试。
 
 实现依据：[Python 文件替换与 fsync](https://docs.python.org/3.12/library/os.html)、
 [SQLite 错误码](https://sqlite.org/rescode.html)、[SQLite 事务](https://www.sqlite.org/lang_transaction.html)。
