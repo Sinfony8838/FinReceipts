@@ -50,6 +50,9 @@ FinReceipts 将模型生成接入“事实核验 → 反馈修订 → 证据交�
 
 ## 核心工程设计
 
+[按故障场景阅读实现与验证](docs/ENGINEERING_CASES.md)：模型返回后写库失败、断连后的并发占用、
+备份遗漏 WAL。每个案例都给出复现命令和适用边界。
+
 | 能力 | 实现方式 | 代码与说明 |
 |---|---|---|
 | 核验驱动的 Agent 编排 | LangGraph 状态路由、有限修订、可选模型升级 | [工作流](src/finreceipts/agent/graph.py) |

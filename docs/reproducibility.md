@@ -1,12 +1,17 @@
 # Source-release reproducibility and validation boundaries
 
-## Current records (2026-10-16)
+## Current records (2026-10-18)
 
 The sections below preserve the 2026-10-08 source-release checks. Later runtime/UI and
 0.1.0 packaging checks are recorded in [VALIDATION.md](VALIDATION.md); the repository now
 includes `uv.lock`. The new [workflow comparison](WORKFLOW_EVALUATION.md) separately records
 live-model evaluation on retained SEC data. Do not combine results from these different
 source states or interpret historical untested statements as the current validation inventory.
+
+The [engineering cases](ENGINEERING_CASES.md) index the current local fault, concurrency,
+browser and recovery evidence. The latest full offline run is 813 passed / 1 skipped on Windows.
+Container storage configuration has been checked, but actual container recreation is BLOCKED_UNRUN
+and the new Docker CI job has not run remotely. Those limits remain separate from local API tests.
 
 ## Source identity and included evidence
 

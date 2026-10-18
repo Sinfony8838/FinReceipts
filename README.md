@@ -54,6 +54,9 @@ results do not establish whole-answer correctness, model fine-tuning gains or ma
 
 ## Engineering highlights
 
+[Review three reproducible failure cases](docs/ENGINEERING_CASES.md): database contention after
+a model response, workers that outlive HTTP requests, and backups that miss committed WAL data.
+
 | Capability | Design choice | Source |
 |---|---|---|
 | Verification-driven orchestration | LangGraph routes between answer, verify, bounded revision and optional model escalation | [Workflow](src/finreceipts/agent/graph.py) |
