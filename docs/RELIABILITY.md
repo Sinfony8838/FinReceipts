@@ -104,6 +104,7 @@ CI 新增 Windows Python 3.12，与既有 Ubuntu Python 3.11 / 3.12 一起执行
 - 容量与背压：已实现[单进程准入、过载拒绝与断连实验](ADMISSION_CONTROL.md)；分布式协调、排队公平性与生产容量仍待验证。
 - 安全边界：已补[本机 Host 与浏览器来源检查](BROWSER_BOUNDARY.md)。认证、逐任务授权和租户隔离尚未实现；当前仍为本地研究软件。
 - 长期运维：已实现[在线备份、非覆盖恢复与故障演练](BACKUP_RESTORE.md)；版本迁移、异地存储及数据保留策略仍待实现。不得直接用真实历史记录做破坏测试。
+- 容器存储：已补[运行库命名卷与重建验收门禁](CONTAINER_STORAGE.md)；本机引擎不可用，实际重建和卷权限验证仍为 `BLOCKED_UNRUN`。
 
 实现依据：[Python 文件替换与 fsync](https://docs.python.org/3.12/library/os.html)、
 [SQLite 错误码](https://sqlite.org/rescode.html)、[SQLite 事务](https://www.sqlite.org/lang_transaction.html)。

@@ -1,6 +1,8 @@
 # One-command demo. Default LLM is fake (no API key).
 # Real MiniMax: copy .env.example → .env, set provider/base URL/key env name,
 # then `docker compose --env-file .env up --build`.
+# Existing containers: preserve the old writable-layer DB before upgrading;
+# see docs/CONTAINER_STORAGE.md. New volumes do not migrate old container data.
 services:
   api:
     build: .
@@ -15,6 +17,7 @@ services:
       FINRECEIPTS_SEC_USER_AGENT: ${FINRECEIPTS_SEC_USER_AGENT:-FinReceipts demo contact@example.com}
       FINRECEIPTS_OFFLINE: ${FINRECEIPTS_OFFLINE:-1}
       FINRECEIPTS_CACHE_DIR: /app/.cache/sec
+      FINRECEIPTS_RUN_DB: /app/.cache/runtime/runs.sqlite3
       FINRECEIPTS_ALLOW_CODING_PLAN: ${FINRECEIPTS_ALLOW_CODING_PLAN:-}
       FINRECEIPTS_MIN_CALL_INTERVAL_S: ${FINRECEIPTS_MIN_CALL_INTERVAL_S:-1.0}
       FINRECEIPTS_MAX_INFLIGHT: ${FINRECEIPTS_MAX_INFLIGHT:-4}
@@ -26,6 +29,8 @@ services:
     volumes:
       # Persist / reuse SEC cache across restarts (optional)
       - finreceipts_cache:/app/.cache/sec
+      # Mount the directory so SQLite's WAL and SHM share the persistent storage.
+      - finreceipts_runtime:/app/.cache/runtime
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
       interval: 10s
@@ -34,3 +39,4 @@ services:
 
 volumes:
   finreceipts_cache:
+  finreceipts_runtime:

@@ -29,3 +29,18 @@ jobs:
         env:
           FINRECEIPTS_OFFLINE: "1"
         run: uv run pytest -m "not live" --cov --cov-report=term-missing
+  container-persistence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify real container replacement and persistent runtime storage
+        run: python scripts/container_persistence_smoke.py --out runs/container-persistence-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: container-persistence-evidence
+          path: runs/container-persistence-ci/

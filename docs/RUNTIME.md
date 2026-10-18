@@ -178,3 +178,7 @@ leases and implementation checks; it never automatically replays an external cal
 The HTTP service now checks exact allowed hosts and browser-origin headers before execution.
 See [browser access boundary](BROWSER_BOUNDARY.md) for configuration, real browser evidence,
 and why these controls do not provide authentication or tenant isolation.
+
+Compose stores runtime SQLite files in a separate named volume. Existing containers with
+writable-layer databases require migration before recreation; see [container storage](CONTAINER_STORAGE.md)
+for the runbook and the distinction between configuration validation and actual Docker evidence.

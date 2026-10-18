@@ -7,6 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     FINRECEIPTS_LLM_PROVIDER=fake \
     FINRECEIPTS_OFFLINE=1 \
     FINRECEIPTS_CACHE_DIR=/app/.cache/sec \
+    FINRECEIPTS_RUN_DB=/app/.cache/runtime/runs.sqlite3 \
     FINRECEIPTS_HOST=0.0.0.0 \
     FINRECEIPTS_PORT=8000
 
@@ -19,6 +20,7 @@ COPY tests/fixtures/sec /app/.cache/sec
 
 RUN pip install --no-cache-dir -e ".[web]" \
     && useradd --create-home --uid 10001 appuser \
+    && mkdir -p /app/.cache/runtime \
     && chown -R appuser:appuser /app
 USER appuser
 

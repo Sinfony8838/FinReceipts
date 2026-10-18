@@ -58,6 +58,7 @@ FinReceipts 将模型生成接入“事实核验 → 反馈修订 → 证据交�
 | 可检查的执行结果 | 每轮审计、HTML 收据、步骤级 SSE 事件 | [接口](src/finreceipts/app/main.py) · [报告](src/finreceipts/report/) |
 | 可控执行与故障排查 | 单进程准入、取消后的线程名额、安全请求诊断与可复现故障测试 | [准入控制](docs/ADMISSION_CONTROL.md) · [请求诊断](docs/REQUEST_DIAGNOSTICS.md) · [可靠性](docs/RELIABILITY.md) |
 | 备份与恢复 | 在线 SQLite 快照、事件链与预算校验、新目录恢复和离线故障演练 | [恢复操作与验证](docs/BACKUP_RESTORE.md) |
+| 容器数据保留 | 独立运行库卷与重建验收门禁；旧容器可写层数据库需先迁移 | [存储与验证状态](docs/CONTAINER_STORAGE.md) |
 | 可重复的本地开发 | SEC 录制/回放缓存、离线 fixtures、固定模型响应 | [数据客户端](src/finreceipts/tools/) · [测试](tests/) |
 | 明确的证据使用条件 | 时间戳与 catalog 控制、合成注入边界检查 | [时点与边界约定](docs/pit-redteam.md) |
 
