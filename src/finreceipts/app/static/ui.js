@@ -68,16 +68,33 @@
     t.dateTime=new Date(event.time*1000).toISOString();head.append(t);
     li.append(head,el('p',eventNote(event),'event-note'),rawDetails(event)); return li;
   }
+  function apiError(data, requestId) {
+    const error = new Error(typeof data.detail === 'string' ? data.detail : '请求未完成，请检查输入或稍后重试。');
+    const id = data.request_id || requestId;
+    if (/^[a-f0-9]{32}$/.test(id || '')) error.requestId = id;
+    error.code = data.code;
+    return error;
+  }
   function showError(container, error) {
     const original=error.message || String(error);
+    const guidance = {
+      cascade_unconfigured:'尚未配置升级模型，请在核验设置中选择其他执行方式，或配置升级模型后重试。',
+      invalid_request:'请求参数不符合要求，请检查输入内容与核验设置。',
+      evidence_unavailable:'当前公司和财年没有可用证据，请调整范围或检查已录制的数据。',
+      storage_busy:'任务存储暂时繁忙，请稍候刷新状态后继续。',
+      ask_failed:'本次回答生成失败，请保留请求编号并检查模型服务后重试。',
+      audit_failed:'财务证据核验未完成，请保留请求编号并检查数据服务。'
+    };
     let message='操作未完成，请刷新任务状态后重试。';
-    if (original.startsWith('财年')) message=original;
+    if (Object.hasOwn(guidance, error.code)) message=guidance[error.code];
+    else if (original.startsWith('财年')) message=original;
     else if (/fetch|network/i.test(original)) message='暂时无法连接服务，请检查本地服务是否正在运行。';
     else if (/revision|lease|not ready/i.test(original)) message='任务状态已变化，请刷新后继续。';
     else if (/implementation|provider configuration/i.test(original)) message='运行配置已更新，请保留原任务记录并创建新任务。';
     else if (/integrity/i.test(original)) message='任务记录完整性检查未通过，无法继续执行。';
     else if (/not found/i.test(original)) message='未找到该任务，请检查任务地址。';
     container.replaceChildren(el('div',message),rawDetails(original,'错误详情'));
+    if (error.requestId) container.append(el('p', '排障请求编号：' + error.requestId, 'hint'));
   }
   async function environment() {
     const e=document.getElementById('environment'); if(!e)return;
@@ -94,5 +111,5 @@
     const details = event.target.closest('details');
     if (details) details.open = true;
   }, true);
-  window.FinUI={node, statuses, reason, badge, el, rawDetails, renderEvent, showError, environment, years};
+  window.FinUI={node, statuses, reason, badge, el, rawDetails, renderEvent, apiError, showError, environment, years};
 })();

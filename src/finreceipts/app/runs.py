@@ -9,9 +9,10 @@ from fastapi import APIRouter, Header, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from finreceipts.app.diagnostics import APIError
 from finreceipts.runtime.codec import canonical
-from finreceipts.runtime.service import counter_audit
-from finreceipts.runtime.store import IntegrityError, RunConflict, StoreBusy
+from finreceipts.runtime.service import EvidenceUnavailable, counter_audit
+from finreceipts.runtime.store import IntegrityError, RunConflict, RunNotFound, StoreBusy
 
 
 class CreateRun(BaseModel):
@@ -50,24 +51,18 @@ def run_router(state) -> APIRouter:
     def call(fn, *args):
         try:
             return fn(*args)
-        except KeyError as exc:
-            raise HTTPException(404, "run not found") from exc
+        except RunNotFound as exc:
+            raise APIError(404, "run_not_found") from exc
         except RunConflict as exc:
-            raise HTTPException(409, str(exc)) from exc
+            raise APIError(409, "run_conflict") from exc
         except IntegrityError as exc:
-            raise HTTPException(409, "run integrity check failed") from exc
+            raise APIError(409, "integrity_failed") from exc
         except StoreBusy as exc:
-            raise HTTPException(
-                503,
-                "run storage is busy; refresh state before retrying with the current revision",
-                headers={"Retry-After": "1"},
-            ) from exc
-        except ValueError as exc:
-            raise HTTPException(422, "invalid request or no evidence for requested scope") from exc
+            raise APIError(503, "storage_busy", headers={"Retry-After": "1"}) from exc
+        except EvidenceUnavailable as exc:
+            raise APIError(422, "evidence_unavailable") from exc
         except Exception as exc:
-            raise HTTPException(
-                503, "run operation failed; no raw provider error is exposed"
-            ) from exc
+            raise APIError(503, "run_failed") from exc
 
     @router.post("", status_code=201)
     def create_run(
@@ -81,7 +76,7 @@ def run_router(state) -> APIRouter:
         payload["model"] = state.settings.small_model or "demo"
         payload["escalate_model"] = state.settings.large_model or None
         if req.mode == "cascade" and not payload["escalate_model"]:
-            raise HTTPException(422, "cascade requires a server-configured large model")
+            raise APIError(422, "cascade_unconfigured")
         return call(state.runs.create, idempotency_key, payload)
 
     @router.get("/{run_id}")

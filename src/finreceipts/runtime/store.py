@@ -24,6 +24,10 @@ class RunConflict(ValueError):
     """A stale revision, duplicate request or active worker prevents this action."""
 
 
+class RunNotFound(KeyError):
+    """The requested run does not exist, distinct from a provider/schema KeyError."""
+
+
 class IntegrityError(ValueError):
     """A checkpoint/evidence/event no longer matches its content digest."""
 
@@ -94,7 +98,7 @@ class RunStore:
     def _load(self, db, run_id):
         row = db.execute("SELECT document FROM runs WHERE run_id=?", (run_id,)).fetchone()
         if row is None:
-            raise KeyError(run_id)
+            raise RunNotFound(run_id)
         events = [
             json.loads(r[0])
             for r in db.execute(

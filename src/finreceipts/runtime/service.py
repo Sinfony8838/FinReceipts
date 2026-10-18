@@ -25,6 +25,10 @@ from finreceipts.runtime.store import BudgetExceeded, RunConflict, RunStore, Sto
 from finreceipts.verify.verifier import Verifier
 
 
+class EvidenceUnavailable(ValueError):
+    """No selected facts cover this request; not a provider parsing failure."""
+
+
 def counter_audit(doc: dict) -> dict:
     """Two deterministic audits of the same answer/bytes; never another LLM call."""
     state = decode_state(doc["state"])
@@ -107,7 +111,7 @@ class RunService:
             {k: {y: f for y, f in v.items() if y in allowed} for k, v in lookup.items()}
         )
         if not any(evidence.values()):
-            raise ValueError("no financial evidence for the requested scope")
+            raise EvidenceUnavailable("no financial evidence for the requested scope")
         serialized = {**request, "as_of": state["as_of"].isoformat() if state["as_of"] else None}
         return self.store.create(key, serialized, evidence, encode_state(state))
 

@@ -9,7 +9,7 @@
     const response = await fetch(url, {method: body === undefined ? 'GET' : 'POST',
       headers: {'Content-Type': 'application/json', ...headers}, body: body === undefined ? undefined : JSON.stringify(body)});
     const data = await response.json();
-    if (!response.ok) throw new Error(typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail));
+    if (!response.ok) throw U.apiError(data, response.headers.get('X-Request-ID'));
     return data;
   }
   function controls() {

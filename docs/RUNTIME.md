@@ -159,3 +159,6 @@ event catch-up, mobile width, and cancellation before dispatch.
 
 For file publication faults, four-process races, actual process termination and
 storage-error recovery, see [reliability scenarios](RELIABILITY.md).
+HTTP errors now include a stable `code` and server-generated `request_id`, also
+returned as `X-Request-ID`. See [request diagnostics](REQUEST_DIAGNOSTICS.md) for
+safe logging, streaming failure semantics and the troubleshooting workflow.
