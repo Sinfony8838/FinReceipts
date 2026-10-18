@@ -27,6 +27,8 @@ DETAILS = {
     "integrity_failed": "run integrity check failed",
     "storage_busy": "run storage is busy; refresh state before retrying with the current revision",
     "capacity_exhausted": "execution capacity is full; wait and refresh state before retrying",
+    "untrusted_host": "request host is not configured for this service",
+    "cross_origin_denied": "browser requests must come from the same origin as this service",
     "run_failed": "run operation failed; no raw provider error is exposed",
     "http_error": "request could not be completed",
     "stream_failed": "response stream failed",

@@ -27,6 +27,7 @@ from finreceipts.agent.graph import (
     initial_state,
     summarize_audit,
 )
+from finreceipts.app.access import AccessPolicy, BrowserBoundary, SecurityHeaders
 from finreceipts.app.admission import (
     AdmissionControl,
     ExecutionGate,
@@ -114,6 +115,7 @@ def _make_llm(settings: Settings):
 class AppState:
     def __init__(self) -> None:
         self.settings = Settings.from_env()
+        self.access_policy = AccessPolicy.from_env()
         self.edgar: EdgarClient | None = None
         self.provider = None
         self.graph = None
@@ -123,6 +125,7 @@ class AppState:
 
     def start(self) -> None:
         self.settings = Settings.from_env()
+        self.access_policy = AccessPolicy.from_env()
         self.admission = ExecutionGate(self.settings.max_inflight)
         self.edgar = EdgarClient(self.settings)
         self.provider = edgar_lookup_provider(self.edgar)
@@ -160,7 +163,9 @@ def create_app() -> FastAPI:
     )
     app.state.fin = state
     app.add_middleware(AdmissionControl, state=state)
+    app.add_middleware(BrowserBoundary, state=state)
     app.add_middleware(RequestDiagnostics)
+    app.add_middleware(SecurityHeaders)
     app.add_exception_handler(StarletteHTTPException, http_error)
     app.add_exception_handler(RequestValidationError, validation_error)
     app.include_router(run_router(state))
@@ -441,6 +446,7 @@ def main() -> None:
         host=host,
         port=port,
         access_log=False,  # Raw access logs contain GET question/query values.
+        proxy_headers=False,  # Do not trust client-supplied forwarded scheme/IP headers.
         log_config=request_logging_config(),
         reload=os.environ.get("FINRECEIPTS_RELOAD") in {"1", "true", "yes"},
     )

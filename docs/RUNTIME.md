@@ -174,3 +174,7 @@ See [admission controls and measured scenarios](ADMISSION_CONTROL.md).
 For online SQLite backups, semantic verification, and restoration to a new directory,
 see the [backup and restore runbook](BACKUP_RESTORE.md). Restoring preserves reservations,
 leases and implementation checks; it never automatically replays an external call.
+
+The HTTP service now checks exact allowed hosts and browser-origin headers before execution.
+See [browser access boundary](BROWSER_BOUNDARY.md) for configuration, real browser evidence,
+and why these controls do not provide authentication or tenant isolation.

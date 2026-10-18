@@ -30,7 +30,7 @@ def client(monkeypatch, tmp_path):
     monkeypatch.setenv("FINRECEIPTS_LLM_PROVIDER", "fake")
     monkeypatch.setenv("FINRECEIPTS_OFFLINE", "1")
     monkeypatch.setenv("FINRECEIPTS_CACHE_DIR", str(Path(__file__).parent / "fixtures/sec"))
-    with TestClient(create_app()) as http:
+    with TestClient(create_app(), base_url="http://127.0.0.1") as http:
         yield http
 
 
@@ -160,7 +160,7 @@ def test_cancelled_http_task_cannot_free_a_still_running_model_slot(client, path
 
     async def exercise():
         async with httpx.AsyncClient(
-            transport=httpx.ASGITransport(app=client.app), base_url="http://test"
+            transport=httpx.ASGITransport(app=client.app), base_url="http://127.0.0.1"
         ) as http:
             task = asyncio.create_task(http.post(path, json=payload))
             try:
@@ -243,7 +243,7 @@ def test_root_path_mount_does_not_bypass_admission(client):
     async def exercise():
         async with httpx.AsyncClient(
             transport=httpx.ASGITransport(app=client.app, root_path="/prefix"),
-            base_url="http://test",
+            base_url="http://127.0.0.1",
         ) as http:
             response = await http.post("/prefix/api/ask", json=BODY)
             assert response.status_code == 503

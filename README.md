@@ -178,6 +178,8 @@ see the [reliability scenarios and runbook](docs/RELIABILITY.md) (Chinese).
 FinReceipts is local research software. It does not provide production authentication,
 validate all financial prose, or prove historical public availability from filing dates.
 Keep the demo on loopback. Synthetic security tests do not establish real-model injection resistance.
+Exact Host validation and browser-origin checks protect the local API from explicitly cross-origin
+browser requests; they are not authentication. See [browser boundary and tests](docs/BROWSER_BOUNDARY.md).
 
 ### Historical experiment provenance
 

@@ -15,7 +15,7 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setenv("FINRECEIPTS_LLM_PROVIDER", "fake")
     monkeypatch.setenv("FINRECEIPTS_OFFLINE", "1")
     monkeypatch.setenv("FINRECEIPTS_CACHE_DIR", str(Path(__file__).parent / "fixtures/sec"))
-    with TestClient(create_app()) as c:
+    with TestClient(create_app(), base_url="http://127.0.0.1") as c:
         yield c
 
 
