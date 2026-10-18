@@ -65,7 +65,7 @@ and duplicate task creation after a lost response and page reload.
 | Controlled feedback experiments | Separate error flags from receipts that also supply retrieved values | [Evaluation controls](docs/eval-controls.md) |
 | Inspectable results | Per-attempt audits, HTML receipts and step-level SSE events | [API](src/finreceipts/app/main.py) · [Reports](src/finreceipts/report/) |
 | Saved task discovery | Bounded read-only pages, stable insertion boundaries and per-record integrity checks | [Task history](docs/RUN_HISTORY.md) |
-| Bounded execution and troubleshooting | Byte and upload limits, response deadlines, process-local admission and worker lifetime accounting | [Request limits](docs/REQUEST_LIMITS.md) · [Admission](docs/ADMISSION_CONTROL.md) · [Diagnostics](docs/REQUEST_DIAGNOSTICS.md) · [Reliability](docs/RELIABILITY.md) |
+| Bounded execution and troubleshooting | Byte, numeric-work and response limits; process-local admission and worker lifetime accounting | [Request limits](docs/REQUEST_LIMITS.md) · [Admission](docs/ADMISSION_CONTROL.md) · [Diagnostics](docs/REQUEST_DIAGNOSTICS.md) · [Reliability](docs/RELIABILITY.md) |
 | Backup and recovery | Online SQLite snapshots, verified event chains and budgets, restore to new directories, offline failure drills | [Restore runbook](docs/BACKUP_RESTORE.md) |
 | Container data retention | Separate runtime volume and a recreation gate; existing writable-layer databases require migration | [Storage and verification status](docs/CONTAINER_STORAGE.md) |
 | Repeatable local development | SEC record/replay cache, offline fixtures and a fake model provider | [Data clients](src/finreceipts/tools/) · [Tests](tests/) |
@@ -83,6 +83,7 @@ This preview release is intended for local research and reproducible demonstrati
 - **Bound execution before dispatch:** persisted model/tool reservations survive interruption and explicit recovery.
 - **Fence competing results:** revision checks and lease tokens reject stale advances and late worker commits.
 - **Reconnect without rerunning:** sequenced events support cursor-based catch-up; exports carry evidence and integrity checks.
+- **Distinguish failure recovery:** permanent numeric-output errors stop with evidence and budget retained; transient execution failures remain explicitly recoverable.
 - **Compare verification conditions:** replay numeric matching and bounded annual-clause checks on the same evidence without another model call.
 - **Inspect the result:** Chinese workbench, light/dark/system themes, responsive layout and expandable raw records.
 
@@ -91,6 +92,9 @@ evidence hashes are not independent historical-availability proofs.
 
 [Runtime contract](docs/RUNTIME.md) · [Fault tests and validation](docs/VALIDATION.md) ·
 [UI walkthrough and screenshots](docs/UI_REDESIGN.md) · [Engineering record](docs/ENGINEERING_LOG.md)
+
+[Verification by commit and remaining delivery gaps](docs/VERIFICATION_INDEX.md) separates current
+source tests, historical package/browser checks and unrun deployment gates.
 ## How it works
 
 ```mermaid

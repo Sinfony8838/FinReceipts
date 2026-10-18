@@ -9,7 +9,9 @@ live-model evaluation on retained SEC data. Do not combine results from these di
 source states or interpret historical untested statements as the current validation inventory.
 
 The [engineering cases](ENGINEERING_CASES.md) index the current local fault, concurrency,
-browser and recovery evidence. The latest full offline run is 871 passed / 1 skipped on Windows.
+browser and recovery evidence. The [verification index](VERIFICATION_INDEX.md) pins each result to
+its source state: the full Windows run at `2101f7d` is 939 passed / 1 skipped; the latest isolated
+wheel check is at `45a7fc8`, before the terminal-failure change. Do not treat them as one release gate.
 The [saved-task list](RUN_HISTORY.md) covers bounded discovery, concurrent paging and damaged-record isolation.
 The [request-limit drill](REQUEST_LIMITS.md) additionally covers real slow uploads, chunked overflow,
 HTTP/SSE timeouts and continued worker capacity accounting after the response ends.
