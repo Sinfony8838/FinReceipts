@@ -84,6 +84,8 @@ def verify_export(bundle: dict) -> None:
     doc, events = bundle["run"], bundle["events"]
     previous = "0" * 64
     for seq, event in enumerate(events, 1):
+        if not isinstance(event, dict):
+            raise IntegrityError("event must be an object")
         body = {k: v for k, v in event.items() if k != "hash"}
         if (
             event["seq"] != seq

@@ -94,7 +94,10 @@ def test_metadata_is_small_and_listing_never_dispatches_or_changes_exports(clien
             permit.close()
 
 
-@pytest.mark.parametrize("damage", ["checkpoint", "event", "bad_json", "row_identity"])
+@pytest.mark.parametrize(
+    "damage",
+    ["checkpoint", "event", "bad_json", "row_identity", "[]", "null", "42", '"TAINTED"'],
+)
 def test_one_unreadable_record_does_not_hide_other_tasks_or_expose_tainted_text(client, damage):
     good, bad = create(client, 1), create(client, 2)
     store = client.app.state.fin.runs.store
@@ -108,6 +111,8 @@ def test_one_unreadable_record_does_not_hide_other_tasks_or_expose_tainted_text(
             db.execute("UPDATE runs SET document=? WHERE run_id=?", ("{TAINTED", bad["run_id"]))
         elif damage == "event":
             db.execute("UPDATE events SET document=? WHERE run_id=?", ("{TAINTED", bad["run_id"]))
+        elif damage in {"[]", "null", "42", '"TAINTED"'}:
+            db.execute("UPDATE events SET document=? WHERE run_id=?", (damage, bad["run_id"]))
         else:
             # A coherent document under the wrong table key must not be presented as valid.
             db.execute(
@@ -129,6 +134,10 @@ def test_one_unreadable_record_does_not_hide_other_tasks_or_expose_tainted_text(
     assert response.json()["items"][1]["run_id"] == good["run_id"]
     assert response.json()["items"][1]["availability"] == "available"
     assert "TAINTED" not in response.text
+    if damage in {"[]", "null", "42", '"TAINTED"'}:
+        rejected = client.get(f"/api/runs/{bad['run_id']}/export")
+        assert rejected.status_code == 409
+        assert rejected.json()["code"] == "integrity_failed"
 
 
 @pytest.mark.parametrize(
