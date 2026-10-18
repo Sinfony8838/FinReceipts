@@ -34,6 +34,9 @@ python scripts/package_install_smoke.py --out runs/package-install-check
 - 调用安装后的 `finreceipts audit`，验证明确年度的收入文本取得 SEC 回放证据。
   当前使用 `Apple FY2023 revenue was $383.285 billion.`；HTTP `/api/audit` 同时检查
   该句通过、替换为 `Another Issuer` 后拒绝，并保存 `subject-period-audit.json`。
+- 通过实际 HTTP 检查数值分析的字符/数量上限与数值溢出返回 422、没有部分结果；验证长空白
+  无数字输入可正常返回，执行名额归零。记录在 `numeric-input-errors.json`，边界见
+  [请求限制](REQUEST_LIMITS.md#数值分析的计算边界)。
 
 ## 证据与边界
 

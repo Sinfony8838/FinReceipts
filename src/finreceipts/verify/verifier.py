@@ -73,6 +73,10 @@ def check_value(
 
     diff = abs(claimed - expected)
     rel_err = diff / abs(expected) if expected else (0.0 if claimed == 0 else math.inf)
+    # Undefined at zero and potentially overflowing even for finite inputs.
+    # Keep the verdict, but serialize an unavailable diagnostic as null.
+    if not math.isfinite(rel_err):
+        rel_err = None
 
     if expected_unit == "percent":
         allowed = max(tol.pct_abs, rounding_step if tol.rounding else 0.0)

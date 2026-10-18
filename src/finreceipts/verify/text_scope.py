@@ -92,7 +92,11 @@ def _entity_form(value: str) -> str:
 def _cuts(text: str) -> list[int]:
     cuts = [0]
     for separator in re.finditer(r"[;\n]|(?<=[.!?])\s+", text):
-        if re.search(r"\b(?:Inc|Corp|Ltd|U\.S|vs)\.$", text[: separator.start()], re.I):
+        # Longest abbreviation is "Corp." (five characters). Keep one prior
+        # character for the word boundary instead of rescanning the whole text
+        # prefix at every separator, for every numeric mention.
+        tail = text[max(0, separator.start() - 6) : separator.start()]
+        if re.search(r"\b(?:Inc|Corp|Ltd|U\.S|vs)\.$", tail, re.I):
             continue
         cuts.append(separator.end())
     return [*cuts, len(text)]

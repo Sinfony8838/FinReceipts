@@ -19,7 +19,7 @@ import tarfile
 import time
 import zipfile
 from pathlib import Path
-from urllib.error import URLError
+from urllib.error import HTTPError, URLError
 from urllib.request import ProxyHandler, Request, build_opener
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -162,6 +162,29 @@ def probe(out: Path) -> None:
                         scope_checks.append(audited)
                     (out / "subject-period-audit.json").write_text(
                         json.dumps(scope_checks, indent=2), encoding="utf-8"
+                    )
+                    numeric_inputs = []
+                    for label, text, code in [
+                        ("characters", "x" * 65537, "audit_input_limit"),
+                        ("mentions", "$1 " * 257, "audit_input_limit"),
+                        ("overflow", "$" + "9" * 400, "numeric_out_of_range"),
+                    ]:
+                        try:
+                            api("/api/audit", {"text": text, "ticker": "AAPL"})
+                        except HTTPError as exc:
+                            rejected = json.load(exc)
+                            assert exc.code == 422 and rejected["code"] == code
+                            assert "audit" not in rejected
+                        else:
+                            raise AssertionError(f"numeric input {label} was not rejected")
+                        numeric_inputs.append({"case": label, "response": rejected})
+                    empty = json.loads(
+                        api("/api/audit", {"text": "USD" + " " * 32000 + "x", "ticker": "AAPL"})
+                    )
+                    assert empty["empty_extraction"] and not empty["all_numbers_supported"]
+                    assert json.loads(api("/health"))["execution"]["active"] == 0
+                    (out / "numeric-input-errors.json").write_text(
+                        json.dumps(numeric_inputs, indent=2), encoding="utf-8"
                     )
                     body = {
                         "question": "Apple revenue for 2023?",

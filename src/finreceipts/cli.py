@@ -32,6 +32,7 @@ from finreceipts.report.html import render_report
 from finreceipts.tools.akshare_a import DEFAULT_A_SHARE_UNIVERSE, AShareClient
 from finreceipts.tools.cninfo import CninfoClient
 from finreceipts.tools.edgar import EdgarClient
+from finreceipts.verify.numbers import MAX_NUMBER_MENTIONS, MAX_TEXT_CHARS, NumericInputError
 from finreceipts.verify.verifier import Verifier
 
 
@@ -332,7 +333,16 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
-    return int(args.func(args))
+    try:
+        return int(args.func(args))
+    except NumericInputError as exc:
+        detail = (
+            f"split input: at most {MAX_TEXT_CHARS} characters and {MAX_NUMBER_MENTIONS} numbers"
+            if exc.code == "audit_input_limit"
+            else "check numeric digits and scale; quantity is outside the finite range"
+        )
+        print(f"{exc.code}: {detail}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":  # pragma: no cover

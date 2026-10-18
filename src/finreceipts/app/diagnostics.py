@@ -19,6 +19,12 @@ DETAILS = {
     "internal_error": "request failed; use the request ID to locate diagnostics",
     "ask_failed": "answer generation failed; no raw provider error is exposed",
     "audit_failed": "audit failed; no raw provider error is exposed",
+    "audit_input_limit": (
+        "audit accepts at most 65536 characters and 256 numeric mentions; split the text"
+    ),
+    "numeric_out_of_range": (
+        "a numeric quantity exceeds the supported finite range; check its digits and scale"
+    ),
     "invalid_request": "request validation failed; check field types and limits",
     "evidence_unavailable": "no financial evidence for the requested scope",
     "cascade_unconfigured": "cascade requires a configured escalation model",

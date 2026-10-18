@@ -55,6 +55,7 @@ from finreceipts.runtime.codec import digest
 from finreceipts.runtime.service import RunService
 from finreceipts.runtime.store import RunStore
 from finreceipts.tools.edgar import EdgarClient
+from finreceipts.verify.numbers import NumericInputError
 from finreceipts.verify.verifier import Verifier
 
 Mode = Literal["baseline", "verify", "cascade"]
@@ -407,7 +408,10 @@ def create_app() -> FastAPI:
         except Exception as exc:
             raise APIError(503, "audit_failed") from exc
         years = set(req.fiscal_years) or None
-        results = Verifier(lookup).audit_text(req.text, fiscal_years=years)
+        try:
+            results = Verifier(lookup).audit_text(req.text, fiscal_years=years)
+        except NumericInputError as exc:
+            raise APIError(422, exc.code) from exc
         title = req.title or f"FinReceipts audit · {req.ticker.upper()}"
         html = render_report(
             title=title,
