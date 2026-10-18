@@ -10,8 +10,9 @@ source states or interpret historical untested statements as the current validat
 
 The [engineering cases](ENGINEERING_CASES.md) index the current local fault, concurrency,
 browser and recovery evidence. The [verification index](VERIFICATION_INDEX.md) pins each result to
-its source state: the full Windows run at `2101f7d` is 939 passed / 1 skipped; the latest isolated
-wheel check is at `45a7fc8`, before the terminal-failure change. Do not treat them as one release gate.
+its source state: the full Windows run at `2101f7d` is 939 passed / 1 skipped; the isolated wheel
+and installed Edge failure-recovery check at `19be01f` have the same runtime implementation identity.
+This is local branch validation, not a new published v0.1.0 package or remote CI result.
 The [saved-task list](RUN_HISTORY.md) covers bounded discovery, concurrent paging and damaged-record isolation.
 The [request-limit drill](REQUEST_LIMITS.md) additionally covers real slow uploads, chunked overflow,
 HTTP/SSE timeouts and continued worker capacity accounting after the response ends.

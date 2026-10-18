@@ -59,4 +59,27 @@ wheel 包含应用及静态资源，不包含演示数据和示例报告；本�
 在后续独立修复中扩展为受支持的明确语法，见[文本范围边界](ARCHITECTURE.md#text-scope-boundary)。
 该修复的新验收位于 `runs/subject-period-20261018/`；没有改写前一轮安装包或失败记录。
 
+## 当前实现的安装后浏览器补验
+
+`19be01f` 的本地 sdist/wheel 在新环境通过 API/CLI、静态资源、数值错误及重启导出校验。
+之后使用该环境的 Python 启动真实 Edge 演练：两种终止失败返回 409 且原导出不变、
+调整问题后可另建任务、普通中断能恢复完成，桌面和手机宽度均通过。运行实现摘要与
+`2101f7d` 的 939 passed / 1 skipped 一致；本轮未重跑未改动的全仓测试。
+
+以下 PowerShell 命令接续上文已经成功构建的输出目录；需另备 Playwright 与 Edge。
+`PYTHONSAFEPATH`、禁止用户 site 及清除路径覆盖用于避免源码目录影响导入。
+
+```powershell
+$env:FINRECEIPTS_TEST_PYTHON = (Resolve-Path runs/package-install-check/venv/Scripts/python.exe).Path
+$env:PYTHONPATH = $null
+$env:PYTHONHOME = $null
+$env:PYTHONNOUSERSITE = '1'
+$env:PYTHONSAFEPATH = '1'
+node scripts/browser_permanent_failure.cjs runs/package-install-check/installed-browser
+```
+
+本次实际导入路径位于新环境的 `site-packages`，sdist 中 212 个源码文件与构建时干净工作区
+逐字节一致。证据位于 `runs/current-package-20261018/build-evidence.json`。
+wheel 沿用项目声明版本 `0.1.0`，仅是本地候选产物，没有替换已发布版本或上传包。
+
 Windows/Linux CI job 已配置，只有远程任务实际通过后才能增加相应平台结论。

@@ -304,3 +304,14 @@ Windows 超长参数化测试名、健康计数字段和既有 interrupted 状�
 复现：`node scripts/browser_permanent_failure.cjs runs/permanent-failure-check`，需要 Playwright
 与 Edge，以及安装了 web 依赖的项目 Python。新证据在 `runs/permanent-failure-20261018/`，
 测试仅使用 FakeLLM 和 SEC 回放，无真实模型调用。历史 interrupted 记录保持原样。
+
+## 2026-10-18：当前安装包与终止失败流程补验
+
+交付索引核对发现最新独立安装包仍停在 45a7fc8，早于终止失败改动。以干净提交 19be01f
+重新构建 sdist/wheel，新环境的 API/CLI、静态资源、数值边界和重启导出校验通过。
+再用安装后的 Python 启动真实 Edge 故障演练，检查终止失败、原导出保留、另建任务和
+普通中断恢复。清除 Python 路径覆盖并启用 safe path，确认实际模块来自新环境 site-packages。
+
+sdist 中 212 个源码文件与构建时工作区逐字节一致。Python 实现摘要仍为 e0e31894…，
+对应 2101f7d 的 939 passed / 1 skipped；本轮没有用重新跑相同测试替代安装交付验证。
+记录在 `runs/current-package-20261018/`，候选包未上传，远程 CI 和 Docker 实跑仍无新结论。
