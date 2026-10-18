@@ -9,7 +9,9 @@ live-model evaluation on retained SEC data. Do not combine results from these di
 source states or interpret historical untested statements as the current validation inventory.
 
 The [engineering cases](ENGINEERING_CASES.md) index the current local fault, concurrency,
-browser and recovery evidence. The latest full offline run is 813 passed / 1 skipped on Windows.
+browser and recovery evidence. The latest full offline run is 847 passed / 1 skipped on Windows.
+The [request-limit drill](REQUEST_LIMITS.md) additionally covers real slow uploads, chunked overflow,
+HTTP/SSE timeouts and continued worker capacity accounting after the response ends.
 Container storage configuration has been checked, but actual container recreation is BLOCKED_UNRUN
 and the new Docker CI job has not run remotely. Those limits remain separate from local API tests.
 

@@ -43,6 +43,7 @@ from finreceipts.app.diagnostics import (
     request_logging_config,
     validation_error,
 )
+from finreceipts.app.limits import RequestLimits, ResponseDeadline
 from finreceipts.app.runs import run_router
 from finreceipts.config import Settings
 from finreceipts.evals.runner import edgar_lookup_provider
@@ -162,6 +163,8 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     app.state.fin = state
+    app.add_middleware(ResponseDeadline, state=state)
+    app.add_middleware(RequestLimits, state=state)
     app.add_middleware(AdmissionControl, state=state)
     app.add_middleware(BrowserBoundary, state=state)
     app.add_middleware(RequestDiagnostics)

@@ -27,6 +27,14 @@ DETAILS = {
     "integrity_failed": "run integrity check failed",
     "storage_busy": "run storage is busy; refresh state before retrying with the current revision",
     "capacity_exhausted": "execution capacity is full; wait and refresh state before retrying",
+    "request_too_large": "request body exceeds the configured byte limit",
+    "query_too_large": "request query exceeds the 16384 byte limit",
+    "request_body_timeout": "request body was not received within the configured time limit",
+    "invalid_request_framing": "invalid or inconsistent request body length",
+    "unsupported_content_encoding": "compressed request bodies are not supported",
+    "response_timeout": (
+        "response wait expired; work may continue; refresh run state before retrying"
+    ),
     "untrusted_host": "request host is not configured for this service",
     "cross_origin_denied": "browser requests must come from the same origin as this service",
     "run_failed": "run operation failed; no raw provider error is exposed",
