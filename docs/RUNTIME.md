@@ -97,6 +97,7 @@ exchanges, so an interrupted answer node may repeat those uncommitted exchanges.
 | Method / path | Contract |
 |---|---|
 | POST `/api/runs` | `Idempotency-Key` header, validated request, fixed evidence, no LLM call |
+| GET `/api/runs` | Read-only metadata; limit 1..50, opaque cursor, no model calls; [pagination contract](RUN_HISTORY.md) |
 | GET `/api/runs/{id}` | Current persisted state; never advances work |
 | POST `/api/runs/{id}/advance` | `{ "expected_revision": 1 }`; executes one node |
 | POST `/api/runs/{id}/cancel` | Expected revision; revokes lease |
@@ -104,6 +105,11 @@ exchanges, so an interrupted answer node may repeat those uncommitted exchanges.
 | GET `/api/runs/{id}/events` | Finite SSE catch-up; `Last-Event-ID` or `after` cursor |
 | GET `/api/runs/{id}/export` | State, request, evidence, full ordered event chain |
 | GET `/api/runs/{id}/counter-audit` | Same evidence and answer, two verifier modes, zero model calls |
+
+Save export responses as their original HTTP bytes. The current hash codec normalizes parsed
+values with Python JSON rules; reserializing through another runtime can change `0.0` to `0`
+and invalidate the chain. It is not an RFC 8785 cross-language encoding contract. The browser
+smoke script now preserves response bytes and verifies the saved file, not only the in-memory object.
 
 The event endpoint is a finite snapshot stream. Poll/reconnect from the last
 sequence after an advance. It does not keep a connection alive with heartbeats,

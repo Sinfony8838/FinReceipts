@@ -23,6 +23,7 @@ DETAILS = {
     "evidence_unavailable": "no financial evidence for the requested scope",
     "cascade_unconfigured": "cascade requires a configured escalation model",
     "run_not_found": "run not found",
+    "history_cursor_expired": "stored task positions changed; refresh the task list",
     "run_conflict": "revision or run state conflict; refresh before continuing",
     "integrity_failed": "run integrity check failed",
     "storage_busy": "run storage is busy; refresh state before retrying with the current revision",

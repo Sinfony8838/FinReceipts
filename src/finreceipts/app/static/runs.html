@@ -26,6 +26,15 @@
       <button id="discard-create" type="button" class="ghost" disabled>放弃找回，重新填写</button>
     </div>
   </section>
+  <details id="run-history" class="panel run-history">
+    <summary>已保存任务 · 查看或继续已有研究</summary>
+    <div class="section-title"><h2>已保存任务</h2><button id="history-refresh" type="button">刷新列表</button></div>
+    <p class="hint">此列表属于当前本机服务。打开任务后可查看最新状态；不会自动执行模型。</p>
+    <div id="history-error" class="error-box" role="alert"></div>
+    <p id="history-note" class="hint" role="status">展开后读取任务。</p>
+    <ul id="history-list" class="history-list"></ul>
+    <div class="actions"><button id="history-previous" type="button" disabled>上一页</button><button id="history-next" type="button" disabled>下一页</button></div>
+  </details>
   <div class="workspace">
     <aside class="settings-pane"><details id="settings" class="panel settings" open>
       <summary><div id="settings-context" class="settings-context"><strong>任务设置</strong><span>展开查看或创建新任务</span></div></summary>

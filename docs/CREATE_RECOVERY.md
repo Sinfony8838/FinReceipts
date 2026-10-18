@@ -67,6 +67,8 @@ node scripts/browser_create_recovery.cjs runs/review-create-recovery-001
 不保证关闭标签页、清理浏览器数据、换浏览器或更换服务端口后仍能找回。
 [浏览器会话存储的生命周期](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
 与服务端持久化任务不同；成功确认后，本项目会主动清除该条记录。
+后续增加的[已保存任务列表](RUN_HISTORY.md)可从新标签页重新发现已提交任务，但不会恢复
+未发送的草稿或自动重发尚未确认的请求；不要把列表发现与创建幂等恢复混为一谈。
 
 重试依赖原运行库和兼容的服务配置。数据库被替换，或 Python 实现/模型配置变化导致原请求
 摘要不同，不能直接套用本次恢复结论。遇到冲突应保留恢复记录和原库排查，不自动换键重发。

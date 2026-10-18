@@ -82,6 +82,7 @@
       invalid_request:'请求参数不符合要求，请检查输入内容与核验设置。',
       creation_storage_unavailable:'浏览器无法保存或读取创建恢复记录。请允许会话存储后重新加载，确认原请求结果。',
       creation_record_invalid:'创建恢复记录无法读取。请先处理上方的恢复提示，避免另建重复任务。',
+      history_cursor_expired:'任务列表位置已变化，请点击“刷新列表”重新读取。',
       evidence_unavailable:'当前公司和财年没有可用证据，请调整范围或检查已录制的数据。',
       storage_busy:'任务存储暂时繁忙，请稍候刷新状态后继续。',
       capacity_exhausted:'当前执行名额已满，请稍候刷新状态后重试。已有任务仍可查看或取消。',

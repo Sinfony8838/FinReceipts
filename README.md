@@ -64,6 +64,7 @@ and duplicate task creation after a lost response and page reload.
 | Deterministic financial checks | Explicit number extraction, units, tolerances and XBRL metric calculations | [Verifier](src/finreceipts/verify/) · [Metrics](src/finreceipts/xbrl/) |
 | Controlled feedback experiments | Separate error flags from receipts that also supply retrieved values | [Evaluation controls](docs/eval-controls.md) |
 | Inspectable results | Per-attempt audits, HTML receipts and step-level SSE events | [API](src/finreceipts/app/main.py) · [Reports](src/finreceipts/report/) |
+| Saved task discovery | Bounded read-only pages, stable insertion boundaries and per-record integrity checks | [Task history](docs/RUN_HISTORY.md) |
 | Bounded execution and troubleshooting | Byte and upload limits, response deadlines, process-local admission and worker lifetime accounting | [Request limits](docs/REQUEST_LIMITS.md) · [Admission](docs/ADMISSION_CONTROL.md) · [Diagnostics](docs/REQUEST_DIAGNOSTICS.md) · [Reliability](docs/RELIABILITY.md) |
 | Backup and recovery | Online SQLite snapshots, verified event chains and budgets, restore to new directories, offline failure drills | [Restore runbook](docs/BACKUP_RESTORE.md) |
 | Container data retention | Separate runtime volume and a recreation gate; existing writable-layer databases require migration | [Storage and verification status](docs/CONTAINER_STORAGE.md) |

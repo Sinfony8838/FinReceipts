@@ -6,8 +6,11 @@ a signature or protection from an administrator who can rewrite the database.
 
 from __future__ import annotations
 
+import base64
+import binascii
 import json
 import math
+import re
 import sqlite3
 import time
 import uuid
@@ -34,6 +37,46 @@ class IntegrityError(ValueError):
 
 class StoreBusy(RuntimeError):
     """SQLite contention exceeded its bounded wait; reconcile state before retry."""
+
+
+class HistoryCursorInvalid(ValueError):
+    """Pagination input is malformed; it is never used as SQL text."""
+
+
+class HistoryCursorExpired(RunConflict):
+    """The database no longer has the cursor's row identities; restart listing."""
+
+
+def _history_cursor(anchor, last) -> str:
+    # Hash row identities so even a damaged textual run ID cannot poison paging.
+    points = [[row, digest(run_id)] for row, run_id in (anchor, last)]
+    return base64.urlsafe_b64encode(canonical(points).encode()).decode()
+
+
+def _read_history_cursor(cursor: str):
+    try:
+        if not isinstance(cursor, str) or len(cursor) > 256:
+            raise ValueError
+        decoded = json.loads(
+            base64.b64decode(cursor.encode("ascii"), altchars=b"-_", validate=True)
+        )
+        if not isinstance(decoded, list) or len(decoded) != 2:
+            raise ValueError
+        for item in decoded:
+            if (
+                not isinstance(item, list)
+                or len(item) != 2
+                or type(item[0]) is not int
+                or not 1 <= item[0] <= 2**63 - 1
+                or not isinstance(item[1], str)
+                or not re.fullmatch(r"[a-f0-9]{64}", item[1])
+            ):
+                raise ValueError
+        if decoded[1][0] > decoded[0][0]:
+            raise ValueError
+        return decoded
+    except (ValueError, TypeError, UnicodeError, binascii.Error) as exc:
+        raise HistoryCursorInvalid("invalid history cursor") from exc
 
 
 def verify_export(bundle: dict) -> None:
@@ -118,6 +161,76 @@ class RunStore:
 
     def get(self, run_id: str) -> dict:
         return self.export(run_id)["run"]
+
+    def list_runs(self, limit: int = 20, cursor: str | None = None) -> dict:
+        """Bounded metadata, newest inserted first; new inserts cannot shift later pages.
+
+        No schema migration or second metadata index. Cursors bind internal row positions
+        to stable run IDs, so deletion/repacking of their boundary rows requires refresh.
+        Each page reads one SQLite snapshot; status can change between page requests.
+        """
+        if type(limit) is not int or not 1 <= limit <= 50:
+            raise ValueError("history limit must be an integer in [1, 50]")
+        decoded = _read_history_cursor(cursor) if cursor is not None else None
+        with self.connection() as db:
+            db.execute("BEGIN")
+            if decoded:
+                matched = []
+                for position, identity in decoded:
+                    row = db.execute(
+                        "SELECT run_id FROM runs WHERE rowid=?", (position,)
+                    ).fetchone()
+                    if row is None or digest(row[0]) != identity:
+                        raise HistoryCursorExpired("history changed; refresh the list")
+                    matched.append((position, row[0]))
+                anchor, last = matched
+                bound = last[0] - 1
+            else:
+                anchor = db.execute(
+                    "SELECT rowid, run_id FROM runs ORDER BY rowid DESC LIMIT 1"
+                ).fetchone()
+                if anchor is None:
+                    return {"items": [], "next_cursor": None}
+                bound = anchor[0]
+            rows = db.execute(
+                "SELECT rowid, run_id FROM runs WHERE rowid<=? ORDER BY rowid DESC LIMIT ?",
+                (bound, limit + 1),
+            ).fetchall()
+            items = []
+            for _, run_id in rows[:limit]:
+                try:
+                    bundle = self._load(db, run_id)
+                    doc = bundle["run"]
+                    if doc["run_id"] != run_id:
+                        raise IntegrityError("run row identity mismatch")
+                    request = doc["request"]
+                    items.append(
+                        {
+                            "run_id": run_id,
+                            "availability": "available",
+                            "revision": doc["revision"],
+                            "question_preview": request["question"][:160],
+                            "question_truncated": len(request["question"]) > 160,
+                            "ticker": request["ticker"],
+                            "fiscal_years": request["fiscal_years"],
+                            "status": doc["status"],
+                            "dispatches": doc["dispatches"],
+                            "max_dispatches": request["max_dispatches"],
+                            "created_at": bundle["events"][0]["time"],
+                            "updated_at": bundle["events"][-1]["time"],
+                        }
+                    )
+                except RunConflict:
+                    items.append({"run_id": run_id, "availability": "workflow_incompatible"})
+                except (IntegrityError, ValueError, KeyError, TypeError):
+                    # Never show unverified question/state from a damaged record.
+                    items.append({"run_id": run_id, "availability": "integrity_failed"})
+            return {
+                "items": items,
+                "next_cursor": _history_cursor(anchor, rows[limit - 1])
+                if len(rows) > limit
+                else None,
+            }
 
     def find(self, key: str, request: dict) -> dict | None:
         with self.connection() as db:

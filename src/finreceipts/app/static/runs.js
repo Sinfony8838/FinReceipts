@@ -153,6 +153,48 @@
     }
     const wrap = U.el('div', undefined, 'table-wrap'); wrap.append(table); $('comparison').append(wrap);
   });
+  let historyBusy = false, historyLoaded = false, historyCursors = [null], historyPage = 0, historyNext = null, historyFirst = null;
+  function historyControls() {
+    $('history-refresh').disabled = historyBusy;
+    $('history-previous').disabled = historyBusy || historyPage === 0;
+    $('history-next').disabled = historyBusy || !historyNext;
+  }
+  async function loadHistory(page, reset = false) {
+    if (historyBusy) return;
+    historyBusy = true; historyControls(); $('history-error').replaceChildren();
+    try {
+      const cursor = reset ? null : historyCursors[page];
+      const url = '/api/runs?limit=10' + (cursor ? '&cursor=' + encodeURIComponent(cursor) : '');
+      const result = page === 0 && !reset && historyFirst ? historyFirst : await api(url);
+      if (reset) { historyCursors = [null]; historyFirst = result; }
+      historyPage = page; historyNext = result.next_cursor; historyLoaded = true;
+      if (historyNext) historyCursors[page + 1] = historyNext;
+      const rows = result.items.map(item => {
+        const li = U.el('li'); li.dataset.runId = item.run_id;
+        const available = item.availability === 'available';
+        const title = available ? item.question_preview + (item.question_truncated ? '…' : '') :
+          item.availability === 'workflow_incompatible' ? '任务版本不兼容，请保留原记录' : '任务记录校验失败，请保留原记录';
+        const link = U.el('a', title); link.href = '/workbench#' + encodeURIComponent(item.run_id); li.append(link);
+        link.onclick = event => {
+          if (current?.run_id === item.run_id) { event.preventDefault(); action(refresh); }
+        };
+        if (available) {
+          li.append(U.el('p', item.ticker + ' · ' + item.fiscal_years.join('、') + ' 财年 · ' + (U.statuses[item.status] || '未知状态')),
+            U.el('p', '已用调用额度 ' + item.dispatches + ' / ' + item.max_dispatches, 'muted'),
+            U.el('p', '创建于 ' + new Date(item.created_at * 1000).toLocaleString('zh-CN', {hour12:false}), 'muted'));
+        }
+        const id = U.el('p', '任务编号：', 'muted'); id.append(U.el('code', item.run_id)); li.append(id);
+        return li;
+      });
+      $('history-list').replaceChildren(...rows);
+      $('history-note').textContent = rows.length ? `第 ${page + 1} 页 · ${rows.length} 个任务。状态以打开后的任务详情为准。` : '尚无已保存任务。';
+    } catch (error) { U.showError($('history-error'), error); }
+    finally { historyBusy = false; historyControls(); }
+  }
+  $('run-history').addEventListener('toggle', () => { if ($('run-history').open && !historyLoaded) loadHistory(0, true); });
+  $('history-refresh').onclick = () => loadHistory(0, true);
+  $('history-previous').onclick = () => loadHistory(historyPage - 1);
+  $('history-next').onclick = () => loadHistory(historyPage + 1);
   try {
     pending = journal.load();
     if (pending) {

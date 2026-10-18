@@ -13,7 +13,14 @@ from finreceipts.app.admission import execution_work
 from finreceipts.app.diagnostics import APIError
 from finreceipts.runtime.codec import canonical
 from finreceipts.runtime.service import EvidenceUnavailable, counter_audit
-from finreceipts.runtime.store import IntegrityError, RunConflict, RunNotFound, StoreBusy
+from finreceipts.runtime.store import (
+    HistoryCursorExpired,
+    HistoryCursorInvalid,
+    IntegrityError,
+    RunConflict,
+    RunNotFound,
+    StoreBusy,
+)
 
 
 class CreateRun(BaseModel):
@@ -54,6 +61,10 @@ def run_router(state) -> APIRouter:
             return fn(*args)
         except RunNotFound as exc:
             raise APIError(404, "run_not_found") from exc
+        except HistoryCursorInvalid as exc:
+            raise APIError(422, "invalid_request") from exc
+        except HistoryCursorExpired as exc:
+            raise APIError(409, "history_cursor_expired") from exc
         except RunConflict as exc:
             raise APIError(409, "run_conflict") from exc
         except IntegrityError as exc:
@@ -81,6 +92,13 @@ def run_router(state) -> APIRouter:
             raise APIError(422, "cascade_unconfigured")
         with execution_work(request):
             return call(state.runs.create, idempotency_key, payload)
+
+    @router.get("")
+    def list_runs(
+        limit: Annotated[int, Query(ge=1, le=50)] = 20,
+        cursor: Annotated[str | None, Query(max_length=256)] = None,
+    ):
+        return call(state.runs.store.list_runs, limit, cursor)
 
     @router.get("/{run_id}")
     def get_run(run_id: str):
