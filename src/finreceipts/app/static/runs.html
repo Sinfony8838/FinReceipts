@@ -17,6 +17,15 @@
 <main id="main" class="page">
   <div class="page-heading"><div><h1>研究工作台</h1><p>核对财务数字，查看证据与执行记录。</p></div><span id="environment" class="environment">连接中</span></div>
   <div id="error" class="error-box" role="alert"></div>
+  <section id="pending-create" class="notice" aria-labelledby="pending-title" hidden>
+    <h2 id="pending-title">确认上次创建结果</h2>
+    <p id="pending-note"></p>
+    <button id="retry-create" type="button">确认创建结果</button>
+    <div id="discard-controls">
+      <label class="check"><input id="discard-ack" type="checkbox">我了解放弃找回后另建任务，可能产生重复记录</label>
+      <button id="discard-create" type="button" class="ghost" disabled>放弃找回，重新填写</button>
+    </div>
+  </section>
   <div class="workspace">
     <aside class="settings-pane"><details id="settings" class="panel settings" open>
       <summary><div id="settings-context" class="settings-context"><strong>任务设置</strong><span>展开查看或创建新任务</span></div></summary>
@@ -53,6 +62,7 @@
   </div>
   <footer class="footer"><span>本地研究工具 · 不构成投资建议</span><span>演示模式使用固定回答，不代表真实模型效果。</span></footer>
 </main>
+<script src="/static/create-journal.js"></script>
 <script src="/static/runs.js"></script>
 </body>
 </html>

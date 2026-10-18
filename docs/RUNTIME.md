@@ -85,6 +85,10 @@ already sent to a provider cannot be undone.
 There is no exactly-once guarantee for external providers. Creation is idempotent
 for an identical normalized request and key; it does not solve provider-side
 idempotency. Resuming requires an acknowledgement of possible duplicate calls.
+The workbench saves an unresolved creation key and its input in tab-scoped session storage
+before sending. After a lost response and reload, explicit confirmation reuses that request;
+the run URL is saved before the record is cleared. See [creation recovery and tests](CREATE_RECOVERY.md)
+for storage failures, process-restart evidence and the same-tab limitation.
 The checkpoint is one **whole answer node**, which may contain several tool/model
 exchanges, so an interrupted answer node may repeat those uncommitted exchanges.
 

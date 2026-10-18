@@ -29,6 +29,16 @@ jobs:
         env:
           FINRECEIPTS_OFFLINE: "1"
         run: uv run pytest -m "not live" --cov --cov-report=term-missing
+  browser-storage-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Test pending-creation storage contract (no browser dependencies)
+        run: node --test tests/test_create_journal.cjs
   container-persistence:
     runs-on: ubuntu-latest
     timeout-minutes: 20

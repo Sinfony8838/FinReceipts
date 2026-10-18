@@ -1,6 +1,7 @@
 (() => {
   const $ = id => document.getElementById(id), U = window.FinUI;
-  let current = null, busy = false, cursor = 0, seen = [], pendingKey = null, pendingBody = null, layoutRun;
+  let current = null, busy = false, cursor = 0, seen = [], pending = null, pendingProblem = null, layoutRun;
+  const journal = window.FinCreateJournal;
   const narrow = matchMedia('(max-width: 959px)');
   const terminal = new Set(['completed', 'cancelled', 'budget_exhausted']);
   function layout() { $('settings').open = !current?.state || !narrow.matches; }
@@ -9,11 +10,26 @@
     const response = await fetch(url, {method: body === undefined ? 'GET' : 'POST',
       headers: {'Content-Type': 'application/json', ...headers}, body: body === undefined ? undefined : JSON.stringify(body)});
     const data = await response.json();
-    if (!response.ok) throw U.apiError(data, response.headers.get('X-Request-ID'));
+    if (!response.ok) { const error = U.apiError(data, response.headers.get('X-Request-ID')); error.status = response.status; throw error; }
     return data;
   }
   function controls() {
-    $('create').disabled = busy;
+    $('create').disabled = busy || !!pending || !!pendingProblem;
+    for (const id of ['question','ticker','years','budget','revisions']) $(id).disabled = busy || !!pending || !!pendingProblem;
+    $('pending-create').hidden = !pending && !pendingProblem;
+    $('retry-create').hidden = !pending;
+    $('retry-create').disabled = busy || !pending || !!pendingProblem;
+    $('discard-controls').hidden = pendingProblem === 'creation_storage_unavailable';
+    $('discard-create').disabled = busy || !$('discard-ack').checked;
+    $('discard-ack').disabled = busy;
+    $('pending-note').textContent = pendingProblem === 'creation_storage_unavailable'
+      ? '浏览器会话存储不可用，暂时不能安全保存或读取创建记录。请允许会话存储后重新加载页面。'
+      : pendingProblem ? '上次创建的恢复记录无法读取。请保留页面排查，或确认放弃找回后重新填写。'
+      : '上次创建结果尚未确认。点击确认会重用原请求，找回已经创建的任务；若尚未创建，则完成原请求。原问题与设置暂时锁定。';
+    if (!current?.state) {
+      $('status').textContent = pending || pendingProblem ? '创建结果待确认' : '未创建任务';
+      $('status').dataset.tone = pending || pendingProblem ? 'warn' : '';
+    }
     for (const id of ['step', 'run']) { $(id).disabled = busy || current?.status !== 'ready'; $(id).hidden = terminal.has(current?.status); }
     $('refresh').disabled = busy || !current?.state;
     $('cancel').disabled = busy || !current?.state; $('cancel').hidden = terminal.has(current?.status);
@@ -66,16 +82,40 @@
     current = await api('/api/runs/' + current.run_id + '/advance', {expected_revision: current.revision});
     resetComparison(); render(); await events();
   }
+  function clearPending() {
+    try { journal.clear(); } catch (error) { pendingProblem = error.code; throw error; }
+    pending = null; pendingProblem = null; $('discard-ack').checked = false; controls();
+  }
+  async function sendPending() {
+    if (!pending || pendingProblem) return;
+    let doc;
+    try { doc = await api('/api/runs', pending.body, {'Idempotency-Key': pending.key}); }
+    catch (error) {
+      // Our API validates before creation. Ambiguous failures keep the recovery record.
+      if (error.status === 422 && error.code === 'invalid_request') clearPending();
+      throw error;
+    }
+    if (!/^[a-f0-9]{32}$/.test(doc.run_id || '')) throw new Error('创建结果无法确认，请保留原请求重试。');
+    current = doc;
+    // Save the recoverable run URL before clearing the creation record or reading events.
+    location.hash = current.run_id; cursor = 0; seen = []; $('ack').checked = false;
+    resetComparison(); render(); clearPending(); await events();
+  }
   $('create-form').onsubmit = e => { e.preventDefault(); action(async () => {
+    if (pending || pendingProblem) return;
     const years = U.years($('years').value);
     const body = {question: $('question').value, ticker: $('ticker').value.trim(), fiscal_years: years,
       max_dispatches: Number($('budget').value), max_revisions: Number($('revisions').value)};
-    const serialized = JSON.stringify(body);
-    if (pendingBody !== serialized) { pendingKey = crypto.randomUUID(); pendingBody = serialized; }
-    current = await api('/api/runs', body, {'Idempotency-Key': pendingKey}); pendingKey = null; pendingBody = null;
-    location.hash = current.run_id; cursor = 0; seen = []; $('ack').checked = false;
-    resetComparison(); render(); await events();
+    const record = {version: 1, key: crypto.randomUUID(), body};
+    try { journal.save(record); } catch (error) {
+      if (error.code === 'creation_storage_unavailable') pendingProblem = error.code;
+      throw error;
+    }
+    pending = record; controls(); await sendPending();
   }); };
+  $('retry-create').onclick = () => action(sendPending);
+  $('discard-ack').onchange = controls;
+  $('discard-create').onclick = () => action(async () => { if ($('discard-ack').checked) clearPending(); });
   $('step').onclick = () => action(advance);
   $('run').onclick = () => action(async () => { for (let i = 0; i < 50 && current.status === 'ready'; i++) await advance(); });
   $('refresh').onclick = () => action(refresh);
@@ -113,6 +153,14 @@
     }
     const wrap = U.el('div', undefined, 'table-wrap'); wrap.append(table); $('comparison').append(wrap);
   });
+  try {
+    pending = journal.load();
+    if (pending) {
+      const b = pending.body;
+      $('question').value = b.question; $('ticker').value = b.ticker; $('years').value = b.fiscal_years.join(',');
+      $('budget').value = b.max_dispatches; $('revisions').value = b.max_revisions;
+    }
+  } catch (error) { pendingProblem = error.code; }
   U.environment();
   // Browser back/forward or a pasted task fragment must not leave an old run visible.
   window.addEventListener('hashchange', () => {

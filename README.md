@@ -54,8 +54,9 @@ results do not establish whole-answer correctness, model fine-tuning gains or ma
 
 ## Engineering highlights
 
-[Review three reproducible failure cases](docs/ENGINEERING_CASES.md): database contention after
-a model response, workers that outlive HTTP requests, and backups that miss committed WAL data.
+[Review four reproducible failure cases](docs/ENGINEERING_CASES.md): database contention after
+a model response, workers that outlive HTTP requests, backups that miss committed WAL data,
+and duplicate task creation after a lost response and page reload.
 
 | Capability | Design choice | Source |
 |---|---|---|
