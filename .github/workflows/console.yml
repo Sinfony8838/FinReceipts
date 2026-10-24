@@ -1,0 +1,46 @@
+name: console
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'console/**'
+      - 'scripts/v2_ui_acceptance.cjs'
+      - '.github/workflows/console.yml'
+  pull_request:
+    paths:
+      - 'console/**'
+      - 'scripts/v2_ui_acceptance.cjs'
+      - '.github/workflows/console.yml'
+permissions:
+  contents: read
+jobs:
+  console-ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: console/package-lock.json
+      - name: Install and build console
+        run: |
+          npm ci --prefix console
+          npm run build --prefix console
+      - name: Install isolated browser test tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/ui-tools" --no-save --package-lock=false playwright@1.62.1
+          node "$RUNNER_TEMP/ui-tools/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Verify offline UI and native browser zoom
+        env:
+          NODE_PATH: ${{ runner.temp }}/ui-tools/node_modules
+          BROWSER_CHANNEL: chromium
+        run: node scripts/v2_ui_acceptance.cjs runs/console-ui-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: console-ui-evidence
+          path: |
+            runs/console-ui-ci/*.json
+            runs/console-ui-ci/*.png
