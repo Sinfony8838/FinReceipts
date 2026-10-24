@@ -1,0 +1,18 @@
+{
+  "policy": {
+    "implementation_id": "0f624d5824c96bd896572c616b8bd89b2384aaaffadebb58a264571f977da41e",
+    "strategies": [
+      "direct",
+      "audit_only",
+      "bounded_revision"
+    ],
+    "temperature": 0,
+    "max_tokens": 1024,
+    "max_revisions": 2,
+    "use_tools": true,
+    "shared_initial_answer": true,
+    "model_escalation": false
+  },
+  "cases_sha256": "90c32a1c86e8c87eeb21089c0a087ecf647788f29b17c2fdde5021ece97025d3",
+  "dev_summary_sha256": "6e38862dcb2097ff020abb6cdb0006093958097267d8876eadcd8ef7b0b1606d"
+}

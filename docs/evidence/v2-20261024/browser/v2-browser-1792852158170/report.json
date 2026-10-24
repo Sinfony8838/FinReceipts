@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "browser": "156.0.4314.42",
+  "screens": [
+    "login.png",
+    "batches.png",
+    "evidence.png",
+    "quota.png",
+    "reviewed.png"
+  ],
+  "errors": [],
+  "batch": "c0f0aa6d-d265-4f03-b08f-6eb900c24404",
+  "task_id": "82688cc8-47e8-48aa-a687-72d2420d1794",
+  "exported": true
+}

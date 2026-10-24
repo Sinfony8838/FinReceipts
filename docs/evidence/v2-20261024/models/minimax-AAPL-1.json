@@ -1,0 +1,374 @@
+{
+  "case_id": "AAPL-1",
+  "provider": "minimax",
+  "profile": {
+    "provider": "minimax",
+    "model": "MiniMax-M3.1-Flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "f912c79fbe1544bd62d70c9536871f754932c9e63e4fb6557a63d31f3a78928a",
+  "date": "2026-10-24T13:46:10.427809+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0000320193-22-000108",
+        "cik": 320193,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 364,
+        "end": "2022-09-24",
+        "entity_name": "Apple Inc.",
+        "filed": "2022-10-28",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm",
+        "start": "2021-09-26",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 394328000000.0
+      },
+      "2023": {
+        "accn": "0000320193-23-000106",
+        "cik": 320193,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 371,
+        "end": "2023-09-30",
+        "entity_name": "Apple Inc.",
+        "filed": "2023-11-03",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm",
+        "start": "2022-09-25",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 383285000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "6cd9a75f-ea7c-435d-b675-4076cb46a06c",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "The evidence provides FY2023 revenue directly: 383,285,000,000 USD. Let me also call the tool for verification.\n\nWait, the actual Apple FY2023 revenue is $383,285 million. Correct.\n\nCall tool for confirmation.\n\nNote: there's a subtlety — \"annual financial target\" — direct metric, so just report.\n\nAlso note the 2023 value of 383.285B differs from FY2022 394.328B (decline). Fine.\n\nLet me call the tool.",
+              "signature": "d1046da1cc297eabd945d126ff8d82c08d379fd19153531fe810e6113a57c7db",
+              "type": "thinking"
+            },
+            {
+              "type": "tool_use",
+              "id": "call_709d847d84e145b581bd3f88",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2023,
+                "metric": "revenue",
+                "ticker": "AAPL"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "call_fa7fbc3e31874015a8280281",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2022,
+                "metric": "revenue",
+                "ticker": "AAPL"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_709d847d84e145b581bd3f88",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2023,
+              "metric": "revenue",
+              "ticker": "AAPL"
+            }
+          },
+          {
+            "id": "call_fa7fbc3e31874015a8280281",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2022,
+              "metric": "revenue",
+              "ticker": "AAPL"
+            }
+          }
+        ],
+        "usage": {
+          "input_tokens": 1144,
+          "output_tokens": 211,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens_details": {
+            "thinking_tokens": 105
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "tool_use"
+      },
+      "estimated_micros": 5964
+    },
+    {
+      "attempt_id": "460ae4f2-3c5e-42d0-af71-a045e9422242",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric:** Apple Inc. (CIK 320193) total revenue from contracts with customers (net sales), FY2023 (52 weeks ended 2023-09-30), as reported in the FY2023 Form 10-K.\n\n**Calculation:** This is a directly reported figure, so no derivation is needed — the XBRL fact `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax` for the annual duration 2022-09-25 → 2023-09-30 is tagged at 383,285,000,000 USD. For context, the prior year (FY2022, accession 0000320193-22-000108, filed 2022-10-28) was 394,328,000,000 USD, so FY2023 revenue declined by 11,043,000,000 USD (~-2.8%). The tool lookup independently returns the same value and accession, confirming the frozen evidence.\n\n**Evidence:** FY2023 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000 (Apple Inc. FY2023 revenue, 52 weeks ended 2023-09-30)",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "**Metric:** Apple Inc. (CIK 320193) total revenue from contracts with customers (net sales), FY2023 (52 weeks ended 2023-09-30), as reported in the FY2023 Form 10-K.\n\n**Calculation:** This is a directly reported figure, so no derivation is needed — the XBRL fact `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax` for the annual duration 2022-09-25 → 2023-09-30 is tagged at 383,285,000,000 USD. For context, the prior year (FY2022, accession 0000320193-22-000108, filed 2022-10-28) was 394,328,000,000 USD, so FY2023 revenue declined by 11,043,000,000 USD (~-2.8%). The tool lookup independently returns the same value and accession, confirming the frozen evidence.\n\n**Evidence:** FY2023 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000 (Apple Inc. FY2023 revenue, 52 weeks ended 2023-09-30)",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 640,
+          "output_tokens": 299,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 5508
+    },
+    {
+      "attempt_id": "88353cc8-8798-4764-9395-ab6832e2552a",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric:** Apple Inc. (CIK 320193) total net revenue from contracts with customers for fiscal year 2023 (annual period 2022-09-25 → 2023-09-30), as reported under the XBRL concept `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax`.\n\n**Calculation:** The requested target is a direct annual disclosure, so no derivation from other line items is required. The single authoritative fact is the FY2023 annual-duration value tagged in Apple's Form 10-K (accession 0000320193-23-000106, filed 2023-11-03), which the tool lookup reproduces exactly. For context, this figure is slightly below the prior fiscal year's level, but the prior-year amount is not part of the requested target and is therefore not stated as an additional reported value here.\n\n**Evidence:** FY2023 Form 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "The audit says \"unsupported\" due to multiple_final_numbers — my answer included two numbers (383,285,000,000 and 394,328,000,000 and the delta). I should revise to give exactly one final number: 383,285,000,000 USD. Avoid extra numeric values. I can mention prior-year comparison but that risks multiple numbers. Better: keep explanation without additional numbers, or minimal. Safest: only the one number.\n\nAlso the verdict unsupported with reason multiple_final_numbers — revise to single number. Keep context qualitative (\"declined versus prior year\" without figures).",
+              "signature": "15620690c55b0a5257e962413144448224ac58ea3fe776df8c4e6af762f7d307",
+              "type": "thinking"
+            },
+            {
+              "text": "**Metric:** Apple Inc. (CIK 320193) total net revenue from contracts with customers for fiscal year 2023 (annual period 2022-09-25 → 2023-09-30), as reported under the XBRL concept `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax`.\n\n**Calculation:** The requested target is a direct annual disclosure, so no derivation from other line items is required. The single authoritative fact is the FY2023 annual-duration value tagged in Apple's Form 10-K (accession 0000320193-23-000106, filed 2023-11-03), which the tool lookup reproduces exactly. For context, this figure is slightly below the prior fiscal year's level, but the prior-year amount is not part of the requested target and is therefore not stated as an additional reported value here.\n\n**Evidence:** FY2023 Form 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 678,
+          "output_tokens": 381,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1536,
+          "output_tokens_details": {
+            "thinking_tokens": 123
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 6606
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Metric:** Apple Inc. (CIK 320193) total revenue from contracts with customers (net sales), FY2023 (52 weeks ended 2023-09-30), as reported in the FY2023 Form 10-K.\n\n**Calculation:** This is a directly reported figure, so no derivation is needed — the XBRL fact `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax` for the annual duration 2022-09-25 → 2023-09-30 is tagged at 383,285,000,000 USD. For context, the prior year (FY2022, accession 0000320193-22-000108, filed 2022-10-28) was 394,328,000,000 USD, so FY2023 revenue declined by 11,043,000,000 USD (~-2.8%). The tool lookup independently returns the same value and accession, confirming the frozen evidence.\n\n**Evidence:** FY2023 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000 (Apple Inc. FY2023 revenue, 52 weeks ended 2023-09-30)",
+      "audit": {
+        "claim": null,
+        "verdict": "unsupported",
+        "reason_codes": [
+          "multiple_final_numbers"
+        ],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 320193,
+              "entity_name": "Apple Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 383285000000.0,
+              "start": "2022-09-25",
+              "end": "2023-09-30",
+              "accn": "0000320193-23-000106",
+              "form": "10-K",
+              "filed": "2023-11-03",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 371,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm"
+            }
+          ],
+          "expected_value": 383285000000.0,
+          "expected_unit": "USD",
+          "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+          "note": null
+        },
+        "relative_error": null
+      },
+      "attempts_so_far": 2
+    },
+    {
+      "answer": "**Metric:** Apple Inc. (CIK 320193) total net revenue from contracts with customers for fiscal year 2023 (annual period 2022-09-25 → 2023-09-30), as reported under the XBRL concept `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax`.\n\n**Calculation:** The requested target is a direct annual disclosure, so no derivation from other line items is required. The single authoritative fact is the FY2023 annual-duration value tagged in Apple's Form 10-K (accession 0000320193-23-000106, filed 2023-11-03), which the tool lookup reproduces exactly. For context, this figure is slightly below the prior fiscal year's level, but the prior-year amount is not part of the requested target and is therefore not stated as an additional reported value here.\n\n**Evidence:** FY2023 Form 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000",
+      "audit": {
+        "claim": {
+          "text": "USD 383,285,000,000",
+          "value": 383285000000.0,
+          "unit": "USD",
+          "metric": "revenue",
+          "entity": "Apple Inc.",
+          "period_end": "2023-09-30",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 320193,
+              "entity_name": "Apple Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 383285000000.0,
+              "start": "2022-09-25",
+              "end": "2023-09-30",
+              "accn": "0000320193-23-000106",
+              "form": "10-K",
+              "filed": "2023-11-03",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 371,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm"
+            }
+          ],
+          "expected_value": 383285000000.0,
+          "expected_unit": "USD",
+          "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+          "note": null
+        },
+        "relative_error": 0.0
+      },
+      "attempts_so_far": 3
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 7.421999999991385,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 383285000000 USD"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for AAPL; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"AAPL\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0000320193-22-000108\", \"cik\": 320193, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 364, \"end\": \"2022-09-24\", \"entity_name\": \"Apple Inc.\", \"filed\": \"2022-10-28\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm\", \"start\": \"2021-09-26\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 394328000000.0}, \"2023\": {\"accn\": \"0000320193-23-000106\", \"cik\": 320193, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 371, \"end\": \"2023-09-30\", \"entity_name\": \"Apple Inc.\", \"filed\": \"2023-11-03\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\", \"start\": \"2022-09-25\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 383285000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "The evidence provides FY2023 revenue directly: 383,285,000,000 USD. Let me also call the tool for verification.\n\nWait, the actual Apple FY2023 revenue is $383,285 million. Correct.\n\nCall tool for confirmation.\n\nNote: there's a subtlety — \"annual financial target\" — direct metric, so just report.\n\nAlso note the 2023 value of 383.285B differs from FY2022 394.328B (decline). Fine.\n\nLet me call the tool.",
+          "signature": "d1046da1cc297eabd945d126ff8d82c08d379fd19153531fe810e6113a57c7db",
+          "type": "thinking"
+        },
+        {
+          "type": "tool_use",
+          "id": "call_709d847d84e145b581bd3f88",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2023,
+            "metric": "revenue",
+            "ticker": "AAPL"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_fa7fbc3e31874015a8280281",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2022,
+            "metric": "revenue",
+            "ticker": "AAPL"
+          }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_709d847d84e145b581bd3f88",
+          "content": "{\"ticker\": \"AAPL\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 383285000000.0, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"accession\": \"0000320193-23-000106\", \"filed\": \"2023-11-03\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_fa7fbc3e31874015a8280281",
+          "content": "{\"ticker\": \"AAPL\", \"metric\": \"revenue\", \"fiscal_year\": 2022, \"value\": 394328000000.0, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"accession\": \"0000320193-22-000108\", \"filed\": \"2022-10-28\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "**Metric:** Apple Inc. (CIK 320193) total revenue from contracts with customers (net sales), FY2023 (52 weeks ended 2023-09-30), as reported in the FY2023 Form 10-K.\n\n**Calculation:** This is a directly reported figure, so no derivation is needed — the XBRL fact `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax` for the annual duration 2022-09-25 → 2023-09-30 is tagged at 383,285,000,000 USD. For context, the prior year (FY2022, accession 0000320193-22-000108, filed 2022-10-28) was 394,328,000,000 USD, so FY2023 revenue declined by 11,043,000,000 USD (~-2.8%). The tool lookup independently returns the same value and accession, confirming the frozen evidence.\n\n**Evidence:** FY2023 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000 (Apple Inc. FY2023 revenue, 52 weeks ended 2023-09-30)",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "Revise the answer using this deterministic audit. {\"claim\":null,\"verdict\":\"unsupported\",\"reason_codes\":[\"multiple_final_numbers\"],\"evidence\":{\"facts\":[{\"cik\":320193,\"entity_name\":\"Apple Inc.\",\"taxonomy\":\"us-gaap\",\"concept\":\"RevenueFromContractWithCustomerExcludingAssessedTax\",\"label\":\"Revenue from Contract with Customer, Excluding Assessed Tax\",\"unit\":\"USD\",\"value\":383285000000.0,\"start\":\"2022-09-25\",\"end\":\"2023-09-30\",\"accn\":\"0000320193-23-000106\",\"form\":\"10-K\",\"filed\":\"2023-11-03\",\"fy\":2023,\"fp\":\"FY\",\"frame\":null,\"filing_url\":null,\"period_type\":\"duration\",\"duration_days\":371,\"source_url\":\"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\"}],\"expected_value\":383285000000.0,\"expected_unit\":\"USD\",\"formula\":\"RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]\",\"note\":null},\"relative_error\":null}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "The audit says \"unsupported\" due to multiple_final_numbers — my answer included two numbers (383,285,000,000 and 394,328,000,000 and the delta). I should revise to give exactly one final number: 383,285,000,000 USD. Avoid extra numeric values. I can mention prior-year comparison but that risks multiple numbers. Better: keep explanation without additional numbers, or minimal. Safest: only the one number.\n\nAlso the verdict unsupported with reason multiple_final_numbers — revise to single number. Keep context qualitative (\"declined versus prior year\" without figures).",
+          "signature": "15620690c55b0a5257e962413144448224ac58ea3fe776df8c4e6af762f7d307",
+          "type": "thinking"
+        },
+        {
+          "text": "**Metric:** Apple Inc. (CIK 320193) total net revenue from contracts with customers for fiscal year 2023 (annual period 2022-09-25 → 2023-09-30), as reported under the XBRL concept `us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax`.\n\n**Calculation:** The requested target is a direct annual disclosure, so no derivation from other line items is required. The single authoritative fact is the FY2023 annual-duration value tagged in Apple's Form 10-K (accession 0000320193-23-000106, filed 2023-11-03), which the tool lookup reproduces exactly. For context, this figure is slightly below the prior fiscal year's level, but the prior-year amount is not part of the requested target and is therefore not stated as an additional reported value here.\n\n**Evidence:** FY2023 Form 10-K, accession 0000320193-23-000106, filed 2023-11-03 — https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm\n\nANSWER: USD 383,285,000,000",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

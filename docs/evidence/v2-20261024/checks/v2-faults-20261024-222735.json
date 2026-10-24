@@ -1,0 +1,26 @@
+{
+  "started_at": 1792851933.7823212,
+  "checks": {
+    "api_replica_stopped_shared_session": "PASS",
+    "committed_outbox_broker_restart": "PASS",
+    "redis_restart_fail_closed": {
+      "status": "PASS",
+      "rejection_status": 503
+    },
+    "database_readonly_rollback_and_recovery": {
+      "status": "PASS",
+      "rejection_status": 503
+    },
+    "tenant_quota_isolation": "PASS",
+    "worker_death_after_attempt_reservation": {
+      "status": "PASS",
+      "task_id": "7e365a09-60e9-412e-912e-642bfb8a0b61",
+      "reserved_before": "1",
+      "reserved_after": "1"
+    },
+    "unknown_retry_confirmation": "PASS"
+  },
+  "scope": "Only finreceipts-v2 containers, synthetic requests, fake provider.",
+  "status": "PASS",
+  "finished_at": 1792852055.8187206
+}

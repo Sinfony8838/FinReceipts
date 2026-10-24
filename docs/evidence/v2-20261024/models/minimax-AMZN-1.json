@@ -1,0 +1,241 @@
+{
+  "case_id": "AMZN-1",
+  "provider": "minimax",
+  "profile": {
+    "provider": "minimax",
+    "model": "MiniMax-M3.1-Flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:49:17.038769+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0001018724-23-000004",
+        "cik": 1018724,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2022-12-31",
+        "entity_name": "AMAZON COM INC",
+        "filed": "2023-02-03",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872423000004/0001018724-23-000004-index.htm",
+        "start": "2022-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 513983000000.0
+      },
+      "2023": {
+        "accn": "0001018724-24-000008",
+        "cik": 1018724,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2023-12-31",
+        "entity_name": "AMAZON COM INC",
+        "filed": "2024-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm",
+        "start": "2023-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 574785000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "a60867a0-156b-4ef2-a953-fd80cc453a61",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "The target is direct revenue for FY2023. Evidence provides it. Let me maybe verify with tool.",
+              "signature": "f7996b34f28618318fd1803e414fbb3e904eb612bf61c0c8da023e5ade2d7358",
+              "type": "thinking"
+            },
+            {
+              "type": "tool_use",
+              "id": "call_01a7287ec94a46c4b9e3c64d",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2023,
+                "metric": "revenue",
+                "ticker": "AMZN"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_01a7287ec94a46c4b9e3c64d",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2023,
+              "metric": "revenue",
+              "ticker": "AMZN"
+            }
+          }
+        ],
+        "usage": {
+          "input_tokens": 642,
+          "output_tokens": 79,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens_details": {
+            "thinking_tokens": 21
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "tool_use"
+      },
+      "estimated_micros": 2874
+    },
+    {
+      "attempt_id": "dbecc4f4-4acc-465d-a7c8-d9cbabb5eafd",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric: AMZN total net sales (revenue), FY2023 (Jan 1 – Dec 31, 2023), direct figure.**\n\nCalculation: no derivation needed — the target is a *direct* metric. The FY2023 10-K reports net sales under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` for the 365-day period ending 2023-12-31, at $574,785,000,000. (For context, FY2022 was $513,983,000,000, implying ~11.8% growth.) Evidence: accession 0001018724-24-000008, filed 2024-02-02, form 10-K, CIK 1018724 — https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\n\nANSWER: 574,785,000,000 USD",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "**Metric: AMZN total net sales (revenue), FY2023 (Jan 1 – Dec 31, 2023), direct figure.**\n\nCalculation: no derivation needed — the target is a *direct* metric. The FY2023 10-K reports net sales under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` for the 365-day period ending 2023-12-31, at $574,785,000,000. (For context, FY2022 was $513,983,000,000, implying ~11.8% growth.) Evidence: accession 0001018724-24-000008, filed 2024-02-02, form 10-K, CIK 1018724 — https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\n\nANSWER: 574,785,000,000 USD",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 369,
+          "output_tokens": 205,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 3567
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Metric: AMZN total net sales (revenue), FY2023 (Jan 1 – Dec 31, 2023), direct figure.**\n\nCalculation: no derivation needed — the target is a *direct* metric. The FY2023 10-K reports net sales under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` for the 365-day period ending 2023-12-31, at $574,785,000,000. (For context, FY2022 was $513,983,000,000, implying ~11.8% growth.) Evidence: accession 0001018724-24-000008, filed 2024-02-02, form 10-K, CIK 1018724 — https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\n\nANSWER: 574,785,000,000 USD",
+      "audit": {
+        "claim": {
+          "text": "574,785,000,000 USD",
+          "value": 574785000000.0,
+          "unit": "USD",
+          "metric": "revenue",
+          "entity": "AMAZON COM INC",
+          "period_end": "2023-12-31",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 1018724,
+              "entity_name": "AMAZON COM INC",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 574785000000.0,
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "accn": "0001018724-24-000008",
+              "form": "10-K",
+              "filed": "2024-02-02",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm"
+            }
+          ],
+          "expected_value": 574785000000.0,
+          "expected_unit": "USD",
+          "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+          "note": null
+        },
+        "relative_error": 0.0
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 3.2039999999979045,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 574785000000 USD"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for AMZN; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"AMZN\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0001018724-23-000004\", \"cik\": 1018724, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2022-12-31\", \"entity_name\": \"AMAZON COM INC\", \"filed\": \"2023-02-03\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1018724/000101872423000004/0001018724-23-000004-index.htm\", \"start\": \"2022-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 513983000000.0}, \"2023\": {\"accn\": \"0001018724-24-000008\", \"cik\": 1018724, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2023-12-31\", \"entity_name\": \"AMAZON COM INC\", \"filed\": \"2024-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\", \"start\": \"2023-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 574785000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "The target is direct revenue for FY2023. Evidence provides it. Let me maybe verify with tool.",
+          "signature": "f7996b34f28618318fd1803e414fbb3e904eb612bf61c0c8da023e5ade2d7358",
+          "type": "thinking"
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01a7287ec94a46c4b9e3c64d",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2023,
+            "metric": "revenue",
+            "ticker": "AMZN"
+          }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_01a7287ec94a46c4b9e3c64d",
+          "content": "{\"ticker\": \"AMZN\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 574785000000.0, \"unit\": \"USD\", \"period_start\": \"2023-01-01\", \"period_end\": \"2023-12-31\", \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"accession\": \"0001018724-24-000008\", \"filed\": \"2024-02-02\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "**Metric: AMZN total net sales (revenue), FY2023 (Jan 1 – Dec 31, 2023), direct figure.**\n\nCalculation: no derivation needed — the target is a *direct* metric. The FY2023 10-K reports net sales under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` for the 365-day period ending 2023-12-31, at $574,785,000,000. (For context, FY2022 was $513,983,000,000, implying ~11.8% growth.) Evidence: accession 0001018724-24-000008, filed 2024-02-02, form 10-K, CIK 1018724 — https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\n\nANSWER: 574,785,000,000 USD",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

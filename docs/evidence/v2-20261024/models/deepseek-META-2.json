@@ -1,0 +1,435 @@
+{
+  "case_id": "META-2",
+  "provider": "deepseek",
+  "profile": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:52:05.927526+00:00",
+  "evidence": {
+    "net income": {
+      "2022": {
+        "accn": "0001326801-23-000013",
+        "cik": 1326801,
+        "concept": "NetIncomeLoss",
+        "duration_days": 365,
+        "end": "2022-12-31",
+        "entity_name": "Meta Platforms, Inc.",
+        "filed": "2023-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Net Income (Loss) Attributable to Parent",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm",
+        "start": "2022-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 23200000000.0
+      },
+      "2023": {
+        "accn": "0001326801-24-000012",
+        "cik": 1326801,
+        "concept": "NetIncomeLoss",
+        "duration_days": 365,
+        "end": "2023-12-31",
+        "entity_name": "Meta Platforms, Inc.",
+        "filed": "2024-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Net Income (Loss) Attributable to Parent",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm",
+        "start": "2023-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 39098000000.0
+      }
+    },
+    "revenue": {
+      "2022": {
+        "accn": "0001326801-23-000013",
+        "cik": 1326801,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2022-12-31",
+        "entity_name": "Meta Platforms, Inc.",
+        "filed": "2023-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm",
+        "start": "2022-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 116609000000.0
+      },
+      "2023": {
+        "accn": "0001326801-24-000012",
+        "cik": 1326801,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2023-12-31",
+        "entity_name": "Meta Platforms, Inc.",
+        "filed": "2024-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm",
+        "start": "2023-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 134902000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "6bb6472f-2297-4d25-95db-f671e88690b0",
+      "status": "SETTLED",
+      "response": {
+        "text": "I'll verify both inputs from the frozen evidence with the filing data.",
+        "assistant": {
+          "role": "assistant",
+          "content": "I'll verify both inputs from the frozen evidence with the filing data.",
+          "reasoning_content": "The metric: net income margin for FY2023 = 39,098 / 134,902 = 0.28983... = 28.98%.\n\nLet me verify with tool.",
+          "tool_calls": [
+            {
+              "index": 0,
+              "id": "call_00_raBCGSf3rraBgxvq1QrH9739",
+              "type": "function",
+              "function": {
+                "name": "get_financial_fact",
+                "arguments": "{\"ticker\": \"META\", \"metric\": \"net income\", \"fiscal_year\": 2023}"
+              }
+            },
+            {
+              "index": 1,
+              "id": "call_01_Xn5ZFu3nPQylVfFNu8z19819",
+              "type": "function",
+              "function": {
+                "name": "get_financial_fact",
+                "arguments": "{\"ticker\": \"META\", \"metric\": \"revenue\", \"fiscal_year\": 2023}"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_00_raBCGSf3rraBgxvq1QrH9739",
+            "name": "get_financial_fact",
+            "arguments": {
+              "ticker": "META",
+              "metric": "net income",
+              "fiscal_year": 2023
+            }
+          },
+          {
+            "id": "call_01_Xn5ZFu3nPQylVfFNu8z19819",
+            "name": "get_financial_fact",
+            "arguments": {
+              "ticker": "META",
+              "metric": "revenue",
+              "fiscal_year": 2023
+            }
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 1476,
+          "completion_tokens": 202,
+          "total_tokens": 1678,
+          "prompt_tokens_details": {
+            "cached_tokens": 512
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 39
+          },
+          "prompt_cache_hit_tokens": 512,
+          "prompt_cache_miss_tokens": 964,
+          "input_tokens": 1476,
+          "output_tokens": 202
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "tool_calls"
+      },
+      "estimated_micros": 6852
+    },
+    {
+      "attempt_id": "0e6a9857-f6e1-4553-8dfe-68cd79aec4ec",
+      "status": "SETTLED",
+      "response": {
+        "text": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue (net profit margin) = net income ÷ revenue, both for the full fiscal year ended 2023-12-31.\n\n**Calculation:**\n- Net income (NetIncomeLoss): $39,098,000,000\n- Revenue (RevenueFromContractWithCustomerExcludingAssessedTax): $134,902,000,000\n- 39,098 ÷ 134,902 = **0.2898 → 28.98%** (≈29.0%)\n\n**Evidence:** Both figures come from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, periods 2023-01-01 → 2023-12-31 (duration 365 days), unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\n(For context, FY2022 net margin was 23,200 ÷ 116,609 = 19.90%, i.e., profitability expanded markedly year over year.)\n\nANSWER: 28.98% (net income of $39,098 million ÷ revenue of $134,902 million, FY2023)",
+        "assistant": {
+          "role": "assistant",
+          "content": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue (net profit margin) = net income ÷ revenue, both for the full fiscal year ended 2023-12-31.\n\n**Calculation:**\n- Net income (NetIncomeLoss): $39,098,000,000\n- Revenue (RevenueFromContractWithCustomerExcludingAssessedTax): $134,902,000,000\n- 39,098 ÷ 134,902 = **0.2898 → 28.98%** (≈29.0%)\n\n**Evidence:** Both figures come from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, periods 2023-01-01 → 2023-12-31 (duration 365 days), unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\n(For context, FY2022 net margin was 23,200 ÷ 116,609 = 19.90%, i.e., profitability expanded markedly year over year.)\n\nANSWER: 28.98% (net income of $39,098 million ÷ revenue of $134,902 million, FY2023)",
+          "reasoning_content": ""
+        },
+        "tools": [],
+        "usage": {
+          "prompt_tokens": 1991,
+          "completion_tokens": 291,
+          "total_tokens": 2282,
+          "prompt_tokens_details": {
+            "cached_tokens": 1664
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 1664,
+          "prompt_cache_miss_tokens": 327,
+          "input_tokens": 1991,
+          "output_tokens": 291
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "stop"
+      },
+      "estimated_micros": 9465
+    },
+    {
+      "attempt_id": "70f8eea1-1b80-4eed-85f9-cf2eb0628c2a",
+      "status": "SETTLED",
+      "response": {
+        "text": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue — net income ÷ revenue — for the fiscal year ended 2023-12-31.\n\n**Calculation:** Net income (NetIncomeLoss) divided by revenue (RevenueFromContractWithCustomerExcludingAssessedTax) for FY2023, expressed as a percent: results in a net margin of 28.98%.\n\n**Evidence:** Both inputs are from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, covering 2023-01-01 to 2023-12-31, unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\nANSWER: 28.98%",
+        "assistant": {
+          "role": "assistant",
+          "content": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue — net income ÷ revenue — for the fiscal year ended 2023-12-31.\n\n**Calculation:** Net income (NetIncomeLoss) divided by revenue (RevenueFromContractWithCustomerExcludingAssessedTax) for FY2023, expressed as a percent: results in a net margin of 28.98%.\n\n**Evidence:** Both inputs are from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, covering 2023-01-01 to 2023-12-31, unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\nANSWER: 28.98%",
+          "reasoning_content": "The audit says verdict unsupported because multiple final numbers. Need to give single final number, no other numbers in the answer that could be confused. The issue: my answer had multiple numbers (28.98%, 29.0%, 23,200, 116,609, 19.90%). Revise to one final number only.\n\nExpected value 28.982520644616095 percent.\n\nExplain briefly, cite accession. Avoid extraneous numbers — minimize. Must end with exactly ANSWER: <value and unit>."
+        },
+        "tools": [],
+        "usage": {
+          "prompt_tokens": 2734,
+          "completion_tokens": 302,
+          "total_tokens": 3036,
+          "prompt_tokens_details": {
+            "cached_tokens": 2176
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 107
+          },
+          "prompt_cache_hit_tokens": 2176,
+          "prompt_cache_miss_tokens": 558,
+          "input_tokens": 2734,
+          "output_tokens": 302
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "stop"
+      },
+      "estimated_micros": 11826
+    }
+  ],
+  "answers": [
+    {
+      "answer": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue (net profit margin) = net income ÷ revenue, both for the full fiscal year ended 2023-12-31.\n\n**Calculation:**\n- Net income (NetIncomeLoss): $39,098,000,000\n- Revenue (RevenueFromContractWithCustomerExcludingAssessedTax): $134,902,000,000\n- 39,098 ÷ 134,902 = **0.2898 → 28.98%** (≈29.0%)\n\n**Evidence:** Both figures come from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, periods 2023-01-01 → 2023-12-31 (duration 365 days), unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\n(For context, FY2022 net margin was 23,200 ÷ 116,609 = 19.90%, i.e., profitability expanded markedly year over year.)\n\nANSWER: 28.98% (net income of $39,098 million ÷ revenue of $134,902 million, FY2023)",
+      "audit": {
+        "claim": null,
+        "verdict": "unsupported",
+        "reason_codes": [
+          "multiple_final_numbers"
+        ],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 1326801,
+              "entity_name": "Meta Platforms, Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "NetIncomeLoss",
+              "label": "Net Income (Loss) Attributable to Parent",
+              "unit": "USD",
+              "value": 39098000000.0,
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "accn": "0001326801-24-000012",
+              "form": "10-K",
+              "filed": "2024-02-02",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+            },
+            {
+              "cik": 1326801,
+              "entity_name": "Meta Platforms, Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 134902000000.0,
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "accn": "0001326801-24-000012",
+              "form": "10-K",
+              "filed": "2024-02-02",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+            }
+          ],
+          "expected_value": 28.982520644616095,
+          "expected_unit": "percent",
+          "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+          "note": null
+        },
+        "relative_error": null
+      },
+      "attempts_so_far": 2
+    },
+    {
+      "answer": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue — net income ÷ revenue — for the fiscal year ended 2023-12-31.\n\n**Calculation:** Net income (NetIncomeLoss) divided by revenue (RevenueFromContractWithCustomerExcludingAssessedTax) for FY2023, expressed as a percent: results in a net margin of 28.98%.\n\n**Evidence:** Both inputs are from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, covering 2023-01-01 to 2023-12-31, unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\nANSWER: 28.98%",
+      "audit": {
+        "claim": {
+          "text": "28.98%",
+          "value": 28.98,
+          "unit": "percent",
+          "metric": "net income as a percentage of revenue",
+          "entity": "Meta Platforms, Inc.",
+          "period_end": "2023-12-31",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 1326801,
+              "entity_name": "Meta Platforms, Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "NetIncomeLoss",
+              "label": "Net Income (Loss) Attributable to Parent",
+              "unit": "USD",
+              "value": 39098000000.0,
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "accn": "0001326801-24-000012",
+              "form": "10-K",
+              "filed": "2024-02-02",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+            },
+            {
+              "cik": 1326801,
+              "entity_name": "Meta Platforms, Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 134902000000.0,
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "accn": "0001326801-24-000012",
+              "form": "10-K",
+              "filed": "2024-02-02",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+            }
+          ],
+          "expected_value": 28.982520644616095,
+          "expected_unit": "percent",
+          "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+          "note": null
+        },
+        "relative_error": 8.69712005730117e-05
+      },
+      "attempts_so_far": 3
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 5.125,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 28.9825206446 %"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for META; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"denominator\": \"revenue\", \"fiscal_year\": 2023, \"kind\": \"ratio\", \"metric\": \"net income\"}, \"ticker\": \"META\", \"evidence\": {\"net income\": {\"2022\": {\"accn\": \"0001326801-23-000013\", \"cik\": 1326801, \"concept\": \"NetIncomeLoss\", \"duration_days\": 365, \"end\": \"2022-12-31\", \"entity_name\": \"Meta Platforms, Inc.\", \"filed\": \"2023-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Net Income (Loss) Attributable to Parent\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm\", \"start\": \"2022-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 23200000000.0}, \"2023\": {\"accn\": \"0001326801-24-000012\", \"cik\": 1326801, \"concept\": \"NetIncomeLoss\", \"duration_days\": 365, \"end\": \"2023-12-31\", \"entity_name\": \"Meta Platforms, Inc.\", \"filed\": \"2024-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Net Income (Loss) Attributable to Parent\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\", \"start\": \"2023-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 39098000000.0}}, \"revenue\": {\"2022\": {\"accn\": \"0001326801-23-000013\", \"cik\": 1326801, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2022-12-31\", \"entity_name\": \"Meta Platforms, Inc.\", \"filed\": \"2023-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm\", \"start\": \"2022-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 116609000000.0}, \"2023\": {\"accn\": \"0001326801-24-000012\", \"cik\": 1326801, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2023-12-31\", \"entity_name\": \"Meta Platforms, Inc.\", \"filed\": \"2024-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\", \"start\": \"2023-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 134902000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": "I'll verify both inputs from the frozen evidence with the filing data.",
+      "reasoning_content": "The metric: net income margin for FY2023 = 39,098 / 134,902 = 0.28983... = 28.98%.\n\nLet me verify with tool.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_raBCGSf3rraBgxvq1QrH9739",
+          "type": "function",
+          "function": {
+            "name": "get_financial_fact",
+            "arguments": "{\"ticker\": \"META\", \"metric\": \"net income\", \"fiscal_year\": 2023}"
+          }
+        },
+        {
+          "index": 1,
+          "id": "call_01_Xn5ZFu3nPQylVfFNu8z19819",
+          "type": "function",
+          "function": {
+            "name": "get_financial_fact",
+            "arguments": "{\"ticker\": \"META\", \"metric\": \"revenue\", \"fiscal_year\": 2023}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_00_raBCGSf3rraBgxvq1QrH9739",
+      "content": "{\"ticker\": \"META\", \"metric\": \"net income\", \"fiscal_year\": 2023, \"value\": 39098000000.0, \"unit\": \"USD\", \"period_start\": \"2023-01-01\", \"period_end\": \"2023-12-31\", \"concept\": \"NetIncomeLoss\", \"accession\": \"0001326801-24-000012\", \"filed\": \"2024-02-02\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\"}"
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_01_Xn5ZFu3nPQylVfFNu8z19819",
+      "content": "{\"ticker\": \"META\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 134902000000.0, \"unit\": \"USD\", \"period_start\": \"2023-01-01\", \"period_end\": \"2023-12-31\", \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"accession\": \"0001326801-24-000012\", \"filed\": \"2024-02-02\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue (net profit margin) = net income ÷ revenue, both for the full fiscal year ended 2023-12-31.\n\n**Calculation:**\n- Net income (NetIncomeLoss): $39,098,000,000\n- Revenue (RevenueFromContractWithCustomerExcludingAssessedTax): $134,902,000,000\n- 39,098 ÷ 134,902 = **0.2898 → 28.98%** (≈29.0%)\n\n**Evidence:** Both figures come from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, periods 2023-01-01 → 2023-12-31 (duration 365 days), unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\n(For context, FY2022 net margin was 23,200 ÷ 116,609 = 19.90%, i.e., profitability expanded markedly year over year.)\n\nANSWER: 28.98% (net income of $39,098 million ÷ revenue of $134,902 million, FY2023)",
+      "reasoning_content": ""
+    },
+    {
+      "role": "user",
+      "content": "Revise the answer using this deterministic audit. {\"claim\":null,\"verdict\":\"unsupported\",\"reason_codes\":[\"multiple_final_numbers\"],\"evidence\":{\"facts\":[{\"cik\":1326801,\"entity_name\":\"Meta Platforms, Inc.\",\"taxonomy\":\"us-gaap\",\"concept\":\"NetIncomeLoss\",\"label\":\"Net Income (Loss) Attributable to Parent\",\"unit\":\"USD\",\"value\":39098000000.0,\"start\":\"2023-01-01\",\"end\":\"2023-12-31\",\"accn\":\"0001326801-24-000012\",\"form\":\"10-K\",\"filed\":\"2024-02-02\",\"fy\":2023,\"fp\":\"FY\",\"frame\":null,\"filing_url\":null,\"period_type\":\"duration\",\"duration_days\":365,\"source_url\":\"https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\"},{\"cik\":1326801,\"entity_name\":\"Meta Platforms, Inc.\",\"taxonomy\":\"us-gaap\",\"concept\":\"RevenueFromContractWithCustomerExcludingAssessedTax\",\"label\":\"Revenue from Contract with Customer, Excluding Assessed Tax\",\"unit\":\"USD\",\"value\":134902000000.0,\"start\":\"2023-01-01\",\"end\":\"2023-12-31\",\"accn\":\"0001326801-24-000012\",\"form\":\"10-K\",\"filed\":\"2024-02-02\",\"fy\":2023,\"fp\":\"FY\",\"frame\":null,\"filing_url\":null,\"period_type\":\"duration\",\"duration_days\":365,\"source_url\":\"https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\"}],\"expected_value\":28.982520644616095,\"expected_unit\":\"percent\",\"formula\":\"NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100\",\"note\":null},\"relative_error\":null}"
+    },
+    {
+      "role": "assistant",
+      "content": "# META — Net Margin, FY2023\n\n**Metric:** Net income as a share of revenue — net income ÷ revenue — for the fiscal year ended 2023-12-31.\n\n**Calculation:** Net income (NetIncomeLoss) divided by revenue (RevenueFromContractWithCustomerExcludingAssessedTax) for FY2023, expressed as a percent: results in a net margin of 28.98%.\n\n**Evidence:** Both inputs are from Meta Platforms, Inc.'s FY2023 Form 10-K, accession 0001326801-24-000012, filed 2024-02-02, covering 2023-01-01 to 2023-12-31, unit USD. Source: https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\n\nANSWER: 28.98%",
+      "reasoning_content": "The audit says verdict unsupported because multiple final numbers. Need to give single final number, no other numbers in the answer that could be confused. The issue: my answer had multiple numbers (28.98%, 29.0%, 23,200, 116,609, 19.90%). Revise to one final number only.\n\nExpected value 28.982520644616095 percent.\n\nExplain briefly, cite accession. Avoid extraneous numbers — minimize. Must end with exactly ANSWER: <value and unit>."
+    }
+  ]
+}

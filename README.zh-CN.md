@@ -1,5 +1,27 @@
 # FinReceipts
 
+**2.0 批量核验平台：** Java 21 / Spring Boot 业务后端、Python Agent Worker、Vue 3 工作台，以及 MySQL / Redis / RabbitMQ。见[本机启动](docs/V2_START.md)与[实现和实测台账](docs/V2_IMPLEMENTATION.md)。下述旧 CLI / SQLite 模式继续保留。
+
+当前是阶段交付：业务与真实模型验收已有证据，容量验收尚未完成。见[验收结果及未执行项](docs/V2_ACCEPTANCE.md)和[zcode 交接说明](docs/ZCODE_HANDOFF.md)。
+
+研究员批量提交任务，系统异步准备并冻结证据，执行计算或模型核验；复核员接受或驳回后，交付包只导出已接受版本。执行状态、机器结论和人工审核分别记录，缺证据不会因为点击“接受”变成机器核验通过。
+
+新版用 Java 管理身份、租户、事务、配额、Outbox、租约和复核；Python 负责 SEC 数据适配、受控工具调用与数字核验。两个 API 共享 Redis 会话，四个 Worker 从 RabbitMQ 领取任务。每次模型 HTTP 尝试预留并记账；超时或 Worker 崩溃后的未知调用保留预算，不静默免费重试。
+
+| 交付内容 | 入口 |
+|---|---|
+| 运行与账号配置 | [启动说明](docs/V2_START.md) |
+| 状态、事务与恢复边界 | [V2 架构](docs/V2_ARCHITECTURE.md) |
+| 浏览器与批处理共用契约 | [API 文档](docs/V2_API.md) |
+| 真实模型与费用 | [冻结评测](docs/V2_EVALUATION.md) |
+| Java / AI 后端岗位表达 | [简历与面试材料](docs/V2_RESUME.md) |
+
+以下为实际 Compose 页面截图，使用本地模型桩与公开 SEC 年度证据。
+
+![年度财报证据与复核入口](docs/images/v2-evidence.png)
+
+### 原有 CLI 与 SQLite 模式
+
 **让 AI 生成的财务内容有依据、可修订、可复查。**
 
 [English](README.md) · [架构设计](docs/ARCHITECTURE.md) · [验证记录](docs/reproducibility.md) · [持续集成](https://github.com/Sinfony8838/FinReceipts/actions/workflows/ci.yml) · [Apache-2.0](LICENSE)
@@ -12,6 +34,11 @@ FinReceipts 将模型生成接入“事实核验 → 反馈修订 → 证据交�
 通过浏览器工作台、HTML 证据收据和 JSON 导出交付可复查的结果。
 
 ## 工作流与交付
+
+面向 Agent 应用与 AI 后端的主线，见[源码实战手册](docs/AGENT_BACKEND_PRACTICE.md)：
+请求进入 → 固定证据 → 工具调用 → 目标指标核验 → 有限修订 → 证据交付。
+新增[用户作用域幂等与认证](docs/AUTH_AND_IDEMPOTENCY.md)，并将
+[开发集/冻结集工程验收](docs/AGENT_BACKEND_EVALUATION.md)与历史真实模型成绩分开记录。
 
 1. **生成初稿**：明确公司、财年和研究问题，由配置的模型作答。
 2. **核验并修订**：检查数值依据；根据错误标记或检索事实反馈进行有限修订。

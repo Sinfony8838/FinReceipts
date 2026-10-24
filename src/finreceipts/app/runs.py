@@ -7,7 +7,7 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Header, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from finreceipts.app.admission import execution_work
 from finreceipts.app.diagnostics import APIError
@@ -22,6 +22,7 @@ from finreceipts.runtime.store import (
     StoreBusy,
 )
 from finreceipts.verify.numbers import NumericInputError
+from finreceipts.verify.target import VerificationTarget
 
 
 class CreateRun(BaseModel):
@@ -36,6 +37,15 @@ class CreateRun(BaseModel):
     max_revisions: int = Field(default=2, ge=0, le=5)
     max_dispatches: int = Field(default=6, ge=1, le=50)
     max_tool_calls: int = Field(default=12, ge=0, le=100)
+    target: VerificationTarget | None = None
+
+    @model_validator(mode="after")
+    def target_scope(self):
+        if self.target and self.fiscal_years != [self.target.fiscal_year]:
+            raise ValueError("target requires exactly its fiscal year")
+        if self.target and (self.max_revisions > 2 or self.mode == "cascade"):
+            raise ValueError("target mode allows at most two revisions and no escalation")
+        return self
 
     @field_validator("fiscal_years")
     @classmethod
@@ -57,9 +67,9 @@ class Resume(Revision):
 def run_router(state) -> APIRouter:
     router = APIRouter(prefix="/api/runs", tags=["durable runs"])
 
-    def call(fn, *args):
+    def call(fn, *args, **kwargs):
         try:
-            return fn(*args)
+            return fn(*args, **kwargs)
         except RunNotFound as exc:
             raise APIError(404, "run_not_found") from exc
         except HistoryCursorInvalid as exc:
@@ -88,50 +98,76 @@ def run_router(state) -> APIRouter:
         ],
     ):
         payload = req.model_dump()
+        if payload["target"] is None:
+            payload.pop("target")
         payload["ticker"] = req.ticker.upper()
         payload["model"] = state.settings.small_model or "demo"
         payload["escalate_model"] = state.settings.large_model or None
         if req.mode == "cascade" and not payload["escalate_model"]:
             raise APIError(422, "cascade_unconfigured")
         with execution_work(request):
-            return call(state.runs.create, idempotency_key, payload)
+            return call(
+                state.runs.create, idempotency_key, payload, principal_id=request.state.principal_id
+            )
 
     @router.get("")
     def list_runs(
+        request: Request,
         limit: Annotated[int, Query(ge=1, le=50)] = 20,
         cursor: Annotated[str | None, Query(max_length=256)] = None,
     ):
-        return call(state.runs.store.list_runs, limit, cursor)
+        return call(
+            state.runs.store.list_runs, limit, cursor, principal_id=request.state.principal_id
+        )
 
     @router.get("/{run_id}")
-    def get_run(run_id: str):
-        return call(state.runs.store.get, run_id)
+    def get_run(run_id: str, request: Request):
+        return call(state.runs.store.get, run_id, principal_id=request.state.principal_id)
 
     @router.post("/{run_id}/advance")
     def advance(run_id: str, req: Revision, request: Request):
         with execution_work(request):
-            return call(state.runs.advance, run_id, req.expected_revision)
+            return call(
+                state.runs.advance,
+                run_id,
+                req.expected_revision,
+                principal_id=request.state.principal_id,
+            )
 
     @router.post("/{run_id}/cancel")
-    def cancel(run_id: str, req: Revision):
-        return call(state.runs.store.cancel, run_id, req.expected_revision)
+    def cancel(run_id: str, req: Revision, request: Request):
+        return call(
+            state.runs.store.cancel,
+            run_id,
+            req.expected_revision,
+            principal_id=request.state.principal_id,
+        )
 
     @router.post("/{run_id}/resume")
-    def resume(run_id: str, req: Resume):
-        return call(state.runs.store.resume, run_id, req.expected_revision)
+    def resume(run_id: str, req: Resume, request: Request):
+        return call(
+            state.runs.store.resume,
+            run_id,
+            req.expected_revision,
+            principal_id=request.state.principal_id,
+        )
 
     @router.get("/{run_id}/export")
-    def export(run_id: str):
-        return call(state.runs.store.export, run_id)
+    def export(run_id: str, request: Request):
+        return call(state.runs.store.export, run_id, principal_id=request.state.principal_id)
 
     @router.get("/{run_id}/counter-audit")
     def replay(run_id: str, request: Request):
         with execution_work(request):
-            return call(counter_audit, call(state.runs.store.get, run_id))
+            return call(
+                counter_audit,
+                call(state.runs.store.get, run_id, principal_id=request.state.principal_id),
+            )
 
     @router.get("/{run_id}/events")
     def events(
         run_id: str,
+        request: Request,
         after: Annotated[int, Query(ge=0)] = 0,
         last_event_id: Annotated[str | None, Header()] = None,
     ):
@@ -144,7 +180,7 @@ def run_router(state) -> APIRouter:
                 raise HTTPException(422, "Last-Event-ID must be a non-negative integer") from exc
             if cursor < 0:
                 raise HTTPException(422, "Last-Event-ID must be a non-negative integer")
-        bundle = call(state.runs.store.export, run_id)
+        bundle = call(state.runs.store.export, run_id, principal_id=request.state.principal_id)
         if cursor > bundle["run"]["revision"]:
             raise HTTPException(409, "event cursor is ahead of this run")
 

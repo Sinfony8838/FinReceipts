@@ -17,6 +17,11 @@
 <main id="main" class="page">
   <div class="page-heading"><div><h1>研究工作台</h1><p>核对财务数字，查看证据与执行记录。</p></div><span id="environment" class="environment">连接中</span></div>
   <div id="error" class="error-box" role="alert"></div>
+  <section id="auth-panel" class="notice" hidden>
+    <h2>访问当前服务</h2><p id="auth-user">输入服务端分配的访问令牌。刷新后需要重新认证。</p>
+    <form id="auth-form"><label for="auth-token">访问令牌</label><input id="auth-token" type="password" autocomplete="off" required>
+    <button type="submit">认证 / 切换用户</button></form>
+  </section>
   <section id="pending-create" class="notice" aria-labelledby="pending-title" hidden>
     <h2 id="pending-title">确认上次创建结果</h2>
     <p id="pending-note"></p>
@@ -43,6 +48,11 @@
           <label for="question">研究问题</label><textarea id="question" required maxlength="12000">苹果（AAPL）2023 财年的营业收入是多少？</textarea>
           <div class="row"><div><label for="ticker">公司代码</label><input id="ticker" value="AAPL" maxlength="16" required></div><div><label for="years">财年</label><input id="years" value="2023" required></div></div>
           <p class="hint">多个财年用逗号分隔。</p>
+          <label class="check"><input id="target-enabled" type="checkbox">绑定目标指标核验（单一财年）</label>
+          <div class="row"><div><label for="target-kind">计算方式</label><select id="target-kind"><option value="direct">直接数值</option><option value="ratio">比例</option><option value="yoy_growth">同比</option></select></div>
+          <div><label for="target-metric">目标指标</label><select id="target-metric"><option value="revenue">营业收入</option><option value="net income">净利润</option><option value="operating income">营业利润</option><option value="total assets">总资产</option><option value="diluted EPS">稀释每股收益</option></select></div></div>
+          <label for="target-denominator">比例分母</label><select id="target-denominator"><option value="revenue">营业收入</option><option value="total assets">总资产</option></select>
+          <label for="target-as-of">申报日期截止（可空）</label><input id="target-as-of" type="date">
           <details class="advanced"><summary>高级设置</summary><div class="row">
             <div><label for="budget">调用额度</label><input id="budget" type="number" min="1" max="50" value="6" required></div>
             <div><label for="revisions">修订上限</label><input id="revisions" type="number" min="0" max="5" value="2" required></div>
@@ -64,7 +74,7 @@
         <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="9" y="5" width="22" height="30" rx="3"/><path d="M14 13h12M14 19h12M14 25h7"/></svg>
         <h3>还没有研究结果</h3><p>从公司与财年开始，创建一个可以逐步核验的研究任务。</p><div class="empty-steps"><span><b>01</b>创建任务</span><span><b>02</b>执行核验</span><span><b>03</b>复查证据</span></div>
       </section>
-      <section id="answer-section" class="panel-section" hidden><div class="section-title"><h2>当前回答</h2><span class="muted">保留模型原文</span></div><div id="answer"></div><p id="reason"></p></section>
+      <section id="answer-section" class="panel-section" hidden><div class="section-title"><h2>当前回答</h2><span class="muted">保留模型原文</span></div><div id="answer"></div><p id="reason"></p><div id="target-result" aria-live="polite"></div></section>
       <section id="comparison-section" class="panel-section" hidden><div class="section-title"><h2>对照复核</h2><button id="compare" disabled>复核当前回答</button></div><p class="hint">使用同一份证据对照数字与语句，不调用模型。</p><div id="comparison" aria-live="polite"><p class="hint">生成回答后，可以在这里查看每条声明的复核结果。</p></div><p class="hint">数字匹配不等于全文正确；没有提取到数字也不会视为通过。</p></section>
       <section class="panel-section"><div class="section-title"><h2>执行记录</h2><span id="event-count" class="muted">暂无记录</span></div><ol id="events" class="timeline"><li class="empty-event">创建任务后，执行记录会显示在这里。</li></ol></section>
       <details id="evidence-details" class="metadata" hidden><summary>任务与证据详情</summary><pre id="identity" class="raw"></pre><p class="hint">证据摘要用于检测记录变化，不证明历史时点或实际计费。</p><div class="actions"><a id="export" class="button" hidden target="_blank" rel="noopener">查看证据包 JSON</a></div></details>
@@ -73,6 +83,7 @@
   <footer class="footer"><span>本地研究工具 · 不构成投资建议</span><span>演示模式使用固定回答，不代表真实模型效果。</span></footer>
 </main>
 <script src="/static/create-journal.js"></script>
+<script src="/static/run-auth.js"></script>
 <script src="/static/runs.js"></script>
 </body>
 </html>

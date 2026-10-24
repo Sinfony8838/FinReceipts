@@ -37,6 +37,8 @@ class AgentState(TypedDict, total=False):
     messages: list[Message]
     answer: str
     audit: list[VerificationResult]
+    target: dict
+    target_audit: dict
     revisions: int
     usage: Usage
     attempts: list[dict[str, Any]]

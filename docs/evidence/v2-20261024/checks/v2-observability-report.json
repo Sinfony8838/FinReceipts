@@ -1,0 +1,50 @@
+{
+  "date": 1792852316.8461685,
+  "targets": [
+    {
+      "url": "http://api1:8080/actuator/prometheus",
+      "health": "up",
+      "error": ""
+    },
+    {
+      "url": "http://api2:8080/actuator/prometheus",
+      "health": "up",
+      "error": ""
+    }
+  ],
+  "unknown": {
+    "status": "success",
+    "data": {
+      "resultType": "vector",
+      "result": [
+        {
+          "metric": {
+            "__name__": "finreceipts_unknown_tasks",
+            "instance": "api1:8080",
+            "job": "finreceipts"
+          },
+          "value": [
+            1792852316.836,
+            "1"
+          ]
+        },
+        {
+          "metric": {
+            "__name__": "finreceipts_unknown_tasks",
+            "instance": "api2:8080",
+            "job": "finreceipts"
+          },
+          "value": [
+            1792852316.836,
+            "1"
+          ]
+        }
+      ]
+    }
+  },
+  "grafana": {
+    "database": "ok",
+    "version": "12.2.0",
+    "commit": "92f1fba9b4b6700328e99e97328d6639df8ddc3d"
+  }
+}

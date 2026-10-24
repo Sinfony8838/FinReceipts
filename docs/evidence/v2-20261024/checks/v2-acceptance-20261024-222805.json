@@ -1,0 +1,329 @@
+{
+  "started_at": 1792852081.5418944,
+  "checks": {
+    "100_concurrent_same_key": "PASS",
+    "body_conflict": "PASS",
+    "rules_research_and_missing_evidence": "PASS",
+    "cross_tenant_task_events_export": "PASS",
+    "csrf_required": "PASS",
+    "human_review_preserves_machine_and_export_scope": "PASS",
+    "sse_cursor_replay": "PASS"
+  },
+  "batch_id": "a04c9073-05c8-434d-9804-c7d159c105cc",
+  "details": [
+    {
+      "id": "6237b33c-2e0c-472c-bb7e-d3f7857bffb3",
+      "batch_id": "a04c9073-05c8-434d-9804-c7d159c105cc",
+      "tenant_id": "alpha",
+      "creator_id": "fcadba8b-0fef-49a8-9ba9-37a64383c0ce",
+      "profile_id": "da8cdd8b63bbc1f7af08fb4d9ba76bfff8893f5d0792020a313e4cef4800cdbe",
+      "request": {
+        "kind": "research",
+        "target": {
+          "kind": "direct",
+          "metric": "revenue",
+          "denominator": null,
+          "fiscal_year": 2023
+        },
+        "ticker": "AAPL",
+        "question": null
+      },
+      "status": "COMPLETED",
+      "step": "DONE",
+      "revision": 10,
+      "machine_verdict": "SUPPORTED",
+      "review_status": "PENDING",
+      "result": {
+        "answer": "ANSWER: 383285000000 USD",
+        "coverage": "Explicit numeric target only; prose is not certified.",
+        "target_audit": {
+          "claim": {
+            "span": null,
+            "text": "383285000000 USD",
+            "unit": "USD",
+            "value": 383285000000.0,
+            "entity": "Apple Inc.",
+            "metric": "revenue",
+            "period_end": "2023-09-30"
+          },
+          "verdict": "supported",
+          "evidence": {
+            "note": null,
+            "facts": [
+              {
+                "fp": "FY",
+                "fy": 2023,
+                "cik": 320193,
+                "end": "2023-09-30",
+                "accn": "0000320193-23-000106",
+                "form": "10-K",
+                "unit": "USD",
+                "filed": "2023-11-03",
+                "frame": null,
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "start": "2022-09-25",
+                "value": 383285000000.0,
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "taxonomy": "us-gaap",
+                "filing_url": null,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm",
+                "entity_name": "Apple Inc.",
+                "period_type": "duration",
+                "duration_days": 371
+              }
+            ],
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "expected_unit": "USD",
+            "expected_value": 383285000000.0
+          },
+          "reason_codes": [],
+          "relative_error": 0.0
+        }
+      },
+      "evidence": {
+        "revenue": {
+          "2022": {
+            "fp": "FY",
+            "fy": 2022,
+            "cik": 320193,
+            "end": "2022-09-24",
+            "accn": "0000320193-22-000108",
+            "form": "10-K",
+            "unit": "USD",
+            "filed": "2022-10-28",
+            "frame": null,
+            "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+            "start": "2021-09-26",
+            "value": 394328000000.0,
+            "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "taxonomy": "us-gaap",
+            "filing_url": null,
+            "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm",
+            "entity_name": "Apple Inc.",
+            "period_type": "duration",
+            "duration_days": 364
+          },
+          "2023": {
+            "fp": "FY",
+            "fy": 2023,
+            "cik": 320193,
+            "end": "2023-09-30",
+            "accn": "0000320193-23-000106",
+            "form": "10-K",
+            "unit": "USD",
+            "filed": "2023-11-03",
+            "frame": null,
+            "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+            "start": "2022-09-25",
+            "value": 383285000000.0,
+            "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "taxonomy": "us-gaap",
+            "filing_url": null,
+            "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm",
+            "entity_name": "Apple Inc.",
+            "period_type": "duration",
+            "duration_days": 371
+          }
+        }
+      },
+      "evidence_digest": "b3196a15c66748cb4270e7e0a506871ec83ec16e7ce07aeb45ebc665430718ff",
+      "error_code": null,
+      "dispatches": 1,
+      "created_at": 1792852082278,
+      "updated_at": 1792852084660,
+      "traceparent": "00-21680c30018ffe259bb0b9962063fe91-aeee97dfbd74c77c-01",
+      "ticker": "AAPL",
+      "fiscal_year": 2023,
+      "metric": "revenue",
+      "attempts": [
+        {
+          "id": "a724c0ae-6adf-48c8-bfd8-15ef95aa6125",
+          "status": "SETTLED",
+          "reserved_micros": 1,
+          "actual_micros": 0,
+          "created_at": 1792852084283,
+          "settled_at": 1792852084346
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "id": "4cd20af2-50b9-44ab-a2ec-4085dd6086d7",
+      "batch_id": "a04c9073-05c8-434d-9804-c7d159c105cc",
+      "tenant_id": "alpha",
+      "creator_id": "fcadba8b-0fef-49a8-9ba9-37a64383c0ce",
+      "profile_id": "da8cdd8b63bbc1f7af08fb4d9ba76bfff8893f5d0792020a313e4cef4800cdbe",
+      "request": {
+        "kind": "metric",
+        "target": {
+          "kind": "direct",
+          "metric": "revenue",
+          "denominator": null,
+          "fiscal_year": 2099
+        },
+        "ticker": "AAPL",
+        "question": null
+      },
+      "status": "COMPLETED",
+      "step": "DONE",
+      "revision": 4,
+      "machine_verdict": "UNSUPPORTED",
+      "review_status": "PENDING",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "coverage": "Explicit numeric target only; prose is not certified.",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "evidence": null,
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "relative_error": null
+        }
+      },
+      "evidence": {
+        "revenue": {}
+      },
+      "evidence_digest": "532aa03ffcf6d56ee9377dc7507e180638dc3e4ebbf3bb57b5cab2ff97665c6f",
+      "error_code": null,
+      "dispatches": 0,
+      "created_at": 1792852082278,
+      "updated_at": 1792852083890,
+      "traceparent": "00-21680c30018ffe259bb0b9962063fe91-aeee97dfbd74c77c-01",
+      "ticker": "AAPL",
+      "fiscal_year": 2099,
+      "metric": "revenue",
+      "attempts": [],
+      "reviews": []
+    },
+    {
+      "id": "055940b7-d04c-483c-9041-4e53afedd26d",
+      "batch_id": "a04c9073-05c8-434d-9804-c7d159c105cc",
+      "tenant_id": "alpha",
+      "creator_id": "fcadba8b-0fef-49a8-9ba9-37a64383c0ce",
+      "profile_id": "da8cdd8b63bbc1f7af08fb4d9ba76bfff8893f5d0792020a313e4cef4800cdbe",
+      "request": {
+        "kind": "metric",
+        "target": {
+          "kind": "direct",
+          "metric": "revenue",
+          "denominator": null,
+          "fiscal_year": 2023
+        },
+        "ticker": "AAPL",
+        "question": null
+      },
+      "status": "COMPLETED",
+      "step": "DONE",
+      "revision": 4,
+      "machine_verdict": "SUPPORTED",
+      "review_status": "PENDING",
+      "result": {
+        "answer": "ANSWER: 383285000000 USD",
+        "coverage": "Explicit numeric target only; prose is not certified.",
+        "target_audit": {
+          "claim": {
+            "span": null,
+            "text": "383285000000 USD",
+            "unit": "USD",
+            "value": 383285000000.0,
+            "entity": "Apple Inc.",
+            "metric": "revenue",
+            "period_end": "2023-09-30"
+          },
+          "verdict": "supported",
+          "evidence": {
+            "note": null,
+            "facts": [
+              {
+                "fp": "FY",
+                "fy": 2023,
+                "cik": 320193,
+                "end": "2023-09-30",
+                "accn": "0000320193-23-000106",
+                "form": "10-K",
+                "unit": "USD",
+                "filed": "2023-11-03",
+                "frame": null,
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "start": "2022-09-25",
+                "value": 383285000000.0,
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "taxonomy": "us-gaap",
+                "filing_url": null,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm",
+                "entity_name": "Apple Inc.",
+                "period_type": "duration",
+                "duration_days": 371
+              }
+            ],
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "expected_unit": "USD",
+            "expected_value": 383285000000.0
+          },
+          "reason_codes": [],
+          "relative_error": 0.0
+        }
+      },
+      "evidence": {
+        "revenue": {
+          "2022": {
+            "fp": "FY",
+            "fy": 2022,
+            "cik": 320193,
+            "end": "2022-09-24",
+            "accn": "0000320193-22-000108",
+            "form": "10-K",
+            "unit": "USD",
+            "filed": "2022-10-28",
+            "frame": null,
+            "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+            "start": "2021-09-26",
+            "value": 394328000000.0,
+            "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "taxonomy": "us-gaap",
+            "filing_url": null,
+            "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm",
+            "entity_name": "Apple Inc.",
+            "period_type": "duration",
+            "duration_days": 364
+          },
+          "2023": {
+            "fp": "FY",
+            "fy": 2023,
+            "cik": 320193,
+            "end": "2023-09-30",
+            "accn": "0000320193-23-000106",
+            "form": "10-K",
+            "unit": "USD",
+            "filed": "2023-11-03",
+            "frame": null,
+            "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+            "start": "2022-09-25",
+            "value": 383285000000.0,
+            "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "taxonomy": "us-gaap",
+            "filing_url": null,
+            "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm",
+            "entity_name": "Apple Inc.",
+            "period_type": "duration",
+            "duration_days": 371
+          }
+        }
+      },
+      "evidence_digest": "b3196a15c66748cb4270e7e0a506871ec83ec16e7ce07aeb45ebc665430718ff",
+      "error_code": null,
+      "dispatches": 0,
+      "created_at": 1792852082278,
+      "updated_at": 1792852083893,
+      "traceparent": "00-21680c30018ffe259bb0b9962063fe91-aeee97dfbd74c77c-01",
+      "ticker": "AAPL",
+      "fiscal_year": 2023,
+      "metric": "revenue",
+      "attempts": [],
+      "reviews": []
+    }
+  ],
+  "finished_at": 1792852085.906796
+}

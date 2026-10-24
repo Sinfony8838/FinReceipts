@@ -1,0 +1,164 @@
+[
+  {
+    "mode": "query",
+    "config": {
+      "mode": "query",
+      "duration": 600,
+      "rps": 200.0,
+      "connections": 1000,
+      "rows": 100000
+    },
+    "started_at": 1792852271.2349799,
+    "hardware": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "cpu_count": 18,
+      "host": {
+        "Model": "DRA-XX",
+        "TotalPhysicalMemory": 25196617728,
+        "NumberOfLogicalProcessors": 18
+      },
+      "containers": [
+        "\"/finreceipts-v2-api1-1\" 805306368 1500000000 \"finreceipts-v2-api1\" \"sha256:000eea85b7f79501c1b6a3019304bd7487d14a7b2ce9c4a94e9899a8a8930ffb\"",
+        "\"/finreceipts-v2-api2-1\" 805306368 1500000000 \"finreceipts-v2-api2\" \"sha256:d02894532cc2b67d6e9ae2dcf446094f70b54a54df9c07c5585f17615033c5cc\"",
+        "\"/finreceipts-v2-coordinator-1\" 67108864 500000000 \"nginx:1.28-alpine\" \"sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236\"",
+        "\"/finreceipts-v2-grafana-1\" 536870912 500000000 \"grafana/grafana:12.2.0\" \"sha256:74144189b38447facf737dfd0f3906e42e0776212bf575dc3334c3609183adf7\"",
+        "\"/finreceipts-v2-mysql-1\" 1073741824 2000000000 \"mysql:8.4\" \"sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69\"",
+        "\"/finreceipts-v2-otel-1\" 268435456 500000000 \"otel/opentelemetry-collector-contrib:0.137.0\" \"sha256:886722fe0f37af9d1fe24d29529253ec59fbf263b3b1df4facaf221373e19d23\"",
+        "\"/finreceipts-v2-prometheus-1\" 536870912 1000000000 \"prom/prometheus:v3.5.0\" \"sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996\"",
+        "\"/finreceipts-v2-rabbitmq-1\" 536870912 1000000000 \"rabbitmq:4-management-alpine\" \"sha256:0452ee3fd3b9a74160b251e693338616b464f22df4d4ba43304c101bebdca292\"",
+        "\"/finreceipts-v2-redis-1\" 402653184 1000000000 \"redis:8-alpine\" \"sha256:0bf6577d7774e592b29d093e3ac9390eb91e13d72c21e506afce736de5e0eeb0\"",
+        "\"/finreceipts-v2-web-1\" 134217728 500000000 \"finreceipts-v2-web\" \"sha256:2744a87aafbd447d2f396e3a42187f140676271769dae37f5328543ba7684718\"",
+        "\"/finreceipts-v2-worker1-1\" 268435456 500000000 \"finreceipts-v2-worker1\" \"sha256:1249760200818656475f5859f6f669c30c0250b37aa5a47f6532e71999e85c83\"",
+        "\"/finreceipts-v2-worker2-1\" 268435456 500000000 \"finreceipts-v2-worker2\" \"sha256:55e11f72fb0fe2ee828bc6c79eed1fa06224d6dc4cfdde006983973cf728e669\"",
+        "\"/finreceipts-v2-worker3-1\" 268435456 500000000 \"finreceipts-v2-worker3\" \"sha256:814a8dd5bc0dd5dd068e45de704d822d741f691d986e21d482358e022479d5d1\"",
+        "\"/finreceipts-v2-worker4-1\" 268435456 500000000 \"finreceipts-v2-worker4\" \"sha256:a7ae0d1328c7eadc4a4aaa5c0363d6f83cb1be8ec94d27d6990e8501fb450851\""
+      ]
+    },
+    "source_sha256": "a734674df9f29b3700044198c712ce3f765112dedd99b26f5af0a21d8dd79173",
+    "scope": "Local multi-replica only; no SEC or live model calls.",
+    "requests": 120000,
+    "success": 113326,
+    "expected_rejections": 6674,
+    "unexpected_errors": 0,
+    "success_p95_ms": 656.0000000026776,
+    "success_p99_ms": 1171.0000000020955,
+    "scheduled_p95_ms": 23783.00000001036,
+    "max_start_lag_ms": 27467.00000000419,
+    "queue_snapshots": [],
+    "finished_at": 1792852888.2531657,
+    "original_report": "runs/v2-load-query-20261024-224128.json",
+    "original_sha256": "56140caee1aaefbf94a49f1f9e03184d207fe921cc361bb459923aca93b45d43"
+  },
+  {
+    "mode": "query",
+    "config": {
+      "mode": "query",
+      "duration": 10,
+      "rps": 200.0,
+      "connections": 1000,
+      "rows": 100000,
+      "query_client": "node"
+    },
+    "started_at": 1792852972.5346372,
+    "hardware": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "cpu_count": 18,
+      "host": {
+        "Model": "DRA-XX",
+        "TotalPhysicalMemory": 25196617728,
+        "NumberOfLogicalProcessors": 18
+      },
+      "containers": [
+        "\"/finreceipts-v2-api1-1\" 805306368 1500000000 \"finreceipts-v2-api1\" \"sha256:000eea85b7f79501c1b6a3019304bd7487d14a7b2ce9c4a94e9899a8a8930ffb\"",
+        "\"/finreceipts-v2-api2-1\" 805306368 1500000000 \"finreceipts-v2-api2\" \"sha256:d02894532cc2b67d6e9ae2dcf446094f70b54a54df9c07c5585f17615033c5cc\"",
+        "\"/finreceipts-v2-coordinator-1\" 67108864 500000000 \"nginx:1.28-alpine\" \"sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236\"",
+        "\"/finreceipts-v2-grafana-1\" 536870912 500000000 \"grafana/grafana:12.2.0\" \"sha256:74144189b38447facf737dfd0f3906e42e0776212bf575dc3334c3609183adf7\"",
+        "\"/finreceipts-v2-mysql-1\" 1073741824 2000000000 \"mysql:8.4\" \"sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69\"",
+        "\"/finreceipts-v2-otel-1\" 268435456 500000000 \"otel/opentelemetry-collector-contrib:0.137.0\" \"sha256:886722fe0f37af9d1fe24d29529253ec59fbf263b3b1df4facaf221373e19d23\"",
+        "\"/finreceipts-v2-prometheus-1\" 536870912 1000000000 \"prom/prometheus:v3.5.0\" \"sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996\"",
+        "\"/finreceipts-v2-rabbitmq-1\" 536870912 1000000000 \"rabbitmq:4-management-alpine\" \"sha256:0452ee3fd3b9a74160b251e693338616b464f22df4d4ba43304c101bebdca292\"",
+        "\"/finreceipts-v2-redis-1\" 402653184 1000000000 \"redis:8-alpine\" \"sha256:0bf6577d7774e592b29d093e3ac9390eb91e13d72c21e506afce736de5e0eeb0\"",
+        "\"/finreceipts-v2-web-1\" 134217728 500000000 \"finreceipts-v2-web\" \"sha256:2744a87aafbd447d2f396e3a42187f140676271769dae37f5328543ba7684718\"",
+        "\"/finreceipts-v2-worker1-1\" 268435456 500000000 \"finreceipts-v2-worker1\" \"sha256:1249760200818656475f5859f6f669c30c0250b37aa5a47f6532e71999e85c83\"",
+        "\"/finreceipts-v2-worker2-1\" 268435456 500000000 \"finreceipts-v2-worker2\" \"sha256:55e11f72fb0fe2ee828bc6c79eed1fa06224d6dc4cfdde006983973cf728e669\"",
+        "\"/finreceipts-v2-worker3-1\" 268435456 500000000 \"finreceipts-v2-worker3\" \"sha256:814a8dd5bc0dd5dd068e45de704d822d741f691d986e21d482358e022479d5d1\"",
+        "\"/finreceipts-v2-worker4-1\" 268435456 500000000 \"finreceipts-v2-worker4\" \"sha256:a7ae0d1328c7eadc4a4aaa5c0363d6f83cb1be8ec94d27d6990e8501fb450851\""
+      ]
+    },
+    "source_sha256": "a29be26ad3da275fce2a8b22e9bbd2099ede930419d1742583039a3b7174a563",
+    "scope": "Local multi-replica only; no SEC or live model calls.",
+    "requests": 2000,
+    "success": 2000,
+    "expected_rejections": 0,
+    "unexpected_errors": 0,
+    "success_p95_ms": 23.179700000000594,
+    "success_p99_ms": 60.972999999999956,
+    "scheduled_p95_ms": 26.71639999999934,
+    "max_start_lag_ms": 34.3171999999995,
+    "queue_snapshots": [],
+    "finished_at": 1792852990.301329,
+    "original_report": "runs/v2-load-query-20261024-224310.json",
+    "original_sha256": "3a9349aa994649d0f5a1c151ecbbb3a9dc3af0351cdb318eacc8d0bcd5a33536"
+  },
+  {
+    "mode": "query",
+    "status": "INTERRUPTED",
+    "config": {
+      "rps": 200,
+      "duration": 600,
+      "client": "node"
+    },
+    "started_at": "2026-10-24T22:43:27+08:00",
+    "discovered_at": "2026-10-24T23:04:25+08:00",
+    "reason": "Load process and Docker Desktop absent; no complete report produced. Exact interruption time/cause unknown.",
+    "success_p95_ms": null,
+    "requests": null,
+    "scope": "Never count this run as a capacity pass.",
+    "original_report": "runs/v2-load-query-interrupted-20261024-224327.json",
+    "original_sha256": "6f57a3ad68d361212f52b0daec40c9ae6d904e5d299593fbe039180d34102f64"
+  },
+  {
+    "mode": "seed",
+    "config": {
+      "mode": "seed",
+      "duration": 600,
+      "rps": 200,
+      "connections": 1000,
+      "rows": 100000
+    },
+    "started_at": 1792852168.1929998,
+    "hardware": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "cpu_count": 18,
+      "host": {
+        "Model": "DRA-XX",
+        "TotalPhysicalMemory": 25196617728,
+        "NumberOfLogicalProcessors": 18
+      },
+      "containers": [
+        "\"/finreceipts-v2-api1-1\" 805306368 1500000000 \"finreceipts-v2-api1\" \"sha256:000eea85b7f79501c1b6a3019304bd7487d14a7b2ce9c4a94e9899a8a8930ffb\"",
+        "\"/finreceipts-v2-api2-1\" 805306368 1500000000 \"finreceipts-v2-api2\" \"sha256:d02894532cc2b67d6e9ae2dcf446094f70b54a54df9c07c5585f17615033c5cc\"",
+        "\"/finreceipts-v2-coordinator-1\" 67108864 500000000 \"nginx:1.28-alpine\" \"sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236\"",
+        "\"/finreceipts-v2-grafana-1\" 536870912 500000000 \"grafana/grafana:12.2.0\" \"sha256:74144189b38447facf737dfd0f3906e42e0776212bf575dc3334c3609183adf7\"",
+        "\"/finreceipts-v2-mysql-1\" 1073741824 2000000000 \"mysql:8.4\" \"sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69\"",
+        "\"/finreceipts-v2-otel-1\" 268435456 500000000 \"otel/opentelemetry-collector-contrib:0.137.0\" \"sha256:886722fe0f37af9d1fe24d29529253ec59fbf263b3b1df4facaf221373e19d23\"",
+        "\"/finreceipts-v2-prometheus-1\" 536870912 1000000000 \"prom/prometheus:v3.5.0\" \"sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996\"",
+        "\"/finreceipts-v2-rabbitmq-1\" 536870912 1000000000 \"rabbitmq:4-management-alpine\" \"sha256:0452ee3fd3b9a74160b251e693338616b464f22df4d4ba43304c101bebdca292\"",
+        "\"/finreceipts-v2-redis-1\" 402653184 1000000000 \"redis:8-alpine\" \"sha256:0bf6577d7774e592b29d093e3ac9390eb91e13d72c21e506afce736de5e0eeb0\"",
+        "\"/finreceipts-v2-web-1\" 134217728 500000000 \"finreceipts-v2-web\" \"sha256:2744a87aafbd447d2f396e3a42187f140676271769dae37f5328543ba7684718\"",
+        "\"/finreceipts-v2-worker1-1\" 268435456 500000000 \"finreceipts-v2-worker1\" \"sha256:1249760200818656475f5859f6f669c30c0250b37aa5a47f6532e71999e85c83\"",
+        "\"/finreceipts-v2-worker2-1\" 268435456 500000000 \"finreceipts-v2-worker2\" \"sha256:55e11f72fb0fe2ee828bc6c79eed1fa06224d6dc4cfdde006983973cf728e669\"",
+        "\"/finreceipts-v2-worker3-1\" 268435456 500000000 \"finreceipts-v2-worker3\" \"sha256:814a8dd5bc0dd5dd068e45de704d822d741f691d986e21d482358e022479d5d1\"",
+        "\"/finreceipts-v2-worker4-1\" 268435456 500000000 \"finreceipts-v2-worker4\" \"sha256:a7ae0d1328c7eadc4a4aaa5c0363d6f83cb1be8ec94d27d6990e8501fb450851\""
+      ]
+    },
+    "source_sha256": "a734674df9f29b3700044198c712ce3f765112dedd99b26f5af0a21d8dd79173",
+    "scope": "Local multi-replica only; no SEC or live model calls.",
+    "synthetic_rows": 100000,
+    "batch_id": "1adbd920-57f0-4934-8364-d52dd2016a38",
+    "note": "Cancelled summary fixtures; never executed or exported as approved results.",
+    "finished_at": 1792852269.2312586,
+    "original_report": "runs/v2-load-seed-20261024-223109.json",
+    "original_sha256": "04b03edaa3b2ff6948a32397828780d28e3550af24c4dbcaf3b8dc615d242f6b"
+  }
+]

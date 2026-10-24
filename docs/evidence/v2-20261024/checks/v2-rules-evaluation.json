@@ -1,0 +1,2254 @@
+{
+  "scope": "Deterministic numeric route on versioned SEC evidence; same verifier, no prose generation or independent human labels.",
+  "date": 1792853413.3719864,
+  "implementation_id": "2a9732d09f3fb1737a35e8efae5b7f57d1d1c4afd9aa9cb38a924edfdd7ad2f9",
+  "items": [
+    {
+      "case_id": "AAPL-1",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "elapsed_ms": 122.09409999195486,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 383285000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "383285000000 USD",
+            "value": 383285000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "Apple Inc.",
+            "period_end": "2023-09-30",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 320193,
+                "entity_name": "Apple Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 383285000000.0,
+                "start": "2022-09-25",
+                "end": "2023-09-30",
+                "accn": "0000320193-23-000106",
+                "form": "10-K",
+                "filed": "2023-11-03",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 371,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm"
+              }
+            ],
+            "expected_value": 383285000000.0,
+            "expected_unit": "USD",
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "AAPL-2",
+      "split": "dev",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "elapsed_ms": 96.65979999408592,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 25.3062342643 %",
+        "target_audit": {
+          "claim": {
+            "text": "25.3062342643 %",
+            "value": 25.3062342643,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "Apple Inc.",
+            "period_end": "2023-09-30",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 320193,
+                "entity_name": "Apple Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 96995000000.0,
+                "start": "2022-09-25",
+                "end": "2023-09-30",
+                "accn": "0000320193-23-000106",
+                "form": "10-K",
+                "filed": "2023-11-03",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 371,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm"
+              },
+              {
+                "cik": 320193,
+                "entity_name": "Apple Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 383285000000.0,
+                "start": "2022-09-25",
+                "end": "2023-09-30",
+                "accn": "0000320193-23-000106",
+                "form": "10-K",
+                "filed": "2023-11-03",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 371,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm"
+              }
+            ],
+            "expected_value": 25.30623426432028,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 8.01480069315119e-13
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "AAPL-3",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "elapsed_ms": 75.11830001021735,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: -2.80046053032 %",
+        "target_audit": {
+          "claim": {
+            "text": "-2.80046053032 %",
+            "value": -2.80046053032,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "Apple Inc.",
+            "period_end": "2023-09-30",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 320193,
+                "entity_name": "Apple Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 383285000000.0,
+                "start": "2022-09-25",
+                "end": "2023-09-30",
+                "accn": "0000320193-23-000106",
+                "form": "10-K",
+                "filed": "2023-11-03",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 371,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm"
+              },
+              {
+                "cik": 320193,
+                "entity_name": "Apple Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 394328000000.0,
+                "start": "2021-09-26",
+                "end": "2022-09-24",
+                "accn": "0000320193-22-000108",
+                "form": "10-K",
+                "filed": "2022-10-28",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm"
+              }
+            ],
+            "expected_value": -2.8004605303199366,
+            "expected_unit": "percent",
+            "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 2.2676540633587825e-14
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "AAPL-4",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "elapsed_ms": 76.4160999970045,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "MSFT-1",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "dd0308149a8e96497989ed7c690b5a49a00bef9ceafbb24638bda41e8ae938dd",
+      "elapsed_ms": 70.44999999925494,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 211915000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "211915000000 USD",
+            "value": 211915000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "Microsoft Corporation",
+            "period_end": "2023-06-30",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 789019,
+                "entity_name": "Microsoft Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 211915000000.0,
+                "start": "2022-07-01",
+                "end": "2023-06-30",
+                "accn": "0000950170-23-035122",
+                "form": "10-K",
+                "filed": "2023-07-27",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm"
+              }
+            ],
+            "expected_value": 211915000000.0,
+            "expected_unit": "USD",
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "MSFT-2",
+      "split": "dev",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "dd0308149a8e96497989ed7c690b5a49a00bef9ceafbb24638bda41e8ae938dd",
+      "elapsed_ms": 57.132000001729466,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 34.1462378784 %",
+        "target_audit": {
+          "claim": {
+            "text": "34.1462378784 %",
+            "value": 34.1462378784,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "Microsoft Corporation",
+            "period_end": "2023-06-30",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 789019,
+                "entity_name": "Microsoft Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 72361000000.0,
+                "start": "2022-07-01",
+                "end": "2023-06-30",
+                "accn": "0000950170-23-035122",
+                "form": "10-K",
+                "filed": "2023-07-27",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm"
+              },
+              {
+                "cik": 789019,
+                "entity_name": "Microsoft Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 211915000000.0,
+                "start": "2022-07-01",
+                "end": "2023-06-30",
+                "accn": "0000950170-23-035122",
+                "form": "10-K",
+                "filed": "2023-07-27",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm"
+              }
+            ],
+            "expected_value": 34.14623787839464,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 1.568984626274452e-13
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "MSFT-3",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "dd0308149a8e96497989ed7c690b5a49a00bef9ceafbb24638bda41e8ae938dd",
+      "elapsed_ms": 73.78279999829829,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 6.88202955566 %",
+        "target_audit": {
+          "claim": {
+            "text": "6.88202955566 %",
+            "value": 6.88202955566,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "Microsoft Corporation",
+            "period_end": "2023-06-30",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 789019,
+                "entity_name": "Microsoft Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 211915000000.0,
+                "start": "2022-07-01",
+                "end": "2023-06-30",
+                "accn": "0000950170-23-035122",
+                "form": "10-K",
+                "filed": "2023-07-27",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm"
+              },
+              {
+                "cik": 789019,
+                "entity_name": "Microsoft Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 198270000000.0,
+                "start": "2021-07-01",
+                "end": "2022-06-30",
+                "accn": "0001564590-22-026876",
+                "form": "10-K",
+                "filed": "2022-07-28",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000156459022026876/0001564590-22-026876-index.htm"
+              }
+            ],
+            "expected_value": 6.882029555656429,
+            "expected_unit": "percent",
+            "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 5.18940727692582e-13
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "MSFT-4",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "dd0308149a8e96497989ed7c690b5a49a00bef9ceafbb24638bda41e8ae938dd",
+      "elapsed_ms": 73.77709999855142,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "NVDA-1",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "elapsed_ms": 71.03069999720901,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 26974000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "26974000000 USD",
+            "value": 26974000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "NVIDIA CORP",
+            "period_end": "2023-01-29",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1045810,
+                "entity_name": "NVIDIA CORP",
+                "taxonomy": "us-gaap",
+                "concept": "Revenues",
+                "label": "Revenues",
+                "unit": "USD",
+                "value": 26974000000.0,
+                "start": "2022-01-31",
+                "end": "2023-01-29",
+                "accn": "0001045810-23-000017",
+                "form": "10-K",
+                "filed": "2023-02-24",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm"
+              }
+            ],
+            "expected_value": 26974000000.0,
+            "expected_unit": "USD",
+            "formula": "Revenues[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "NVDA-2",
+      "split": "dev",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "elapsed_ms": 91.45320000243373,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 16.1933713947 %",
+        "target_audit": {
+          "claim": {
+            "text": "16.1933713947 %",
+            "value": 16.1933713947,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "NVIDIA CORP",
+            "period_end": "2023-01-29",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1045810,
+                "entity_name": "NVIDIA CORP",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 4368000000.0,
+                "start": "2022-01-31",
+                "end": "2023-01-29",
+                "accn": "0001045810-23-000017",
+                "form": "10-K",
+                "filed": "2023-02-24",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm"
+              },
+              {
+                "cik": 1045810,
+                "entity_name": "NVIDIA CORP",
+                "taxonomy": "us-gaap",
+                "concept": "Revenues",
+                "label": "Revenues",
+                "unit": "USD",
+                "value": 26974000000.0,
+                "start": "2022-01-31",
+                "end": "2023-01-29",
+                "accn": "0001045810-23-000017",
+                "form": "10-K",
+                "filed": "2023-02-24",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm"
+              }
+            ],
+            "expected_value": 16.193371394676355,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / Revenues[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 1.4602803622394623e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "NVDA-3",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "elapsed_ms": 88.3447999949567,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 0.222932302891 %",
+        "target_audit": {
+          "claim": {
+            "text": "0.222932302891 %",
+            "value": 0.222932302891,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "NVIDIA CORP",
+            "period_end": "2023-01-29",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1045810,
+                "entity_name": "NVIDIA CORP",
+                "taxonomy": "us-gaap",
+                "concept": "Revenues",
+                "label": "Revenues",
+                "unit": "USD",
+                "value": 26974000000.0,
+                "start": "2022-01-31",
+                "end": "2023-01-29",
+                "accn": "0001045810-23-000017",
+                "form": "10-K",
+                "filed": "2023-02-24",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm"
+              },
+              {
+                "cik": 1045810,
+                "entity_name": "NVIDIA CORP",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 26914000000.0,
+                "start": "2021-02-01",
+                "end": "2022-01-30",
+                "accn": "0001045810-22-000036",
+                "form": "10-K",
+                "filed": "2022-03-18",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": "CY2021",
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/0001045810-22-000036-index.htm"
+              }
+            ],
+            "expected_value": 0.22293230289068885,
+            "expected_unit": "percent",
+            "formula": "(Revenues[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 1.3956703385590667e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "NVDA-4",
+      "split": "dev",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "elapsed_ms": 62.1882999985246,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "GOOGL-1",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+      "elapsed_ms": 74.26419999683276,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 307394000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "307394000000 USD",
+            "value": 307394000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "Alphabet Inc.",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1652044,
+                "entity_name": "Alphabet Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 307394000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001652044-24-000022",
+                "form": "10-K",
+                "filed": "2024-01-31",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204424000022/0001652044-24-000022-index.htm"
+              }
+            ],
+            "expected_value": 307394000000.0,
+            "expected_unit": "USD",
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "GOOGL-2",
+      "split": "frozen",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+      "elapsed_ms": 63.54540000029374,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 24.0066494466 %",
+        "target_audit": {
+          "claim": {
+            "text": "24.0066494466 %",
+            "value": 24.0066494466,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "Alphabet Inc.",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1652044,
+                "entity_name": "Alphabet Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 73795000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001652044-24-000022",
+                "form": "10-K",
+                "filed": "2024-01-31",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204424000022/0001652044-24-000022-index.htm"
+              },
+              {
+                "cik": 1652044,
+                "entity_name": "Alphabet Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 307394000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001652044-24-000022",
+                "form": "10-K",
+                "filed": "2024-01-31",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204424000022/0001652044-24-000022-index.htm"
+              }
+            ],
+            "expected_value": 24.006649446638516,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 1.604345874149848e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "GOOGL-3",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+      "elapsed_ms": 78.91969999764115,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 8.68277022727 %",
+        "target_audit": {
+          "claim": {
+            "text": "8.68277022727 %",
+            "value": 8.68277022727,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "Alphabet Inc.",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1652044,
+                "entity_name": "Alphabet Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 307394000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001652044-24-000022",
+                "form": "10-K",
+                "filed": "2024-01-31",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204424000022/0001652044-24-000022-index.htm"
+              },
+              {
+                "cik": 1652044,
+                "entity_name": "Alphabet Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 282836000000.0,
+                "start": "2022-01-01",
+                "end": "2022-12-31",
+                "accn": "0001652044-23-000016",
+                "form": "10-K",
+                "filed": "2023-02-03",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204423000016/0001652044-23-000016-index.htm"
+              }
+            ],
+            "expected_value": 8.682770227269513,
+            "expected_unit": "percent",
+            "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 5.6056046774916086e-14
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "GOOGL-4",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+      "elapsed_ms": 76.40069999615662,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "AMZN-1",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4",
+      "elapsed_ms": 69.03549999697134,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 574785000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "574785000000 USD",
+            "value": 574785000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "AMAZON COM INC",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1018724,
+                "entity_name": "AMAZON COM INC",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 574785000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001018724-24-000008",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm"
+              }
+            ],
+            "expected_value": 574785000000.0,
+            "expected_unit": "USD",
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "AMZN-2",
+      "split": "frozen",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4",
+      "elapsed_ms": 51.328699992154725,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 5.2932835756 %",
+        "target_audit": {
+          "claim": {
+            "text": "5.2932835756 %",
+            "value": 5.2932835756,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "AMAZON COM INC",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1018724,
+                "entity_name": "AMAZON COM INC",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 30425000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001018724-24-000008",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm"
+              },
+              {
+                "cik": 1018724,
+                "entity_name": "AMAZON COM INC",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 574785000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001018724-24-000008",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm"
+              }
+            ],
+            "expected_value": 5.293283575597832,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 4.095838606650019e-13
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "AMZN-3",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4",
+      "elapsed_ms": 75.19930000125896,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 11.8295741299 %",
+        "target_audit": {
+          "claim": {
+            "text": "11.8295741299 %",
+            "value": 11.8295741299,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "AMAZON COM INC",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1018724,
+                "entity_name": "AMAZON COM INC",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 574785000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001018724-24-000008",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm"
+              },
+              {
+                "cik": 1018724,
+                "entity_name": "AMAZON COM INC",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 513983000000.0,
+                "start": "2022-01-01",
+                "end": "2022-12-31",
+                "accn": "0001018724-23-000004",
+                "form": "10-K",
+                "filed": "2023-02-03",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872423000004/0001018724-23-000004-index.htm"
+              }
+            ],
+            "expected_value": 11.829574129883673,
+            "expected_unit": "percent",
+            "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 1.3801423053501124e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "AMZN-4",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4",
+      "elapsed_ms": 102.92160000244621,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "META-1",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "ecbeee451a002c65e854fd89c68c5e5762740427f9edba01f015d6bc668c3e43",
+      "elapsed_ms": 73.7092999916058,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 134902000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "134902000000 USD",
+            "value": 134902000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "Meta Platforms, Inc.",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1326801,
+                "entity_name": "Meta Platforms, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 134902000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001326801-24-000012",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+              }
+            ],
+            "expected_value": 134902000000.0,
+            "expected_unit": "USD",
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "META-2",
+      "split": "frozen",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "ecbeee451a002c65e854fd89c68c5e5762740427f9edba01f015d6bc668c3e43",
+      "elapsed_ms": 64.88020000688266,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 28.9825206446 %",
+        "target_audit": {
+          "claim": {
+            "text": "28.9825206446 %",
+            "value": 28.9825206446,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "Meta Platforms, Inc.",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1326801,
+                "entity_name": "Meta Platforms, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 39098000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001326801-24-000012",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+              },
+              {
+                "cik": 1326801,
+                "entity_name": "Meta Platforms, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 134902000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001326801-24-000012",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+              }
+            ],
+            "expected_value": 28.982520644616095,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 5.552930734461812e-13
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "META-3",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "ecbeee451a002c65e854fd89c68c5e5762740427f9edba01f015d6bc668c3e43",
+      "elapsed_ms": 71.64519999059848,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 15.6874683772 %",
+        "target_audit": {
+          "claim": {
+            "text": "15.6874683772 %",
+            "value": 15.6874683772,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "Meta Platforms, Inc.",
+            "period_end": "2023-12-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1326801,
+                "entity_name": "Meta Platforms, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 134902000000.0,
+                "start": "2023-01-01",
+                "end": "2023-12-31",
+                "accn": "0001326801-24-000012",
+                "form": "10-K",
+                "filed": "2024-02-02",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+              },
+              {
+                "cik": 1326801,
+                "entity_name": "Meta Platforms, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 116609000000.0,
+                "start": "2022-01-01",
+                "end": "2022-12-31",
+                "accn": "0001326801-23-000013",
+                "form": "10-K",
+                "filed": "2023-02-02",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm"
+              }
+            ],
+            "expected_value": 15.687468377226457,
+            "expected_unit": "percent",
+            "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 1.6865091377290117e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "META-4",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "ecbeee451a002c65e854fd89c68c5e5762740427f9edba01f015d6bc668c3e43",
+      "elapsed_ms": 62.314800001331605,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ADBE-1",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "86a5689aa9aa7b0f9e95be21b48b0305376e014c8dbf3b8bb3b4b131f1b6a0c4",
+      "elapsed_ms": 56.94119998952374,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 19409000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "19409000000 USD",
+            "value": 19409000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "ADOBE INC.",
+            "period_end": "2023-12-01",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 796343,
+                "entity_name": "ADOBE INC.",
+                "taxonomy": "us-gaap",
+                "concept": "Revenues",
+                "label": "Revenues",
+                "unit": "USD",
+                "value": 19409000000.0,
+                "start": "2022-12-03",
+                "end": "2023-12-01",
+                "accn": "0000796343-24-000006",
+                "form": "10-K",
+                "filed": "2024-01-17",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm"
+              }
+            ],
+            "expected_value": 19409000000.0,
+            "expected_unit": "USD",
+            "formula": "Revenues[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ADBE-2",
+      "split": "frozen",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "86a5689aa9aa7b0f9e95be21b48b0305376e014c8dbf3b8bb3b4b131f1b6a0c4",
+      "elapsed_ms": 55.078100005630404,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 27.9664073368 %",
+        "target_audit": {
+          "claim": {
+            "text": "27.9664073368 %",
+            "value": 27.9664073368,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "ADOBE INC.",
+            "period_end": "2023-12-01",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 796343,
+                "entity_name": "ADOBE INC.",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 5428000000.0,
+                "start": "2022-12-03",
+                "end": "2023-12-01",
+                "accn": "0000796343-24-000006",
+                "form": "10-K",
+                "filed": "2024-01-17",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm"
+              },
+              {
+                "cik": 796343,
+                "entity_name": "ADOBE INC.",
+                "taxonomy": "us-gaap",
+                "concept": "Revenues",
+                "label": "Revenues",
+                "unit": "USD",
+                "value": 19409000000.0,
+                "start": "2022-12-03",
+                "end": "2023-12-01",
+                "accn": "0000796343-24-000006",
+                "form": "10-K",
+                "filed": "2024-01-17",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm"
+              }
+            ],
+            "expected_value": 27.96640733680251,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / Revenues[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 8.981377338399065e-14
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ADBE-3",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "86a5689aa9aa7b0f9e95be21b48b0305376e014c8dbf3b8bb3b4b131f1b6a0c4",
+      "elapsed_ms": 42.55579999880865,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 10.2408269908 %",
+        "target_audit": {
+          "claim": {
+            "text": "10.2408269908 %",
+            "value": 10.2408269908,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "ADOBE INC.",
+            "period_end": "2023-12-01",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 796343,
+                "entity_name": "ADOBE INC.",
+                "taxonomy": "us-gaap",
+                "concept": "Revenues",
+                "label": "Revenues",
+                "unit": "USD",
+                "value": 19409000000.0,
+                "start": "2022-12-03",
+                "end": "2023-12-01",
+                "accn": "0000796343-24-000006",
+                "form": "10-K",
+                "filed": "2024-01-17",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm"
+              },
+              {
+                "cik": 796343,
+                "entity_name": "ADOBE INC.",
+                "taxonomy": "us-gaap",
+                "concept": "Revenues",
+                "label": "Revenues",
+                "unit": "USD",
+                "value": 17606000000.0,
+                "start": "2021-12-04",
+                "end": "2022-12-02",
+                "accn": "0000796343-23-000007",
+                "form": "10-K",
+                "filed": "2023-01-17",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 364,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm"
+              }
+            ],
+            "expected_value": 10.240826990798592,
+            "expected_unit": "percent",
+            "formula": "(Revenues[FY2023] - Revenues[FY2022]) / |Revenues[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 1.3755246279524836e-13
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ADBE-4",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "86a5689aa9aa7b0f9e95be21b48b0305376e014c8dbf3b8bb3b4b131f1b6a0c4",
+      "elapsed_ms": 48.98160000448115,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "CRM-1",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "c36bddafd22061dfe573fa22199074d882196f6667cf641eb30c8cec5a340ae5",
+      "elapsed_ms": 53.02790000860114,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 31352000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "31352000000 USD",
+            "value": 31352000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "Salesforce, Inc.",
+            "period_end": "2023-01-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1108524,
+                "entity_name": "Salesforce, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 31352000000.0,
+                "start": "2022-02-01",
+                "end": "2023-01-31",
+                "accn": "0001108524-23-000011",
+                "form": "10-K",
+                "filed": "2023-03-08",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852423000011/0001108524-23-000011-index.htm"
+              }
+            ],
+            "expected_value": 31352000000.0,
+            "expected_unit": "USD",
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "CRM-2",
+      "split": "frozen",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "c36bddafd22061dfe573fa22199074d882196f6667cf641eb30c8cec5a340ae5",
+      "elapsed_ms": 58.80329999490641,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 0.66343454963 %",
+        "target_audit": {
+          "claim": {
+            "text": "0.66343454963 %",
+            "value": 0.66343454963,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "Salesforce, Inc.",
+            "period_end": "2023-01-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1108524,
+                "entity_name": "Salesforce, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 208000000.0,
+                "start": "2022-02-01",
+                "end": "2023-01-31",
+                "accn": "0001108524-23-000011",
+                "form": "10-K",
+                "filed": "2023-03-08",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852423000011/0001108524-23-000011-index.htm"
+              },
+              {
+                "cik": 1108524,
+                "entity_name": "Salesforce, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 31352000000.0,
+                "start": "2022-02-01",
+                "end": "2023-01-31",
+                "accn": "0001108524-23-000011",
+                "form": "10-K",
+                "filed": "2023-03-08",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852423000011/0001108524-23-000011-index.htm"
+              }
+            ],
+            "expected_value": 0.6634345496300076,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 1.1379444395323355e-14
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "CRM-3",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "c36bddafd22061dfe573fa22199074d882196f6667cf641eb30c8cec5a340ae5",
+      "elapsed_ms": 55.128300009528175,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 18.3451608033 %",
+        "target_audit": {
+          "claim": {
+            "text": "18.3451608033 %",
+            "value": 18.3451608033,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "Salesforce, Inc.",
+            "period_end": "2023-01-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1108524,
+                "entity_name": "Salesforce, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 31352000000.0,
+                "start": "2022-02-01",
+                "end": "2023-01-31",
+                "accn": "0001108524-23-000011",
+                "form": "10-K",
+                "filed": "2023-03-08",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852423000011/0001108524-23-000011-index.htm"
+              },
+              {
+                "cik": 1108524,
+                "entity_name": "Salesforce, Inc.",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 26492000000.0,
+                "start": "2021-02-01",
+                "end": "2022-01-31",
+                "accn": "0001108524-22-000013",
+                "form": "10-K",
+                "filed": "2022-03-11",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852422000013/0001108524-22-000013-index.htm"
+              }
+            ],
+            "expected_value": 18.34516080326136,
+            "expected_unit": "percent",
+            "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 2.1062401352058487e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "CRM-4",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "c36bddafd22061dfe573fa22199074d882196f6667cf641eb30c8cec5a340ae5",
+      "elapsed_ms": 46.97680000390392,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ORCL-1",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "65523545f040abaea1dfcf321da2a5aec85e7f34387244b0ffcb26e4c8707f7d",
+      "elapsed_ms": 46.32259999925736,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 49954000000 USD",
+        "target_audit": {
+          "claim": {
+            "text": "49954000000 USD",
+            "value": 49954000000.0,
+            "unit": "USD",
+            "metric": "revenue",
+            "entity": "Oracle Corporation",
+            "period_end": "2023-05-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1341439,
+                "entity_name": "Oracle Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 49954000000.0,
+                "start": "2022-06-01",
+                "end": "2023-05-31",
+                "accn": "0000950170-23-028914",
+                "form": "10-K",
+                "filed": "2023-06-20",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017023028914/0000950170-23-028914-index.htm"
+              }
+            ],
+            "expected_value": 49954000000.0,
+            "expected_unit": "USD",
+            "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+            "note": null
+          },
+          "relative_error": 0.0
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ORCL-2",
+      "split": "frozen",
+      "target": {
+        "denominator": "revenue",
+        "fiscal_year": 2023,
+        "kind": "ratio",
+        "metric": "net income"
+      },
+      "source_sha256": "65523545f040abaea1dfcf321da2a5aec85e7f34387244b0ffcb26e4c8707f7d",
+      "elapsed_ms": 50.190300011308864,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 17.0216599271 %",
+        "target_audit": {
+          "claim": {
+            "text": "17.0216599271 %",
+            "value": 17.0216599271,
+            "unit": "percent",
+            "metric": "net income as a percentage of revenue",
+            "entity": "Oracle Corporation",
+            "period_end": "2023-05-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1341439,
+                "entity_name": "Oracle Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "NetIncomeLoss",
+                "label": "Net Income (Loss) Attributable to Parent",
+                "unit": "USD",
+                "value": 8503000000.0,
+                "start": "2022-06-01",
+                "end": "2023-05-31",
+                "accn": "0000950170-23-028914",
+                "form": "10-K",
+                "filed": "2023-06-20",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017023028914/0000950170-23-028914-index.htm"
+              },
+              {
+                "cik": 1341439,
+                "entity_name": "Oracle Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 49954000000.0,
+                "start": "2022-06-01",
+                "end": "2023-05-31",
+                "accn": "0000950170-23-028914",
+                "form": "10-K",
+                "filed": "2023-06-20",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017023028914/0000950170-23-028914-index.htm"
+              }
+            ],
+            "expected_value": 17.021659927132962,
+            "expected_unit": "percent",
+            "formula": "NetIncomeLoss[FY2023] / RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] * 100",
+            "note": null
+          },
+          "relative_error": 1.9364784429377918e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ORCL-3",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2023,
+        "kind": "yoy_growth",
+        "metric": "revenue"
+      },
+      "source_sha256": "65523545f040abaea1dfcf321da2a5aec85e7f34387244b0ffcb26e4c8707f7d",
+      "elapsed_ms": 39.590600004885346,
+      "machine_verdict": "SUPPORTED",
+      "result": {
+        "answer": "ANSWER: 17.7049952875 %",
+        "target_audit": {
+          "claim": {
+            "text": "17.7049952875 %",
+            "value": 17.7049952875,
+            "unit": "percent",
+            "metric": "year-over-year growth in revenue",
+            "entity": "Oracle Corporation",
+            "period_end": "2023-05-31",
+            "span": null
+          },
+          "verdict": "supported",
+          "reason_codes": [],
+          "evidence": {
+            "facts": [
+              {
+                "cik": 1341439,
+                "entity_name": "Oracle Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 49954000000.0,
+                "start": "2022-06-01",
+                "end": "2023-05-31",
+                "accn": "0000950170-23-028914",
+                "form": "10-K",
+                "filed": "2023-06-20",
+                "fy": 2023,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017023028914/0000950170-23-028914-index.htm"
+              },
+              {
+                "cik": 1341439,
+                "entity_name": "Oracle Corporation",
+                "taxonomy": "us-gaap",
+                "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+                "unit": "USD",
+                "value": 42440000000.0,
+                "start": "2021-06-01",
+                "end": "2022-05-31",
+                "accn": "0001564590-22-023675",
+                "form": "10-K",
+                "filed": "2022-06-21",
+                "fy": 2022,
+                "fp": "FY",
+                "frame": null,
+                "filing_url": null,
+                "period_type": "duration",
+                "duration_days": 365,
+                "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000156459022023675/0001564590-22-023675-index.htm"
+              }
+            ],
+            "expected_value": 17.704995287464655,
+            "expected_unit": "percent",
+            "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+            "note": null
+          },
+          "relative_error": 1.9963828183231165e-12
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    },
+    {
+      "case_id": "ORCL-4",
+      "split": "frozen",
+      "target": {
+        "fiscal_year": 2099,
+        "kind": "direct",
+        "metric": "revenue"
+      },
+      "source_sha256": "65523545f040abaea1dfcf321da2a5aec85e7f34387244b0ffcb26e4c8707f7d",
+      "elapsed_ms": 45.429799996782094,
+      "machine_verdict": "UNSUPPORTED",
+      "result": {
+        "answer": "ANSWER: N/A",
+        "target_audit": {
+          "claim": null,
+          "verdict": "unsupported",
+          "reason_codes": [
+            "missing_evidence"
+          ],
+          "evidence": null,
+          "relative_error": null
+        },
+        "coverage": "Explicit numeric target only; prose is not certified."
+      },
+      "next_step": "DONE"
+    }
+  ],
+  "http_attempts": 0,
+  "model_tokens": 0,
+  "model_cost_micros": 0,
+  "supported": 27,
+  "missing_refusals": 9,
+  "total": 36
+}

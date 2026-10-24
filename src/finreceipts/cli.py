@@ -225,10 +225,19 @@ def _print_item(r) -> None:
 
 
 def _cmd_runtime_snapshot(args: argparse.Namespace) -> int:
-    from finreceipts.runtime.backup import create_backup, restore_backup, verify_backup
+    from finreceipts.runtime.backup import (
+        create_backup,
+        migrate_database,
+        restore_backup,
+        verify_backup,
+    )
 
     try:
-        if args.cmd == "runtime-backup":
+        if args.cmd == "runtime-migrate":
+            result = migrate_database(
+                Path(args.database), Path(args.out), timeout=args.copy_timeout
+            )
+        elif args.cmd == "runtime-backup":
             result = create_backup(Path(args.database), Path(args.out), timeout=args.copy_timeout)
         elif args.cmd == "runtime-restore":
             result = restore_backup(Path(args.backup), Path(args.out))
@@ -244,6 +253,14 @@ def _cmd_runtime_snapshot(args: argparse.Namespace) -> int:
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="finreceipts", description=__doc__)
     sub = p.add_subparsers(dest="cmd", required=True)
+
+    migrate = sub.add_parser(
+        "runtime-migrate", help="copy a legacy run database to a new scoped backup directory"
+    )
+    migrate.add_argument("--database", required=True)
+    migrate.add_argument("--out", required=True)
+    migrate.add_argument("--copy-timeout", type=float, default=30)
+    migrate.set_defaults(func=_cmd_runtime_snapshot)
 
     backup = sub.add_parser("runtime-backup", help="create a verified online SQLite backup")
     backup.add_argument("--database", required=True, help="existing runtime SQLite file")

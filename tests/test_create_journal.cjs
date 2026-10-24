@@ -57,3 +57,28 @@ test('invalid client input is rejected without overwriting a pending record',()=
   assert.throws(()=>journal.save({...record,body:{...record.body,max_revisions:6}}),e=>e.code==='invalid_request');
   assert.equal(data.get(key),JSON.stringify(record));
 });
+
+test('scoped pending record survives reload and refuses another identity',()=>{
+  const {journal,storage}=load();
+  const scoped={...record,version:2,principal_id:'alice',operation:'create_run'};
+  journal.save(scoped);
+  const again=load(storage).journal;
+  assert.equal(again.forPrincipal(again.load(),'alice').key,record.key);
+  assert.throws(()=>again.forPrincipal(again.load(),'bob'),e=>e.code==='creation_identity_mismatch');
+  assert.equal(again.load().principal_id,'alice');
+});
+
+test('legacy pending record is recoverable only as local',()=>{
+  const {journal}=load(); journal.save(record);
+  assert.equal(journal.forPrincipal(journal.load(),'local').key,record.key);
+  assert.throws(()=>journal.forPrincipal(journal.load(),'alice'),e=>e.code==='creation_identity_mismatch');
+});
+
+test('target record preserves target, cutoff and tool selection',()=>{
+  const {journal}=load();
+  const scoped={...record,version:2,principal_id:'alice',operation:'create_run',body:{...record.body,
+    target:{kind:'direct',metric:'revenue',fiscal_year:2023},as_of:'2024-01-01',use_tools:true}};
+  journal.save(scoped);
+  assert.equal(JSON.stringify(journal.load()),JSON.stringify(scoped));
+  assert.throws(()=>journal.save({...scoped,body:{...scoped.body,fiscal_years:[2022]}}),e=>e.code==='invalid_request');
+});

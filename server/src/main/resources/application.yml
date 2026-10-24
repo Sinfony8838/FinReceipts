@@ -1,0 +1,62 @@
+server:
+  port: 8080
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: 80
+    max-http-form-post-size: 256KB
+spring:
+  application:
+    name: finreceipts-v2
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/finreceipts?connectionTimeZone=UTC}
+    username: ${DATABASE_USER:finreceipts}
+    password: ${DATABASE_PASSWORD}
+    hikari:
+      maximum-pool-size: 12
+      connection-timeout: 3000
+      transaction-isolation: TRANSACTION_READ_COMMITTED
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      timeout: 2s
+  session:
+    redis:
+      namespace: finreceipts:v2:sessions
+    timeout: 30m
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    username: ${RABBITMQ_USER:finreceipts}
+    password: ${RABBITMQ_PASSWORD}
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  threads:
+    virtual:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_TRACES_ENDPOINT:http://localhost:4318/v1/traces}
+finreceipts:
+  worker-secret: ${WORKER_SECRET}
+  bootstrap-password: ${BOOTSTRAP_PASSWORD}
+  scheduler-enabled: ${SCHEDULER_ENABLED:true}
+  model-provider: ${MODEL_PROVIDER:fake}
+  model-id: ${MODEL_ID:MiniMax-M3.1-Flash}
+  model-concurrency: ${MODEL_CONCURRENCY:16}
+  global-budget-micros: ${MODEL_BUDGET_MICROS:20000000}
+  lease-seconds: 45
+  artifacts: ${ARTIFACT_DIR:./artifacts}
+  secure-cookie: ${SECURE_COOKIE:false}

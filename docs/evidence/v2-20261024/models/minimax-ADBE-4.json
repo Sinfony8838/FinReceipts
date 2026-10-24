@@ -1,0 +1,216 @@
+{
+  "case_id": "ADBE-4",
+  "provider": "minimax",
+  "profile": {
+    "provider": "minimax",
+    "model": "MiniMax-M3.1-Flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:50:12.872049+00:00",
+  "evidence": {
+    "revenue": {}
+  },
+  "calls": [
+    {
+      "attempt_id": "a59b1787-3818-4972-9a48-5eadefded8be",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "The target asks for fiscal year 2099 revenue for ADBE. Evidence is empty. Let me try the tool to check.\n\nFiscal year 2099 is far in the future; the tool likely returns no data. Let's call it to verify.",
+              "signature": "d11b87694f35e320e6e752396b7b599f5d78ecdb1677a0797e0c1bcdfafcda9d",
+              "type": "thinking"
+            },
+            {
+              "type": "tool_use",
+              "id": "call_01a16e2d23f973ee87d46adf",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2099,
+                "metric": "revenue",
+                "ticker": "ADBE"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "call_01a16e2d23f973ee87d46ae0",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2024,
+                "metric": "revenue",
+                "ticker": "ADBE"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_01a16e2d23f973ee87d46adf",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2099,
+              "metric": "revenue",
+              "ticker": "ADBE"
+            }
+          },
+          {
+            "id": "call_01a16e2d23f973ee87d46ae0",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2024,
+              "metric": "revenue",
+              "ticker": "ADBE"
+            }
+          }
+        ],
+        "usage": {
+          "input_tokens": 543,
+          "output_tokens": 158,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 187,
+          "output_tokens_details": {
+            "thinking_tokens": 50
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "tool_use"
+      },
+      "estimated_micros": 3525
+    },
+    {
+      "attempt_id": "572a930d-f661-4ac0-aba5-3ffdfc733ec5",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric:** Adobe's annual total net revenue (top-line revenue) for fiscal year 2099, per its Form 10-K as reported in SEC XBRL (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax / Revenues).\n\n**Result:** The requested figure cannot be produced from the supplied frozen evidence. The evidence bundle provided for ADBE contains an empty `revenue` object (no accession, no XBRL concept, no period), and a direct lookup of the FY2099 annual revenue fact returns \"no revenue for ADBE FY2099.\" A substituted-year query (FY2024) was outside the permitted scope of the frozen evidence set and returned no usable value.\n\n**Why I won't estimate:** FY2099 is a future fiscal year with no filed 10-K financial statements; no company has reported an audited annual revenue figure for it. Any number offered here would be a fabrication rather than a verified fact.\n\nANSWER: N/A",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "The FY2099 query returned no revenue. FY2024 denied. So the requested target is unavailable — refuse to invent.\n\nThe metric: annual total revenue (total net revenue) for ADBE. No evidence for FY2099.",
+              "signature": "13dd536a743e17cd57b82aa33139cce32e57237fc92594d5d87ec6b49de3be2b",
+              "type": "thinking"
+            },
+            {
+              "text": "**Metric:** Adobe's annual total net revenue (top-line revenue) for fiscal year 2099, per its Form 10-K as reported in SEC XBRL (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax / Revenues).\n\n**Result:** The requested figure cannot be produced from the supplied frozen evidence. The evidence bundle provided for ADBE contains an empty `revenue` object (no accession, no XBRL concept, no period), and a direct lookup of the FY2099 annual revenue fact returns \"no revenue for ADBE FY2099.\" A substituted-year query (FY2024) was outside the permitted scope of the frozen evidence set and returned no usable value.\n\n**Why I won't estimate:** FY2099 is a future fiscal year with no filed 10-K financial statements; no company has reported an audited annual revenue figure for it. Any number offered here would be a fabrication rather than a verified fact.\n\nANSWER: N/A",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 206,
+          "output_tokens": 247,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 730,
+          "output_tokens_details": {
+            "thinking_tokens": 47
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 3582
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Metric:** Adobe's annual total net revenue (top-line revenue) for fiscal year 2099, per its Form 10-K as reported in SEC XBRL (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax / Revenues).\n\n**Result:** The requested figure cannot be produced from the supplied frozen evidence. The evidence bundle provided for ADBE contains an empty `revenue` object (no accession, no XBRL concept, no period), and a direct lookup of the FY2099 annual revenue fact returns \"no revenue for ADBE FY2099.\" A substituted-year query (FY2024) was outside the permitted scope of the frozen evidence set and returned no usable value.\n\n**Why I won't estimate:** FY2099 is a future fiscal year with no filed 10-K financial statements; no company has reported an audited annual revenue figure for it. Any number offered here would be a fabrication rather than a verified fact.\n\nANSWER: N/A",
+      "audit": {
+        "claim": null,
+        "verdict": "unsupported",
+        "reason_codes": [
+          "missing_evidence"
+        ],
+        "evidence": null,
+        "relative_error": null
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 6.9060000000026776,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: N/A"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for ADBE; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2099, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"ADBE\", \"evidence\": {\"revenue\": {}}}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "The target asks for fiscal year 2099 revenue for ADBE. Evidence is empty. Let me try the tool to check.\n\nFiscal year 2099 is far in the future; the tool likely returns no data. Let's call it to verify.",
+          "signature": "d11b87694f35e320e6e752396b7b599f5d78ecdb1677a0797e0c1bcdfafcda9d",
+          "type": "thinking"
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01a16e2d23f973ee87d46adf",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2099,
+            "metric": "revenue",
+            "ticker": "ADBE"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01a16e2d23f973ee87d46ae0",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2024,
+            "metric": "revenue",
+            "ticker": "ADBE"
+          }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_01a16e2d23f973ee87d46adf",
+          "content": "{\"error\": \"no revenue for ADBE FY2099 (as of None)\"}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_01a16e2d23f973ee87d46ae0",
+          "content": "{\"error\": \"tool_scope_denied\"}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "The FY2099 query returned no revenue. FY2024 denied. So the requested target is unavailable — refuse to invent.\n\nThe metric: annual total revenue (total net revenue) for ADBE. No evidence for FY2099.",
+          "signature": "13dd536a743e17cd57b82aa33139cce32e57237fc92594d5d87ec6b49de3be2b",
+          "type": "thinking"
+        },
+        {
+          "text": "**Metric:** Adobe's annual total net revenue (top-line revenue) for fiscal year 2099, per its Form 10-K as reported in SEC XBRL (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax / Revenues).\n\n**Result:** The requested figure cannot be produced from the supplied frozen evidence. The evidence bundle provided for ADBE contains an empty `revenue` object (no accession, no XBRL concept, no period), and a direct lookup of the FY2099 annual revenue fact returns \"no revenue for ADBE FY2099.\" A substituted-year query (FY2024) was outside the permitted scope of the frozen evidence set and returned no usable value.\n\n**Why I won't estimate:** FY2099 is a future fiscal year with no filed 10-K financial statements; no company has reported an audited annual revenue figure for it. Any number offered here would be a fabrication rather than a verified fact.\n\nANSWER: N/A",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

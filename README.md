@@ -1,5 +1,15 @@
 # FinReceipts
 
+**FinReceipts 2.0** is a batch financial verification workspace: Java 21 / Spring Boot owns tenant identity, transactions, dispatch, budgets and human review; independent Python workers prepare SEC evidence and run bounded model/tool verification. Vue 3 provides submission, evidence, review and quota pages.
+
+The local Compose stack runs two API replicas and four workers with real MySQL, Redis and RabbitMQ. Transactional outbox, revision/lease fencing and per-HTTP-attempt accounting retain explicit UNKNOWN states after ambiguous external calls. Only reviewed result versions enter the delivery package.
+
+[Start locally](docs/V2_START.md) · [Architecture](docs/V2_ARCHITECTURE.md) · [API](docs/V2_API.md) · [Measured model evaluation](docs/V2_EVALUATION.md) · [Implementation evidence](docs/V2_IMPLEMENTATION.md)
+
+This is a handoff checkpoint: business and model evidence is recorded; full capacity acceptance is unfinished. See [acceptance and pending work](docs/V2_ACCEPTANCE.md) and the [zcode handoff](docs/ZCODE_HANDOFF.md).
+
+Legacy CLI/SQLite usage and historical evaluation artifacts remain available below.
+
 **Financial AI content with evidence, iterative revision and traceable delivery.**
 
 [中文](README.zh-CN.md) · [Architecture](docs/ARCHITECTURE.md) · [Validation](docs/reproducibility.md) · [CI](https://github.com/Sinfony8838/FinReceipts/actions/workflows/ci.yml) · [Apache-2.0](LICENSE)
@@ -12,6 +22,12 @@ The scope is financial research: supported numeric claims are checked against SE
 facts. A browser workbench, HTML receipts and JSON exports make results inspectable.
 
 ## Workflow and delivery
+
+For the Agent application and AI backend path, read the [source walkthrough](docs/AGENT_BACKEND_PRACTICE.md),
+[authenticated user-scoped idempotency](docs/AUTH_AND_IDEMPOTENCY.md), and
+[development/frozen contract evaluation](docs/AGENT_BACKEND_EVALUATION.md) (Chinese).
+The optional target gate binds final values to one metric and fiscal year; new scripted
+acceptance results remain separate from historical live-model measurements.
 
 1. **Generate a draft:** specify the company, fiscal years and research question.
 2. **Check and revise:** verify numeric evidence, then provide error flags or retrieved facts.

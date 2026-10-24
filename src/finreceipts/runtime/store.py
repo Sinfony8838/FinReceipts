@@ -48,9 +48,13 @@ class HistoryCursorExpired(RunConflict):
     """The database no longer has the cursor's row identities; restart listing."""
 
 
-def _history_cursor(anchor, last) -> str:
+def scoped_key(key: str, principal_id="local", operation="create_run") -> str:
+    return "v2:" + digest([principal_id, operation, key])
+
+
+def _history_cursor(anchor, last, principal_id="local") -> str:
     # Hash row identities so even a damaged textual run ID cannot poison paging.
-    points = [[row, digest(run_id)] for row, run_id in (anchor, last)]
+    points = [[row, digest([principal_id, run_id])] for row, run_id in (anchor, last)]
     return base64.urlsafe_b64encode(canonical(points).encode()).decode()
 
 
@@ -115,11 +119,16 @@ class RunStore:
         self.busy_timeout = busy_timeout
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.connection() as db:
+            columns = {r[1] for r in db.execute("PRAGMA table_info(runs)")}
+            if columns and not {"owner_id", "operation"} <= columns:
+                raise RunConflict("legacy database: use runtime-migrate to a new directory")
             db.execute("PRAGMA journal_mode=WAL")
             db.executescript("""
                 CREATE TABLE IF NOT EXISTS runs (
                     run_id TEXT PRIMARY KEY, request_key TEXT UNIQUE NOT NULL,
-                    document TEXT NOT NULL
+                    document TEXT NOT NULL,
+                    owner_id TEXT NOT NULL DEFAULT 'local',
+                    operation TEXT NOT NULL DEFAULT 'create_run'
                 );
                 CREATE TABLE IF NOT EXISTS events (
                     run_id TEXT NOT NULL, seq INTEGER NOT NULL, document TEXT NOT NULL,
@@ -142,7 +151,9 @@ class RunStore:
             db.close()
 
     def _load(self, db, run_id):
-        row = db.execute("SELECT document FROM runs WHERE run_id=?", (run_id,)).fetchone()
+        row = db.execute(
+            "SELECT document,owner_id,operation FROM runs WHERE run_id=?", (run_id,)
+        ).fetchone()
         if row is None:
             raise RunNotFound(run_id)
         events = [
@@ -153,19 +164,38 @@ class RunStore:
         ]
         bundle = {"run": json.loads(row[0]), "events": events}
         verify_export(bundle)
+        if bundle["run"].get("scope", {"principal_id": "local", "operation": "create_run"}) != {
+            "principal_id": row[1],
+            "operation": row[2],
+        }:
+            raise IntegrityError("run ownership binding mismatch")
         if bundle["run"]["workflow_version"] != WORKFLOW_VERSION:
             raise RunConflict("workflow version mismatch; migration is required")
         return bundle
 
-    def export(self, run_id: str) -> dict:
+    @staticmethod
+    def _authorize(db, run_id, principal_id):
+        if (
+            principal_id is not None
+            and db.execute(
+                "SELECT 1 FROM runs WHERE run_id=? AND owner_id=?", (run_id, principal_id)
+            ).fetchone()
+            is None
+        ):
+            raise RunNotFound(run_id)
+
+    def export(self, run_id: str, *, principal_id="local") -> dict:
         with self.connection() as db:
             db.execute("BEGIN")
+            self._authorize(db, run_id, principal_id)
             return self._load(db, run_id)
 
-    def get(self, run_id: str) -> dict:
-        return self.export(run_id)["run"]
+    def get(self, run_id: str, *, principal_id="local") -> dict:
+        return self.export(run_id, principal_id=principal_id)["run"]
 
-    def list_runs(self, limit: int = 20, cursor: str | None = None) -> dict:
+    def list_runs(
+        self, limit: int = 20, cursor: str | None = None, *, principal_id="local"
+    ) -> dict:
         """Bounded metadata, newest inserted first; new inserts cannot shift later pages.
 
         No schema migration or second metadata index. Cursors bind internal row positions
@@ -181,23 +211,26 @@ class RunStore:
                 matched = []
                 for position, identity in decoded:
                     row = db.execute(
-                        "SELECT run_id FROM runs WHERE rowid=?", (position,)
+                        "SELECT run_id FROM runs WHERE rowid=? AND owner_id=?",
+                        (position, principal_id),
                     ).fetchone()
-                    if row is None or digest(row[0]) != identity:
+                    if row is None or digest([principal_id, row[0]]) != identity:
                         raise HistoryCursorExpired("history changed; refresh the list")
                     matched.append((position, row[0]))
                 anchor, last = matched
                 bound = last[0] - 1
             else:
                 anchor = db.execute(
-                    "SELECT rowid, run_id FROM runs ORDER BY rowid DESC LIMIT 1"
+                    "SELECT rowid, run_id FROM runs WHERE owner_id=? ORDER BY rowid DESC LIMIT 1",
+                    (principal_id,),
                 ).fetchone()
                 if anchor is None:
                     return {"items": [], "next_cursor": None}
                 bound = anchor[0]
             rows = db.execute(
-                "SELECT rowid, run_id FROM runs WHERE rowid<=? ORDER BY rowid DESC LIMIT ?",
-                (bound, limit + 1),
+                "SELECT rowid, run_id FROM runs WHERE owner_id=? AND rowid<=? "
+                "ORDER BY rowid DESC LIMIT ?",
+                (principal_id, bound, limit + 1),
             ).fetchall()
             items = []
             for _, run_id in rows[:limit]:
@@ -230,15 +263,20 @@ class RunStore:
                     items.append({"run_id": run_id, "availability": "integrity_failed"})
             return {
                 "items": items,
-                "next_cursor": _history_cursor(anchor, rows[limit - 1])
+                "next_cursor": _history_cursor(anchor, rows[limit - 1], principal_id)
                 if len(rows) > limit
                 else None,
             }
 
-    def find(self, key: str, request: dict) -> dict | None:
+    def find(
+        self, key: str, request: dict, *, principal_id="local", operation="create_run"
+    ) -> dict | None:
         with self.connection() as db:
             db.execute("BEGIN")
-            row = db.execute("SELECT run_id FROM runs WHERE request_key=?", (key,)).fetchone()
+            row = db.execute(
+                "SELECT run_id FROM runs WHERE request_key=? AND owner_id=? AND operation=?",
+                (scoped_key(key, principal_id, operation), principal_id, operation),
+            ).fetchone()
             if row is None:
                 return None
             doc = self._load(db, row[0])["run"]
@@ -263,7 +301,16 @@ class RunStore:
             "INSERT INTO events VALUES (?,?,?)", (doc["run_id"], event["seq"], canonical(event))
         )
 
-    def create(self, key: str, request: dict, evidence: dict, state: dict) -> dict:
+    def create(
+        self,
+        key: str,
+        request: dict,
+        evidence: dict,
+        state: dict,
+        *,
+        principal_id="local",
+        operation="create_run",
+    ) -> dict:
         doc = {
             "run_id": uuid.uuid4().hex,
             "revision": 0,
@@ -280,23 +327,32 @@ class RunStore:
             "tool_calls": 0,
             "stop_reason": None,
             "quality": None,
+            "scope": {"principal_id": principal_id, "operation": operation},
         }
         with self.connection() as db:
             db.execute("BEGIN IMMEDIATE")
-            row = db.execute("SELECT run_id FROM runs WHERE request_key=?", (key,)).fetchone()
+            storage_key = scoped_key(key, principal_id, operation)
+            row = db.execute(
+                "SELECT run_id FROM runs WHERE request_key=?", (storage_key,)
+            ).fetchone()
             if row:
                 existing = self._load(db, row[0])["run"]
                 if existing["request_digest"] != digest(request):
                     raise RunConflict("idempotency key already used for a different request")
                 return existing
-            db.execute("INSERT INTO runs VALUES (?,?,?)", (doc["run_id"], key, canonical(doc)))
+            db.execute(
+                "INSERT INTO runs (run_id,request_key,document,owner_id,operation) "
+                "VALUES (?,?,?,?,?)",
+                (doc["run_id"], storage_key, canonical(doc), principal_id, operation),
+            )
             self._save(db, doc, [], "created", {"evidence_digest": doc["evidence_digest"]})
             db.commit()
         return doc
 
-    def edit(self, run_id, kind, mutate):
+    def edit(self, run_id, kind, mutate, *, principal_id=None):
         with self.connection() as db:
             db.execute("BEGIN IMMEDIATE")
+            self._authorize(db, run_id, principal_id)
             bundle = self._load(db, run_id)
             doc = bundle["run"]
             payload = mutate(doc)
@@ -309,7 +365,7 @@ class RunStore:
         if doc["revision"] != revision:
             raise RunConflict("stale revision; refresh the run before changing it")
 
-    def claim(self, run_id, revision):
+    def claim(self, run_id, revision, *, principal_id="local"):
         token = uuid.uuid4().hex
 
         def change(doc):
@@ -320,7 +376,7 @@ class RunStore:
             doc["lease"] = {"token": token, "expires": self.clock() + self.lease_seconds}
             return {"node": doc["next_node"]}
 
-        return self.edit(run_id, "step_started", change), token
+        return self.edit(run_id, "step_started", change, principal_id=principal_id), token
 
     def check_lease(self, doc, token):
         lease = doc["lease"]
@@ -386,7 +442,7 @@ class RunStore:
 
         return self.edit(run_id, "step_stopped", change)
 
-    def cancel(self, run_id, revision):
+    def cancel(self, run_id, revision, *, principal_id="local"):
         def change(doc):
             self.check_revision(doc, revision)
             if doc["status"] in TERMINAL:
@@ -394,9 +450,9 @@ class RunStore:
             doc.update(status="cancelled", lease=None, stop_reason="user_cancelled")
             return {"reason": "user_cancelled"}
 
-        return self.edit(run_id, "cancelled", change)
+        return self.edit(run_id, "cancelled", change, principal_id=principal_id)
 
-    def resume(self, run_id, revision):
+    def resume(self, run_id, revision, *, principal_id="local"):
         def change(doc):
             self.check_revision(doc, revision)
             expired = doc["status"] == "running" and doc["lease"]["expires"] <= self.clock()
@@ -405,7 +461,7 @@ class RunStore:
             doc.update(status="ready", lease=None, stop_reason=None)
             return {"node": doc["next_node"], "may_repeat_uncommitted_call": True}
 
-        return self.edit(run_id, "resumed", change)
+        return self.edit(run_id, "resumed", change, principal_id=principal_id)
 
 
 class BudgetExceeded(RuntimeError):
