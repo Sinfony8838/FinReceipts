@@ -1,0 +1,416 @@
+{
+  "case_id": "NVDA-3",
+  "provider": "minimax",
+  "profile": {
+    "provider": "minimax",
+    "model": "MiniMax-M3.1-Flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "f912c79fbe1544bd62d70c9536871f754932c9e63e4fb6557a63d31f3a78928a",
+  "date": "2026-10-24T13:47:42.653127+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0001045810-22-000036",
+        "cik": 1045810,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 364,
+        "end": "2022-01-30",
+        "entity_name": "NVIDIA CORP",
+        "filed": "2022-03-18",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": "CY2021",
+        "fy": 2022,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/0001045810-22-000036-index.htm",
+        "start": "2021-02-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 26914000000.0
+      },
+      "2023": {
+        "accn": "0001045810-23-000017",
+        "cik": 1045810,
+        "concept": "Revenues",
+        "duration_days": 364,
+        "end": "2023-01-29",
+        "entity_name": "NVIDIA CORP",
+        "filed": "2023-02-24",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenues",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm",
+        "start": "2022-01-31",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 26974000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "cf4833b8-f413-4aac-a5ad-0fa30bb5aecb",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "Need FY2023 revenue for NVDA: fiscal year ending Jan 29, 2023 = $26,974M. Prior year FY2022 = $26,914M. Growth = 26974/26914 - 1 = 0.223% ≈ 0.2%.\n\nLet me compute: 26974-26914 = 60. 60/26914 = 0.002229 → 0.22%.\n\nLet me also verify with tool for revenue FY2023.",
+              "signature": "17a004df85e786ecc2e044698f535a168266e0d80ef5cd31d1df742101ce9997",
+              "type": "thinking"
+            },
+            {
+              "type": "tool_use",
+              "id": "call_01a16e2ae10d75e9ba77900d",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2023,
+                "metric": "revenue",
+                "ticker": "NVDA"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "call_01a16e2ae10d75e9ba77900e",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2022,
+                "metric": "revenue",
+                "ticker": "NVDA"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_01a16e2ae10d75e9ba77900d",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2023,
+              "metric": "revenue",
+              "ticker": "NVDA"
+            }
+          },
+          {
+            "id": "call_01a16e2ae10d75e9ba77900e",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2022,
+              "metric": "revenue",
+              "ticker": "NVDA"
+            }
+          }
+        ],
+        "usage": {
+          "input_tokens": 952,
+          "output_tokens": 212,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 187,
+          "output_tokens_details": {
+            "thinking_tokens": 104
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "tool_use"
+      },
+      "estimated_micros": 5400
+    },
+    {
+      "attempt_id": "aa0cbcac-9aed-4408-a237-4ebf6a99b20b",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric:** NVIDIA's FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Calculation:**\n- FY2023 revenue: $26,974M (us-gaap:Revenues, accession 0001045810-23-000017, FY2023 10-K filed 2023-02-24)\n- FY2022 revenue: $26,914M (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, FY2022 10-K filed 2022-03-18)\n- Growth = (26,974 − 26,914) / 26,914 = 60 / 26,914 = 0.223%\n\nBoth values were confirmed against the supplied frozen evidence and the XBRL 10-K facts, which match exactly.\n\nANSWER: 0.22% YoY growth (FY2023 revenue $26,974M vs FY2022 $26,914M)",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "**Metric:** NVIDIA's FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Calculation:**\n- FY2023 revenue: $26,974M (us-gaap:Revenues, accession 0001045810-23-000017, FY2023 10-K filed 2023-02-24)\n- FY2022 revenue: $26,914M (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, FY2022 10-K filed 2022-03-18)\n- Growth = (26,974 − 26,914) / 26,914 = 60 / 26,914 = 0.223%\n\nBoth values were confirmed against the supplied frozen evidence and the XBRL 10-K facts, which match exactly.\n\nANSWER: 0.22% YoY growth (FY2023 revenue $26,974M vs FY2022 $26,914M)",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 515,
+          "output_tokens": 231,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1139
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 4317
+    },
+    {
+      "attempt_id": "9c98afc8-288f-4f89-b79e-9674e6eb3d05",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric:** NVIDIA FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Evidence:**\n- FY2023 revenue = $26,974,000,000 — us-gaap:Revenues, accession 0001045810-23-000017, 10-K filed 2023-02-24 (period 2022-01-31 → 2023-01-29)\n- FY2022 revenue = $26,914,000,000 — us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, 10-K filed 2022-03-18 (period 2021-02-01 → 2022-01-30)\n\n**Calculation:** (26,974,000,000 − 26,914,000,000) / |26,914,000,000| × 100 = 0.2229%\n\nANSWER: 0.2229%",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "Expected value 0.22293 percent. My answer said 0.22% — but verdict \"unsupported\" due to multiple final numbers. Need single final number.\n\nAnswer: 0.2229%.",
+              "signature": "317049c9a1fc9cd8088a0ef05b25764fb39fc5432672df6641066bc9217f4436",
+              "type": "thinking"
+            },
+            {
+              "text": "**Metric:** NVIDIA FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Evidence:**\n- FY2023 revenue = $26,974,000,000 — us-gaap:Revenues, accession 0001045810-23-000017, 10-K filed 2023-02-24 (period 2022-01-31 → 2023-01-29)\n- FY2022 revenue = $26,914,000,000 — us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, 10-K filed 2022-03-18 (period 2021-02-01 → 2022-01-30)\n\n**Calculation:** (26,974,000,000 − 26,914,000,000) / |26,914,000,000| × 100 = 0.2229%\n\nANSWER: 0.2229%",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 672,
+          "output_tokens": 273,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1654,
+          "output_tokens_details": {
+            "thinking_tokens": 43
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 5292
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Metric:** NVIDIA's FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Calculation:**\n- FY2023 revenue: $26,974M (us-gaap:Revenues, accession 0001045810-23-000017, FY2023 10-K filed 2023-02-24)\n- FY2022 revenue: $26,914M (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, FY2022 10-K filed 2022-03-18)\n- Growth = (26,974 − 26,914) / 26,914 = 60 / 26,914 = 0.223%\n\nBoth values were confirmed against the supplied frozen evidence and the XBRL 10-K facts, which match exactly.\n\nANSWER: 0.22% YoY growth (FY2023 revenue $26,974M vs FY2022 $26,914M)",
+      "audit": {
+        "claim": null,
+        "verdict": "unsupported",
+        "reason_codes": [
+          "multiple_final_numbers"
+        ],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 1045810,
+              "entity_name": "NVIDIA CORP",
+              "taxonomy": "us-gaap",
+              "concept": "Revenues",
+              "label": "Revenues",
+              "unit": "USD",
+              "value": 26974000000.0,
+              "start": "2022-01-31",
+              "end": "2023-01-29",
+              "accn": "0001045810-23-000017",
+              "form": "10-K",
+              "filed": "2023-02-24",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 364,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm"
+            },
+            {
+              "cik": 1045810,
+              "entity_name": "NVIDIA CORP",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 26914000000.0,
+              "start": "2021-02-01",
+              "end": "2022-01-30",
+              "accn": "0001045810-22-000036",
+              "form": "10-K",
+              "filed": "2022-03-18",
+              "fy": 2022,
+              "fp": "FY",
+              "frame": "CY2021",
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 364,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/0001045810-22-000036-index.htm"
+            }
+          ],
+          "expected_value": 0.22293230289068885,
+          "expected_unit": "percent",
+          "formula": "(Revenues[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+          "note": null
+        },
+        "relative_error": null
+      },
+      "attempts_so_far": 2
+    },
+    {
+      "answer": "**Metric:** NVIDIA FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Evidence:**\n- FY2023 revenue = $26,974,000,000 — us-gaap:Revenues, accession 0001045810-23-000017, 10-K filed 2023-02-24 (period 2022-01-31 → 2023-01-29)\n- FY2022 revenue = $26,914,000,000 — us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, 10-K filed 2022-03-18 (period 2021-02-01 → 2022-01-30)\n\n**Calculation:** (26,974,000,000 − 26,914,000,000) / |26,914,000,000| × 100 = 0.2229%\n\nANSWER: 0.2229%",
+      "audit": {
+        "claim": {
+          "text": "0.2229%",
+          "value": 0.2229,
+          "unit": "percent",
+          "metric": "year-over-year growth in revenue",
+          "entity": "NVIDIA CORP",
+          "period_end": "2023-01-29",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 1045810,
+              "entity_name": "NVIDIA CORP",
+              "taxonomy": "us-gaap",
+              "concept": "Revenues",
+              "label": "Revenues",
+              "unit": "USD",
+              "value": 26974000000.0,
+              "start": "2022-01-31",
+              "end": "2023-01-29",
+              "accn": "0001045810-23-000017",
+              "form": "10-K",
+              "filed": "2023-02-24",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 364,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm"
+            },
+            {
+              "cik": 1045810,
+              "entity_name": "NVIDIA CORP",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 26914000000.0,
+              "start": "2021-02-01",
+              "end": "2022-01-30",
+              "accn": "0001045810-22-000036",
+              "form": "10-K",
+              "filed": "2022-03-18",
+              "fy": 2022,
+              "fp": "FY",
+              "frame": "CY2021",
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 364,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/0001045810-22-000036-index.htm"
+            }
+          ],
+          "expected_value": 0.22293230289068885,
+          "expected_unit": "percent",
+          "formula": "(Revenues[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+          "note": null
+        },
+        "relative_error": 0.00014490000000003144
+      },
+      "attempts_so_far": 3
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 11.375,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 0.222932302891 %"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for NVDA; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"yoy_growth\", \"metric\": \"revenue\"}, \"ticker\": \"NVDA\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0001045810-22-000036\", \"cik\": 1045810, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 364, \"end\": \"2022-01-30\", \"entity_name\": \"NVIDIA CORP\", \"filed\": \"2022-03-18\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": \"CY2021\", \"fy\": 2022, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/0001045810-22-000036-index.htm\", \"start\": \"2021-02-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 26914000000.0}, \"2023\": {\"accn\": \"0001045810-23-000017\", \"cik\": 1045810, \"concept\": \"Revenues\", \"duration_days\": 364, \"end\": \"2023-01-29\", \"entity_name\": \"NVIDIA CORP\", \"filed\": \"2023-02-24\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenues\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm\", \"start\": \"2022-01-31\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 26974000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "Need FY2023 revenue for NVDA: fiscal year ending Jan 29, 2023 = $26,974M. Prior year FY2022 = $26,914M. Growth = 26974/26914 - 1 = 0.223% ≈ 0.2%.\n\nLet me compute: 26974-26914 = 60. 60/26914 = 0.002229 → 0.22%.\n\nLet me also verify with tool for revenue FY2023.",
+          "signature": "17a004df85e786ecc2e044698f535a168266e0d80ef5cd31d1df742101ce9997",
+          "type": "thinking"
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01a16e2ae10d75e9ba77900d",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2023,
+            "metric": "revenue",
+            "ticker": "NVDA"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01a16e2ae10d75e9ba77900e",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2022,
+            "metric": "revenue",
+            "ticker": "NVDA"
+          }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_01a16e2ae10d75e9ba77900d",
+          "content": "{\"ticker\": \"NVDA\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 26974000000.0, \"unit\": \"USD\", \"period_start\": \"2022-01-31\", \"period_end\": \"2023-01-29\", \"concept\": \"Revenues\", \"accession\": \"0001045810-23-000017\", \"filed\": \"2023-02-24\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_01a16e2ae10d75e9ba77900e",
+          "content": "{\"ticker\": \"NVDA\", \"metric\": \"revenue\", \"fiscal_year\": 2022, \"value\": 26914000000.0, \"unit\": \"USD\", \"period_start\": \"2021-02-01\", \"period_end\": \"2022-01-30\", \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"accession\": \"0001045810-22-000036\", \"filed\": \"2022-03-18\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/0001045810-22-000036-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "**Metric:** NVIDIA's FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Calculation:**\n- FY2023 revenue: $26,974M (us-gaap:Revenues, accession 0001045810-23-000017, FY2023 10-K filed 2023-02-24)\n- FY2022 revenue: $26,914M (us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, FY2022 10-K filed 2022-03-18)\n- Growth = (26,974 − 26,914) / 26,914 = 60 / 26,914 = 0.223%\n\nBoth values were confirmed against the supplied frozen evidence and the XBRL 10-K facts, which match exactly.\n\nANSWER: 0.22% YoY growth (FY2023 revenue $26,974M vs FY2022 $26,914M)",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "Revise the answer using this deterministic audit. {\"claim\":null,\"verdict\":\"unsupported\",\"reason_codes\":[\"multiple_final_numbers\"],\"evidence\":{\"facts\":[{\"cik\":1045810,\"entity_name\":\"NVIDIA CORP\",\"taxonomy\":\"us-gaap\",\"concept\":\"Revenues\",\"label\":\"Revenues\",\"unit\":\"USD\",\"value\":26974000000.0,\"start\":\"2022-01-31\",\"end\":\"2023-01-29\",\"accn\":\"0001045810-23-000017\",\"form\":\"10-K\",\"filed\":\"2023-02-24\",\"fy\":2023,\"fp\":\"FY\",\"frame\":null,\"filing_url\":null,\"period_type\":\"duration\",\"duration_days\":364,\"source_url\":\"https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.htm\"},{\"cik\":1045810,\"entity_name\":\"NVIDIA CORP\",\"taxonomy\":\"us-gaap\",\"concept\":\"RevenueFromContractWithCustomerExcludingAssessedTax\",\"label\":\"Revenue from Contract with Customer, Excluding Assessed Tax\",\"unit\":\"USD\",\"value\":26914000000.0,\"start\":\"2021-02-01\",\"end\":\"2022-01-30\",\"accn\":\"0001045810-22-000036\",\"form\":\"10-K\",\"filed\":\"2022-03-18\",\"fy\":2022,\"fp\":\"FY\",\"frame\":\"CY2021\",\"filing_url\":null,\"period_type\":\"duration\",\"duration_days\":364,\"source_url\":\"https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/0001045810-22-000036-index.htm\"}],\"expected_value\":0.22293230289068885,\"expected_unit\":\"percent\",\"formula\":\"(Revenues[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100\",\"note\":null},\"relative_error\":null}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "Expected value 0.22293 percent. My answer said 0.22% — but verdict \"unsupported\" due to multiple final numbers. Need single final number.\n\nAnswer: 0.2229%.",
+          "signature": "317049c9a1fc9cd8088a0ef05b25764fb39fc5432672df6641066bc9217f4436",
+          "type": "thinking"
+        },
+        {
+          "text": "**Metric:** NVIDIA FY2023 revenue year-over-year growth (FY2023 ended 2023-01-29 vs. FY2022 ended 2022-01-30).\n\n**Evidence:**\n- FY2023 revenue = $26,974,000,000 — us-gaap:Revenues, accession 0001045810-23-000017, 10-K filed 2023-02-24 (period 2022-01-31 → 2023-01-29)\n- FY2022 revenue = $26,914,000,000 — us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax, accession 0001045810-22-000036, 10-K filed 2022-03-18 (period 2021-02-01 → 2022-01-30)\n\n**Calculation:** (26,974,000,000 − 26,914,000,000) / |26,914,000,000| × 100 = 0.2229%\n\nANSWER: 0.2229%",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

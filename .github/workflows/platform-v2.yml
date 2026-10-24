@@ -1,0 +1,40 @@
+name: platform-v2
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  java-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Format and real MySQL Redis RabbitMQ integration tests
+        run: mvn -B -f server/pom.xml fmt:check verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: platform-v2-java
+          path: server/target/surefire-reports/
+  console-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: console
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: console/package-lock.json
+      - run: npm ci
+      - run: npm run build

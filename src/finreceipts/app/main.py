@@ -35,6 +35,7 @@ from finreceipts.app.admission import (
     GuardedIterator,
     execution_work,
 )
+from finreceipts.app.auth import Authentication, AuthPolicy
 from finreceipts.app.demo_llm import demo_responder
 from finreceipts.app.diagnostics import (
     APIError,
@@ -119,6 +120,7 @@ class AppState:
     def __init__(self) -> None:
         self.settings = Settings.from_env()
         self.access_policy = AccessPolicy.from_env()
+        self.auth_policy = AuthPolicy.from_env()
         self.edgar: EdgarClient | None = None
         self.provider = None
         self.graph = None
@@ -129,6 +131,7 @@ class AppState:
     def start(self) -> None:
         self.settings = Settings.from_env()
         self.access_policy = AccessPolicy.from_env()
+        self.auth_policy = AuthPolicy.from_env()
         self.admission = ExecutionGate(self.settings.max_inflight)
         self.edgar = EdgarClient(self.settings)
         self.provider = edgar_lookup_provider(self.edgar)
@@ -168,12 +171,17 @@ def create_app() -> FastAPI:
     app.add_middleware(ResponseDeadline, state=state)
     app.add_middleware(RequestLimits, state=state)
     app.add_middleware(AdmissionControl, state=state)
+    app.add_middleware(Authentication, state=state)
     app.add_middleware(BrowserBoundary, state=state)
     app.add_middleware(RequestDiagnostics)
     app.add_middleware(SecurityHeaders)
     app.add_exception_handler(StarletteHTTPException, http_error)
     app.add_exception_handler(RequestValidationError, validation_error)
     app.include_router(run_router(state))
+
+    @app.get("/api/session")
+    def session(request: Request):
+        return {"principal_id": request.state.principal_id, "auth_mode": state.auth_policy.mode}
 
     if STATIC_DIR.is_dir():
         app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

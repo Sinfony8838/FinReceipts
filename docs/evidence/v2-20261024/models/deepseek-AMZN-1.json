@@ -1,0 +1,235 @@
+{
+  "case_id": "AMZN-1",
+  "provider": "deepseek",
+  "profile": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:51:42.289147+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0001018724-23-000004",
+        "cik": 1018724,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2022-12-31",
+        "entity_name": "AMAZON COM INC",
+        "filed": "2023-02-03",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872423000004/0001018724-23-000004-index.htm",
+        "start": "2022-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 513983000000.0
+      },
+      "2023": {
+        "accn": "0001018724-24-000008",
+        "cik": 1018724,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2023-12-31",
+        "entity_name": "AMAZON COM INC",
+        "filed": "2024-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm",
+        "start": "2023-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 574785000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "a8fdc18e-28e2-4e54-ba64-1a4f08557a6e",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": "",
+          "reasoning_content": "The user wants revenue FY2023 for AMZN. Evidence provided already. Maybe verify with tool.\n\nCall get_financial_fact.",
+          "tool_calls": [
+            {
+              "index": 0,
+              "id": "call_00_maeVd1ooO1AYYm0XbvNx9471",
+              "type": "function",
+              "function": {
+                "name": "get_financial_fact",
+                "arguments": "{\"ticker\": \"AMZN\", \"metric\": \"revenue\", \"fiscal_year\": 2023}"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_00_maeVd1ooO1AYYm0XbvNx9471",
+            "name": "get_financial_fact",
+            "arguments": {
+              "ticker": "AMZN",
+              "metric": "revenue",
+              "fiscal_year": 2023
+            }
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 1043,
+          "completion_tokens": 108,
+          "total_tokens": 1151,
+          "prompt_tokens_details": {
+            "cached_tokens": 512
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 28
+          },
+          "prompt_cache_hit_tokens": 512,
+          "prompt_cache_miss_tokens": 531,
+          "input_tokens": 1043,
+          "output_tokens": 108
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "tool_calls"
+      },
+      "estimated_micros": 4425
+    },
+    {
+      "attempt_id": "0b756cbe-983d-4488-b10c-c229119bf511",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric explanation:** \"Revenue\" here is total net sales reported under US GAAP concept `RevenueFromContractWithCustomerExcludingAssessedTax` — the full-year total (products + services, North America, International, and AWS), a 365-day duration from 2023-01-01 to 2023-12-31, in USD.\n\n**Result:** For fiscal year 2023 (ended 2023-12-31), Amazon.com Inc. (CIK 1018724) reported revenue of $574,785,000,000. This matches the frozen evidence entry and the tool lookup, both drawn from the FY2023 Form 10-K, accession **0001018724-24-000008**, filed 2024-02-02 (source: https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm).\n\nFor context, the prior-year (FY2022) figure was $513,983,000,000 (accession 0001018724-23-000004), implying ~11.8% growth, though the requested target is the FY2023 level itself.\n\nANSWER: $574,785,000,000 (USD)",
+        "assistant": {
+          "role": "assistant",
+          "content": "**Metric explanation:** \"Revenue\" here is total net sales reported under US GAAP concept `RevenueFromContractWithCustomerExcludingAssessedTax` — the full-year total (products + services, North America, International, and AWS), a 365-day duration from 2023-01-01 to 2023-12-31, in USD.\n\n**Result:** For fiscal year 2023 (ended 2023-12-31), Amazon.com Inc. (CIK 1018724) reported revenue of $574,785,000,000. This matches the frozen evidence entry and the tool lookup, both drawn from the FY2023 Form 10-K, accession **0001018724-24-000008**, filed 2024-02-02 (source: https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm).\n\nFor context, the prior-year (FY2022) figure was $513,983,000,000 (accession 0001018724-23-000004), implying ~11.8% growth, though the requested target is the FY2023 level itself.\n\nANSWER: $574,785,000,000 (USD)",
+          "reasoning_content": ""
+        },
+        "tools": [],
+        "usage": {
+          "prompt_tokens": 1313,
+          "completion_tokens": 268,
+          "total_tokens": 1581,
+          "prompt_tokens_details": {
+            "cached_tokens": 1024
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 1024,
+          "prompt_cache_miss_tokens": 289,
+          "input_tokens": 1313,
+          "output_tokens": 268
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "stop"
+      },
+      "estimated_micros": 7155
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Metric explanation:** \"Revenue\" here is total net sales reported under US GAAP concept `RevenueFromContractWithCustomerExcludingAssessedTax` — the full-year total (products + services, North America, International, and AWS), a 365-day duration from 2023-01-01 to 2023-12-31, in USD.\n\n**Result:** For fiscal year 2023 (ended 2023-12-31), Amazon.com Inc. (CIK 1018724) reported revenue of $574,785,000,000. This matches the frozen evidence entry and the tool lookup, both drawn from the FY2023 Form 10-K, accession **0001018724-24-000008**, filed 2024-02-02 (source: https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm).\n\nFor context, the prior-year (FY2022) figure was $513,983,000,000 (accession 0001018724-23-000004), implying ~11.8% growth, though the requested target is the FY2023 level itself.\n\nANSWER: $574,785,000,000 (USD)",
+      "audit": {
+        "claim": {
+          "text": "$574,785,000,000",
+          "value": 574785000000.0,
+          "unit": "USD",
+          "metric": "revenue",
+          "entity": "AMAZON COM INC",
+          "period_end": "2023-12-31",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 1018724,
+              "entity_name": "AMAZON COM INC",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 574785000000.0,
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "accn": "0001018724-24-000008",
+              "form": "10-K",
+              "filed": "2024-02-02",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm"
+            }
+          ],
+          "expected_value": 574785000000.0,
+          "expected_unit": "USD",
+          "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+          "note": null
+        },
+        "relative_error": 0.0
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 3.75,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 574785000000 USD"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for AMZN; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"AMZN\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0001018724-23-000004\", \"cik\": 1018724, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2022-12-31\", \"entity_name\": \"AMAZON COM INC\", \"filed\": \"2023-02-03\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1018724/000101872423000004/0001018724-23-000004-index.htm\", \"start\": \"2022-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 513983000000.0}, \"2023\": {\"accn\": \"0001018724-24-000008\", \"cik\": 1018724, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2023-12-31\", \"entity_name\": \"AMAZON COM INC\", \"filed\": \"2024-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\", \"start\": \"2023-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 574785000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "reasoning_content": "The user wants revenue FY2023 for AMZN. Evidence provided already. Maybe verify with tool.\n\nCall get_financial_fact.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_maeVd1ooO1AYYm0XbvNx9471",
+          "type": "function",
+          "function": {
+            "name": "get_financial_fact",
+            "arguments": "{\"ticker\": \"AMZN\", \"metric\": \"revenue\", \"fiscal_year\": 2023}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_00_maeVd1ooO1AYYm0XbvNx9471",
+      "content": "{\"ticker\": \"AMZN\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 574785000000.0, \"unit\": \"USD\", \"period_start\": \"2023-01-01\", \"period_end\": \"2023-12-31\", \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"accession\": \"0001018724-24-000008\", \"filed\": \"2024-02-02\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "**Metric explanation:** \"Revenue\" here is total net sales reported under US GAAP concept `RevenueFromContractWithCustomerExcludingAssessedTax` — the full-year total (products + services, North America, International, and AWS), a 365-day duration from 2023-01-01 to 2023-12-31, in USD.\n\n**Result:** For fiscal year 2023 (ended 2023-12-31), Amazon.com Inc. (CIK 1018724) reported revenue of $574,785,000,000. This matches the frozen evidence entry and the tool lookup, both drawn from the FY2023 Form 10-K, accession **0001018724-24-000008**, filed 2024-02-02 (source: https://www.sec.gov/Archives/edgar/data/1018724/000101872424000008/0001018724-24-000008-index.htm).\n\nFor context, the prior-year (FY2022) figure was $513,983,000,000 (accession 0001018724-23-000004), implying ~11.8% growth, though the requested target is the FY2023 level itself.\n\nANSWER: $574,785,000,000 (USD)",
+      "reasoning_content": ""
+    }
+  ]
+}

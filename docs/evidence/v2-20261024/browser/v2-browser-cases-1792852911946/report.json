@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "browser": "156.0.4314.42",
+  "batch": "b7764ca7-8faa-40b9-bf1f-c13a017ee421",
+  "partial_failure": true,
+  "cancelled": true,
+  "rejected": true,
+  "rejected_excluded": true
+}

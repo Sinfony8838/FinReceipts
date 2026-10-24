@@ -192,7 +192,7 @@ def test_empty_scope_and_missing_run_still_have_specific_client_errors(client):
 
 
 def test_storage_busy_retains_retry_header_and_log_classification(client, monkeypatch, caplog):
-    def busy(*_):
+    def busy(*_, **_kwargs):
         raise StoreBusy(SECRET)
 
     monkeypatch.setattr(client.app.state.fin.runs.store, "get", busy)

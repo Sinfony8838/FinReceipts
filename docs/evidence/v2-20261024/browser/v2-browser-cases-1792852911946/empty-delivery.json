@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "batch_id": "b7764ca7-8faa-40b9-bf1f-c13a017ee421",
+  "coverage": "Supported numeric targets only; human review does not change machine verdicts.",
+  "approved_items": [],
+  "digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+}

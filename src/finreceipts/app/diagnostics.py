@@ -16,6 +16,7 @@ from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 LOGGER = logging.getLogger("finreceipts.requests")
 DETAILS = {
+    "authentication_required": "authenticate with a configured bearer token",
     "internal_error": "request failed; use the request ID to locate diagnostics",
     "ask_failed": "answer generation failed; no raw provider error is exposed",
     "audit_failed": "audit failed; no raw provider error is exposed",

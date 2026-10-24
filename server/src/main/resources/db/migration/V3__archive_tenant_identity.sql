@@ -1,0 +1,1 @@
+ALTER TABLE archives DROP PRIMARY KEY, ADD PRIMARY KEY(tenant_id,id);

@@ -23,6 +23,7 @@ from finreceipts.runtime.codec import (
 )
 from finreceipts.runtime.store import BudgetExceeded, RunConflict, RunStore, StoreBusy
 from finreceipts.verify.numbers import NumericInputError
+from finreceipts.verify.target import VerificationTarget, target_evidence
 from finreceipts.verify.verifier import Verifier
 
 
@@ -84,7 +85,7 @@ class RunService:
         self.provider_id = provider_id
         self.implementation_id = implementation_id()
 
-    def create(self, key: str, request: dict) -> dict:
+    def create(self, key: str, request: dict, *, principal_id="local") -> dict:
         request = {
             **request,
             "provider_id": self.provider_id,
@@ -92,7 +93,7 @@ class RunService:
         }
         if isinstance(request.get("as_of"), date):
             request["as_of"] = request["as_of"].isoformat()
-        existing = self.store.find(key, request)
+        existing = self.store.find(key, request, principal_id=principal_id)
         if existing:
             return existing
         state = initial_state(
@@ -113,16 +114,24 @@ class RunService:
         )
         if not any(evidence.values()):
             raise EvidenceUnavailable("no financial evidence for the requested scope")
+        if state.get("target"):
+            _, reason = target_evidence(
+                VerificationTarget.model_validate(state["target"]), decode_lookup(evidence)
+            )
+            if reason:
+                raise EvidenceUnavailable(reason)
         serialized = {**request, "as_of": state["as_of"].isoformat() if state["as_of"] else None}
-        return self.store.create(key, serialized, evidence, encode_state(state))
+        return self.store.create(
+            key, serialized, evidence, encode_state(state), principal_id=principal_id
+        )
 
-    def advance(self, run_id: str, revision: int) -> dict:
-        original = self.store.get(run_id)
+    def advance(self, run_id: str, revision: int, *, principal_id="local") -> dict:
+        original = self.store.get(run_id, principal_id=principal_id)
         if original["request"]["provider_id"] != self.provider_id:
             raise RunConflict("provider configuration changed; create a new run")
         if original["request"]["implementation_id"] != self.implementation_id:
             raise RunConflict("implementation changed; export the old run and create a new run")
-        doc, token = self.store.claim(run_id, revision)
+        doc, token = self.store.claim(run_id, revision, principal_id=principal_id)
         request = doc["request"]
         state = decode_state(doc["state"])
         evidence = decode_lookup(doc["evidence"])
@@ -171,14 +180,28 @@ class RunService:
                 "whole_answer_verified": False,
                 "reason": "numeric_match_only" if passed else "unresolved_claims",
             }
+            if state.get("target"):
+                quality["target_gate_passed"] = (
+                    state.get("target_audit", {}).get("verdict") == "supported"
+                )
+                quality["numeric_gate_passed"] = bool(state.get("audit")) and all(
+                    r.ok for r in state["audit"]
+                )
+                quality["reason"] = (
+                    "target_value_verified" if passed else "unresolved_target_or_claims"
+                )
             # Verification must describe the current answer, not the previous attempt.
             if node == "answer":
                 state["audit"] = []
+                if state.get("target"):
+                    state.pop("target_audit", None)
                 quality = {
                     "numeric_gate_passed": False,
                     "whole_answer_verified": False,
                     "reason": "awaiting_verification",
                 }
+                if state.get("target"):
+                    quality["target_gate_passed"] = False
             return self.store.finish(run_id, token, encode_state(state), following, quality)
         except NumericInputError as exc:
             # The committed answer cannot become valid by resuming the same node.

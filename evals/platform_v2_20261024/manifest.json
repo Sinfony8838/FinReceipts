@@ -1,0 +1,130 @@
+{
+  "version": "platform-v2-20261024",
+  "frozen_at": "2026-10-24T13:41:52.244393+00:00",
+  "company_split": {
+    "dev": [
+      [
+        "AAPL",
+        320193
+      ],
+      [
+        "MSFT",
+        789019
+      ],
+      [
+        "NVDA",
+        1045810
+      ]
+    ],
+    "frozen": [
+      [
+        "GOOGL",
+        1652044
+      ],
+      [
+        "AMZN",
+        1018724
+      ],
+      [
+        "META",
+        1326801
+      ],
+      [
+        "ADBE",
+        796343
+      ],
+      [
+        "CRM",
+        1108524
+      ],
+      [
+        "ORCL",
+        1341439
+      ]
+    ]
+  },
+  "sources": [
+    {
+      "ticker": "AAPL",
+      "split": "dev",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+      "sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43"
+    },
+    {
+      "ticker": "MSFT",
+      "split": "dev",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "sha256": "dd0308149a8e96497989ed7c690b5a49a00bef9ceafbb24638bda41e8ae938dd"
+    },
+    {
+      "ticker": "NVDA",
+      "split": "dev",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff"
+    },
+    {
+      "ticker": "GOOGL",
+      "split": "frozen",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+      "sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5"
+    },
+    {
+      "ticker": "AMZN",
+      "split": "frozen",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+      "sha256": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4"
+    },
+    {
+      "ticker": "META",
+      "split": "frozen",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326801.json",
+      "sha256": "ecbeee451a002c65e854fd89c68c5e5762740427f9edba01f015d6bc668c3e43"
+    },
+    {
+      "ticker": "ADBE",
+      "split": "frozen",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000796343.json",
+      "sha256": "86a5689aa9aa7b0f9e95be21b48b0305376e014c8dbf3b8bb3b4b131f1b6a0c4"
+    },
+    {
+      "ticker": "CRM",
+      "split": "frozen",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001108524.json",
+      "sha256": "c36bddafd22061dfe573fa22199074d882196f6667cf641eb30c8cec5a340ae5"
+    },
+    {
+      "ticker": "ORCL",
+      "split": "frozen",
+      "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001341439.json",
+      "sha256": "65523545f040abaea1dfcf321da2a5aec85e7f34387244b0ffcb26e4c8707f7d"
+    }
+  ],
+  "files": {
+    "AAPL.source.json": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+    "ADBE.source.json": "86a5689aa9aa7b0f9e95be21b48b0305376e014c8dbf3b8bb3b4b131f1b6a0c4",
+    "AMZN.source.json": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4",
+    "CRM.source.json": "c36bddafd22061dfe573fa22199074d882196f6667cf641eb30c8cec5a340ae5",
+    "dev.json": "4308ab90af1408b55dd3565c9c22d42ad5929b18dfb14e140a3531a468811b1d",
+    "frozen.json": "b53d9c17adf9eccb844553c646d00e2e84b37442f9e9304c35906107aeeba500",
+    "GOOGL.source.json": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+    "META.source.json": "ecbeee451a002c65e854fd89c68c5e5762740427f9edba01f015d6bc668c3e43",
+    "MSFT.source.json": "dd0308149a8e96497989ed7c690b5a49a00bef9ceafbb24638bda41e8ae938dd",
+    "NVDA.source.json": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+    "ORCL.source.json": "65523545f040abaea1dfcf321da2a5aec85e7f34387244b0ffcb26e4c8707f7d"
+  },
+  "deepseek_comparison_ids": [
+    "GOOGL-1",
+    "GOOGL-2",
+    "GOOGL-3",
+    "GOOGL-4",
+    "AMZN-1",
+    "AMZN-2",
+    "AMZN-3",
+    "AMZN-4",
+    "META-1",
+    "META-2",
+    "META-3",
+    "META-4"
+  ],
+  "scope": "24 supported-target candidates and 12 missing-evidence controls; no model result informed selection."
+}

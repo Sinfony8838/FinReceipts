@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "archive_sha256": "6356271ead47f37b7baa7480fe9cb7bf69a6eb01e12f7838ad27edfca01c1e33",
+  "bytes": 24755,
+  "scope": "Synthetic legacy-format run; existing SQLite databases untouched.",
+  "checks": [
+    "legacy_chain_valid",
+    "byte_preservation",
+    "tenant_isolation",
+    "non_executable"
+  ]
+}

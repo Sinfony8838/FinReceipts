@@ -1,0 +1,241 @@
+{
+  "case_id": "ADBE-1",
+  "provider": "minimax",
+  "profile": {
+    "provider": "minimax",
+    "model": "MiniMax-M3.1-Flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:49:59.700024+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0000796343-23-000007",
+        "cik": 796343,
+        "concept": "Revenues",
+        "duration_days": 364,
+        "end": "2022-12-02",
+        "entity_name": "ADOBE INC.",
+        "filed": "2023-01-17",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenues",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm",
+        "start": "2021-12-04",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 17606000000.0
+      },
+      "2023": {
+        "accn": "0000796343-24-000006",
+        "cik": 796343,
+        "concept": "Revenues",
+        "duration_days": 364,
+        "end": "2023-12-01",
+        "entity_name": "ADOBE INC.",
+        "filed": "2024-01-17",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenues",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm",
+        "start": "2022-12-03",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 19409000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "60e624df-5adb-4263-8f11-c9389860aea2",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "The evidence directly gives FY2023 revenue = $19,409,000,000. Let me verify with the tool.",
+              "signature": "e6523410fb7b65300c30f2a4f59fcbcf62d8103d0126ebc8e33de9a7fc434d6e",
+              "type": "thinking"
+            },
+            {
+              "type": "tool_use",
+              "id": "call_c3e19361947948ea916a93bc",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2023,
+                "metric": "revenue",
+                "ticker": "ADBE"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_c3e19361947948ea916a93bc",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2023,
+              "metric": "revenue",
+              "ticker": "ADBE"
+            }
+          }
+        ],
+        "usage": {
+          "input_tokens": 602,
+          "output_tokens": 83,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens_details": {
+            "thinking_tokens": 25
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "tool_use"
+      },
+      "estimated_micros": 2802
+    },
+    {
+      "attempt_id": "eba81312-baf2-4a5d-9dae-11f4d6fb5bc5",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Metric:** Adobe Inc. total annual revenue (us-gaap:Revenues) for fiscal year 2023, the 52-week period from 2022-12-03 to 2023-12-01.\n\n**Calculation:** This is a direct figure, so no derivation is needed. The value as reported in the FY2023 Form 10-K XBRL data is $19,409,000,000, confirmed identically by the frozen evidence and the tool lookup (accession 0000796343-24-000006, filed 2024-01-17, CIK 796343, concept \"Revenues\", unit USD). For context only, FY2022 revenue was $17,606,000,000 (accession 0000796343-23-000007), implying roughly 10% year-over-year growth.\n\nANSWER: $19.409 billion USD",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "**Metric:** Adobe Inc. total annual revenue (us-gaap:Revenues) for fiscal year 2023, the 52-week period from 2022-12-03 to 2023-12-01.\n\n**Calculation:** This is a direct figure, so no derivation is needed. The value as reported in the FY2023 Form 10-K XBRL data is $19,409,000,000, confirmed identically by the frozen evidence and the tool lookup (accession 0000796343-24-000006, filed 2024-01-17, CIK 796343, concept \"Revenues\", unit USD). For context only, FY2022 revenue was $17,606,000,000 (accession 0000796343-23-000007), implying roughly 10% year-over-year growth.\n\nANSWER: $19.409 billion USD",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 324,
+          "output_tokens": 187,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 3216
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Metric:** Adobe Inc. total annual revenue (us-gaap:Revenues) for fiscal year 2023, the 52-week period from 2022-12-03 to 2023-12-01.\n\n**Calculation:** This is a direct figure, so no derivation is needed. The value as reported in the FY2023 Form 10-K XBRL data is $19,409,000,000, confirmed identically by the frozen evidence and the tool lookup (accession 0000796343-24-000006, filed 2024-01-17, CIK 796343, concept \"Revenues\", unit USD). For context only, FY2022 revenue was $17,606,000,000 (accession 0000796343-23-000007), implying roughly 10% year-over-year growth.\n\nANSWER: $19.409 billion USD",
+      "audit": {
+        "claim": {
+          "text": "$19.409 billion USD",
+          "value": 19409000000.0,
+          "unit": "USD",
+          "metric": "revenue",
+          "entity": "ADOBE INC.",
+          "period_end": "2023-12-01",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 796343,
+              "entity_name": "ADOBE INC.",
+              "taxonomy": "us-gaap",
+              "concept": "Revenues",
+              "label": "Revenues",
+              "unit": "USD",
+              "value": 19409000000.0,
+              "start": "2022-12-03",
+              "end": "2023-12-01",
+              "accn": "0000796343-24-000006",
+              "form": "10-K",
+              "filed": "2024-01-17",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 364,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm"
+            }
+          ],
+          "expected_value": 19409000000.0,
+          "expected_unit": "USD",
+          "formula": "Revenues[FY2023]",
+          "note": null
+        },
+        "relative_error": 0.0
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 2.9530000000086147,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 19409000000 USD"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for ADBE; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"ADBE\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0000796343-23-000007\", \"cik\": 796343, \"concept\": \"Revenues\", \"duration_days\": 364, \"end\": \"2022-12-02\", \"entity_name\": \"ADOBE INC.\", \"filed\": \"2023-01-17\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenues\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm\", \"start\": \"2021-12-04\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 17606000000.0}, \"2023\": {\"accn\": \"0000796343-24-000006\", \"cik\": 796343, \"concept\": \"Revenues\", \"duration_days\": 364, \"end\": \"2023-12-01\", \"entity_name\": \"ADOBE INC.\", \"filed\": \"2024-01-17\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenues\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm\", \"start\": \"2022-12-03\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 19409000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "The evidence directly gives FY2023 revenue = $19,409,000,000. Let me verify with the tool.",
+          "signature": "e6523410fb7b65300c30f2a4f59fcbcf62d8103d0126ebc8e33de9a7fc434d6e",
+          "type": "thinking"
+        },
+        {
+          "type": "tool_use",
+          "id": "call_c3e19361947948ea916a93bc",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2023,
+            "metric": "revenue",
+            "ticker": "ADBE"
+          }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_c3e19361947948ea916a93bc",
+          "content": "{\"ticker\": \"ADBE\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 19409000000.0, \"unit\": \"USD\", \"period_start\": \"2022-12-03\", \"period_end\": \"2023-12-01\", \"concept\": \"Revenues\", \"accession\": \"0000796343-24-000006\", \"filed\": \"2024-01-17\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "**Metric:** Adobe Inc. total annual revenue (us-gaap:Revenues) for fiscal year 2023, the 52-week period from 2022-12-03 to 2023-12-01.\n\n**Calculation:** This is a direct figure, so no derivation is needed. The value as reported in the FY2023 Form 10-K XBRL data is $19,409,000,000, confirmed identically by the frozen evidence and the tool lookup (accession 0000796343-24-000006, filed 2024-01-17, CIK 796343, concept \"Revenues\", unit USD). For context only, FY2022 revenue was $17,606,000,000 (accession 0000796343-23-000007), implying roughly 10% year-over-year growth.\n\nANSWER: $19.409 billion USD",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

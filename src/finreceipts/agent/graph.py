@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Any
@@ -34,6 +35,7 @@ from finreceipts.llm.client import LLMClient, Message, Usage
 from finreceipts.models import Verdict, VerificationResult
 from finreceipts.verify.numbers import extract_numbers
 from finreceipts.verify.serialization import serialize_audit
+from finreceipts.verify.target import VerificationTarget, target_evidence, verify_target_answer
 from finreceipts.verify.verifier import Tolerance, Verifier
 
 SYSTEM_PROMPT = (
@@ -74,6 +76,7 @@ class AgentDeps:
     tool_guard: Any = None  # Callable[[ToolCall, AgentState], None]; raises to refuse
     tool_cache: Any = None  # pit_wiring.SealedToolCache
     mark_untrusted: bool = False
+    tool_observer: Any = None
 
 
 def _answer_node(deps: AgentDeps):
@@ -83,6 +86,10 @@ def _answer_node(deps: AgentDeps):
         by_model = deepcopy(state.get("usage_by_model") or {})
         tools = [GET_FACT_SPEC, GET_A_SHARE_FACT_SPEC] if state.get("use_tools") else []
         system = SYSTEM_PROMPT + ("\n" + TOOLS_HINT if tools else "")
+        if state.get("target"):
+            system += "\nExplicit verification target: " + json.dumps(
+                state["target"], sort_keys=True
+            )
         if tools and deps.mark_untrusted:
             system += "\n" + pit_wiring.UNTRUSTED_NOTE
         text = ""
@@ -92,11 +99,9 @@ def _answer_node(deps: AgentDeps):
             by_model.setdefault(state["model"], Usage()).add(resp.usage)
             if not resp.tool_calls:
                 text = resp.text
-                messages.append({"role": "assistant", "content": text})
+                messages.append(resp.assistant_message())
                 break
-            messages.append(
-                {"role": "assistant", "content": resp.text, "tool_calls": resp.tool_calls}
-            )
+            messages.append(resp.assistant_message())
             for tc in resp.tool_calls:
                 result = _run_tool(deps, tc, state)
                 if deps.mark_untrusted:
@@ -110,6 +115,21 @@ def _answer_node(deps: AgentDeps):
 
 
 def _run_tool(deps: AgentDeps, tc, state: AgentState) -> str:
+    started = time.perf_counter()
+    if deps.tool_observer:
+        deps.tool_observer("started", tc, None, 0.0)
+    try:
+        result = _execute_tool(deps, tc, state)
+    except Exception:
+        if deps.tool_observer:
+            deps.tool_observer("error", tc, None, time.perf_counter() - started)
+        raise
+    if deps.tool_observer:
+        deps.tool_observer("completed", tc, result, time.perf_counter() - started)
+    return result
+
+
+def _execute_tool(deps: AgentDeps, tc, state: AgentState) -> str:
     if deps.tool_guard is not None:
         try:
             deps.tool_guard(tc, state)
@@ -141,6 +161,11 @@ def _verify_node(deps: AgentDeps):
         # Historical numeric QA routing remains numeric-only. It must not be
         # described as natural-text semantic attribution verification.
         audit = verifier.audit_text(state.get("answer", ""), fiscal_years=years, numeric_only=True)
+        target_delta = {}
+        if state.get("target"):
+            target_delta["target_audit"] = verify_target_answer(
+                state.get("answer"), state["target"], lookup, deps.tol
+            ).model_dump(mode="json")
         attempts = [
             *state.get("attempts", []),
             {
@@ -151,9 +176,10 @@ def _verify_node(deps: AgentDeps):
                 # Snapshot against this exact answer before revision/escalation
                 # replaces the live audit. Do not backfill historical attempts.
                 "audit": serialize_audit(audit),
+                **target_delta,
             },
         ]
-        return {"audit": audit, "attempts": attempts}
+        return {"audit": audit, "attempts": attempts, **target_delta}
 
     return node
 
@@ -162,6 +188,13 @@ def feedback_message(state: AgentState, deps: AgentDeps) -> str:
     """Verifier feedback for the reviser (flags only, or flags + candidate receipts)."""
     bad = [r for r in state.get("audit", []) if r.verdict is not Verdict.SUPPORTED]
     lines = ["A verifier checked every number in your answer against the company's SEC filings."]
+    if state.get("target"):
+        lines.append("Target check: " + json.dumps(state.get("target_audit", {}), sort_keys=True))
+        if state.get("feedback") != "receipts":
+            # Flags must not accidentally disclose the expected value through the audit.
+            lines[-1] = "Target check: " + json.dumps(
+                {k: v for k, v in state.get("target_audit", {}).items() if k != "evidence"}
+            )
     for r in bad:
         lines.append(f"- '{r.claim.text}': {r.verdict.value} ({'; '.join(r.reasons)})")
     if not _has_final_number(state.get("answer", "")):
@@ -172,6 +205,12 @@ def feedback_message(state: AgentState, deps: AgentDeps) -> str:
     if state.get("feedback") == "receipts":
         lookup = deps.lookup_provider(state["ticker"], state.get("as_of"))
         lines.append("Reported figures available for the fiscal years in scope:")
+        if state.get("target"):
+            evidence, _ = target_evidence(
+                VerificationTarget.model_validate(state["target"]), lookup
+            )
+            if evidence:
+                lines.append("Target evidence: " + evidence.model_dump_json())
         for name, series in lookup.items():
             for fy in state.get("fiscal_years") or []:
                 f = series.get(fy)
@@ -216,7 +255,11 @@ def verification_passed(state: AgentState) -> bool:
     """
     answer = state.get("answer", "")
     audit = state.get("audit", [])
-    return bool(audit) and all(r.ok for r in audit) and _has_final_number(answer)
+    numeric_passed = bool(audit) and all(r.ok for r in audit) and _has_final_number(answer)
+    target_passed = (
+        not state.get("target") or state.get("target_audit", {}).get("verdict") == "supported"
+    )
+    return numeric_passed and target_passed
 
 
 def _route_after_verify(state: AgentState) -> str:
@@ -278,10 +321,11 @@ def initial_state(
     as_of=None,
     max_revisions: int = 2,
     escalate_model: str | None = None,
+    target: dict | None = None,
 ) -> AgentState:
     if mode == "cascade" and not escalate_model:
         raise ValueError("cascade mode needs escalate_model")
-    return AgentState(
+    state = AgentState(
         question=question,
         ticker=ticker,
         fiscal_years=fiscal_years,
@@ -300,3 +344,11 @@ def initial_state(
         usage=Usage(),
         attempts=[],
     )
+    if target is not None:
+        parsed = VerificationTarget.model_validate(target)
+        if max_revisions > 2 or mode == "cascade":
+            raise ValueError("target mode allows at most two revisions and no escalation")
+        if fiscal_years != [parsed.fiscal_year]:
+            raise ValueError("target requires exactly its fiscal year")
+        state["target"] = parsed.model_dump(mode="json")
+    return state

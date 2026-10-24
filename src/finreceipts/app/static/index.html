@@ -17,6 +17,9 @@
 <main id="main" class="page">
   <div class="page-heading"><div><h1>快速问答</h1><p>提出财务问题，查看数值核验与证据报告。</p></div><span id="environment" class="environment">连接中</span></div>
   <div id="error" class="error-box" role="alert"></div>
+  <section id="auth-panel" class="notice" hidden><h2>访问当前服务</h2><p id="auth-user">刷新后需要重新认证。</p>
+    <form id="auth-form"><label for="auth-token">访问令牌</label><input id="auth-token" type="password" autocomplete="off" required><button type="submit">认证 / 切换用户</button></form>
+  </section>
   <div class="workspace">
     <aside class="panel settings"><h2>问题设置</h2>
       <div class="example-links"><button id="exAapl" type="button">苹果 · 2023</button><button id="exNvda" type="button">英伟达 · 2025</button></div>
@@ -44,6 +47,7 @@
   </div>
   <footer class="footer"><span>本地研究工具 · 不构成投资建议</span><span>演示模式使用固定回答，不代表真实模型效果。</span></footer>
 </main>
+<script src="/static/run-auth.js"></script>
 <script src="/static/ask.js"></script>
 </body>
 </html>

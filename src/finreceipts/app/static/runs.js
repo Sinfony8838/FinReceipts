@@ -2,28 +2,32 @@
   const $ = id => document.getElementById(id), U = window.FinUI;
   let current = null, busy = false, cursor = 0, seen = [], pending = null, pendingProblem = null, layoutRun;
   const journal = window.FinCreateJournal;
+  const auth = window.FinRunAuth;
+  let authenticated = false;
+  let identityEpoch = 0;
   const narrow = matchMedia('(max-width: 959px)');
   const terminal = new Set(['completed', 'cancelled', 'budget_exhausted', 'failed']);
   function layout() { $('settings').open = !current?.state || !narrow.matches; }
   narrow.addEventListener('change', layout);
   async function api(url, body, headers = {}) {
-    const response = await fetch(url, {method: body === undefined ? 'GET' : 'POST',
+    const response = await auth.request(url, {method: body === undefined ? 'GET' : 'POST',
       headers: {'Content-Type': 'application/json', ...headers}, body: body === undefined ? undefined : JSON.stringify(body)});
     const data = await response.json();
     if (!response.ok) { const error = U.apiError(data, response.headers.get('X-Request-ID')); error.status = response.status; throw error; }
     return data;
   }
   function controls() {
-    $('create').disabled = busy || !!pending || !!pendingProblem;
-    for (const id of ['question','ticker','years','budget','revisions']) $(id).disabled = busy || !!pending || !!pendingProblem;
+    $('create').disabled = !authenticated || busy || !!pending || !!pendingProblem;
+    for (const id of ['question','ticker','years','budget','revisions','target-enabled','target-kind','target-metric','target-denominator','target-as-of']) $(id).disabled = !authenticated || busy || !!pending || !!pendingProblem;
     $('pending-create').hidden = !pending && !pendingProblem;
     $('retry-create').hidden = !pending;
-    $('retry-create').disabled = busy || !pending || !!pendingProblem;
+    $('retry-create').disabled = !authenticated || busy || !pending || !!pendingProblem;
     $('discard-controls').hidden = pendingProblem === 'creation_storage_unavailable';
     $('discard-create').disabled = busy || !$('discard-ack').checked;
     $('discard-ack').disabled = busy;
     $('pending-note').textContent = pendingProblem === 'creation_storage_unavailable'
       ? '浏览器会话存储不可用，暂时不能安全保存或读取创建记录。请允许会话存储后重新加载页面。'
+      : pendingProblem === 'creation_identity_mismatch' ? '待确认请求属于其他用户。请切换回原用户；不会使用当前身份重发。'
       : pendingProblem ? '上次创建的恢复记录无法读取。请保留页面排查，或确认放弃找回后重新填写。'
       : '上次创建结果尚未确认。点击确认会重用原请求，找回已经创建的任务；若尚未创建，则完成原请求。原问题与设置暂时锁定。';
     if (!current?.state) {
@@ -57,6 +61,13 @@
     $('next').textContent = terminal.has(current.status) ? '已停止' : U.node(current.next_node);
     $('reason').textContent = U.reason(current.stop_reason || current.quality?.reason);
     $('reason').hidden = current.status === 'failed';
+    const targetAudit = current.state.target_audit;
+    $('target-result').replaceChildren();
+    if (current.state.target) {
+      const passed = current.quality?.target_gate_passed;
+      const label = current.status === 'completed' && !passed ? '执行完成，目标核验未通过' : passed ? '目标数值核验通过（不代表全文正确）' : '目标数值待核验';
+      $('target-result').append(U.el('p',label), U.rawDetails({target:current.state.target, audit:targetAudit || null, as_of:current.request.as_of, snapshot_retrieved_at:null},'目标与证据'));
+    }
     $('failure-reason').textContent = current.status === 'failed' ? U.reason(current.stop_reason) : '';
     $('identity').textContent = '任务编号：' + current.run_id + '\n记录版本：' + current.revision + '\n证据摘要 SHA-256：' + current.evidence_digest;
     $('answer').textContent = current.state.answer || '任务已创建，执行后将在这里显示回答。';
@@ -65,7 +76,7 @@
     controls();
   }
   async function events() {
-    const response = await fetch('/api/runs/' + current.run_id + '/events', {headers: {'Last-Event-ID': String(cursor)}});
+    const response = await auth.request('/api/runs/' + current.run_id + '/events', {headers: {'Last-Event-ID': String(cursor)}});
     if (!response.ok) throw new Error('无法补读事件，请刷新状态。');
     for (const line of (await response.text()).split('\n')) if (line.startsWith('data: ')) {
       const event = JSON.parse(line.slice(6));
@@ -91,6 +102,7 @@
   }
   async function sendPending() {
     if (!pending || pendingProblem) return;
+    journal.forPrincipal(pending, auth.principal());
     let doc;
     try { doc = await api('/api/runs', pending.body, {'Idempotency-Key': pending.key}); }
     catch (error) {
@@ -109,7 +121,13 @@
     const years = U.years($('years').value);
     const body = {question: $('question').value, ticker: $('ticker').value.trim(), fiscal_years: years,
       max_dispatches: Number($('budget').value), max_revisions: Number($('revisions').value)};
-    const record = {version: 1, key: crypto.randomUUID(), body};
+    if ($('target-enabled').checked) {
+      if (years.length !== 1) throw new Error('目标核验只接受一个财年。');
+      body.target = {kind:$('target-kind').value, metric:$('target-metric').value, fiscal_year:years[0]};
+      if (body.target.kind === 'ratio') body.target.denominator = $('target-denominator').value;
+      body.use_tools = true; body.as_of = $('target-as-of').value || null;
+    }
+    const record = {version: 2, principal_id:auth.principal(), operation:'create_run', key: crypto.randomUUID(), body};
     try { journal.save(record); } catch (error) {
       if (error.code === 'creation_storage_unavailable') pendingProblem = error.code;
       throw error;
@@ -163,12 +181,14 @@
     $('history-next').disabled = historyBusy || !historyNext;
   }
   async function loadHistory(page, reset = false) {
-    if (historyBusy) return;
+    if (!authenticated || historyBusy) return;
+    const epoch = identityEpoch;
     historyBusy = true; historyControls(); $('history-error').replaceChildren();
     try {
       const cursor = reset ? null : historyCursors[page];
       const url = '/api/runs?limit=10' + (cursor ? '&cursor=' + encodeURIComponent(cursor) : '');
       const result = page === 0 && !reset && historyFirst ? historyFirst : await api(url);
+      if (epoch !== identityEpoch) return;
       if (reset) { historyCursors = [null]; historyFirst = result; }
       historyPage = page; historyNext = result.next_cursor; historyLoaded = true;
       if (historyNext) historyCursors[page + 1] = historyNext;
@@ -191,25 +211,59 @@
       });
       $('history-list').replaceChildren(...rows);
       $('history-note').textContent = rows.length ? `第 ${page + 1} 页 · ${rows.length} 个任务。状态以打开后的任务详情为准。` : '尚无已保存任务。';
-    } catch (error) { U.showError($('history-error'), error); }
-    finally { historyBusy = false; historyControls(); }
+    } catch (error) { if (epoch === identityEpoch) U.showError($('history-error'), error); }
+    finally { if (epoch === identityEpoch) { historyBusy = false; historyControls(); } }
   }
   $('run-history').addEventListener('toggle', () => { if ($('run-history').open && !historyLoaded) loadHistory(0, true); });
   $('history-refresh').onclick = () => loadHistory(0, true);
   $('history-previous').onclick = () => loadHistory(historyPage - 1);
   $('history-next').onclick = () => loadHistory(historyPage + 1);
-  try {
+  async function initializeIdentity(token = '') {
+    identityEpoch++; historyBusy = false;
+    authenticated = false; controls();
+    const identity = await auth.connect(token);
+    authenticated = true;
+    current = null; cursor = 0; seen = []; historyLoaded = false; historyFirst = null;
+    historyCursors = [null]; historyPage = 0; historyNext = null;
+    $('history-list').replaceChildren(); $('history-note').textContent = '展开后读取任务。';
+    pending = null; pendingProblem = null;
+    try {
     pending = journal.load();
+    journal.forPrincipal(pending, identity.principal_id);
     if (pending) {
       const b = pending.body;
       $('question').value = b.question; $('ticker').value = b.ticker; $('years').value = b.fiscal_years.join(',');
       $('budget').value = b.max_dispatches; $('revisions').value = b.max_revisions;
+      $('target-enabled').checked = !!b.target;
+      if (b.target) { $('target-kind').value=b.target.kind; $('target-metric').value=b.target.metric; $('target-as-of').value=b.as_of || ''; if(b.target.denominator) $('target-denominator').value=b.target.denominator; }
     }
-  } catch (error) { pendingProblem = error.code; }
+    } catch (error) { pendingProblem = error.code; }
+    if (!pending && !pendingProblem && !$('question').value) $('question').value='苹果（AAPL）2023 财年的营业收入是多少？';
+    controls();
+    const id = location.hash.slice(1); if (/^[a-f0-9]{32}$/.test(id)) { current = {run_id:id}; await refresh(); }
+  }
+  function clearVisibleIdentity() {
+    identityEpoch++; historyBusy = false;
+    authenticated=false; current=null; seen=[]; cursor=0;
+    for (const id of ['run-info','answer-section','comparison-section','evidence-details']) $(id).hidden=true;
+    $('history-list').replaceChildren(); $('answer').textContent=''; $('events').replaceChildren();
+    $('identity').textContent=''; $('comparison').replaceChildren(); $('target-result').replaceChildren();
+    $('settings-context').replaceChildren(U.el('strong','任务设置'),U.el('span','展开查看或创建新任务'));
+    $('run-title').textContent='研究结果'; $('run-context').hidden=true; $('empty').hidden=false;
+    $('question').value=''; controls();
+  }
+  window.addEventListener('fin-auth-required', clearVisibleIdentity);
+  $('auth-form').onsubmit = event => {event.preventDefault(); if(busy)return; clearVisibleIdentity(); action(async()=>{const token=$('auth-token').value; $('auth-token').value=''; await initializeIdentity(token);});};
+  $('export').onclick = event => {event.preventDefault(); action(async()=>{
+    const response=await auth.request('/api/runs/'+current.run_id+'/export');
+    if(!response.ok) throw U.apiError(await response.json());
+    const url=URL.createObjectURL(await response.blob()), link=document.createElement('a');
+    link.href=url; link.download=current.run_id+'.json'; link.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });};
   U.environment();
   // Browser back/forward or a pasted task fragment must not leave an old run visible.
   window.addEventListener('hashchange', () => {
     if (location.hash.slice(1) !== current?.run_id) location.reload();
   });
-  action(async () => { const id = location.hash.slice(1); if (/^[a-f0-9]{32}$/.test(id)) { current = {run_id: id}; await refresh(); } });
+  action(() => initializeIdentity());
 })();
