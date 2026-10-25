@@ -131,7 +131,7 @@ async function run() {
     async function screenshot(name) { const overlayOpen = await page.locator('dialog[open],.overlay').count(); await page.screenshot({ path: path.join(out, name + '.png'), fullPage: !overlayOpen }); report.screenshots.push(name + '.png'); }
     async function login(username) { await page.getByLabel('用户名', { exact: true }).fill(username); await page.getByLabel('密码', { exact: true }).fill('offline-fixture-password'); await page.getByRole('button', { name: /进入工作台/ }).click(); await page.getByRole('heading', { name: '批次与任务', exact: true }).waitFor(); }
     async function nav(name) { await page.locator('nav').getByRole('button', { name: baseline ? new RegExp(name + '$') : name, exact: !baseline }).click(); await page.getByRole('heading', { name, exact: true }).waitFor(); }
-    const modal = () => baseline ? page.locator('.overlay .dialog').last() : page.locator('dialog[open]').last();
+    const modal = () => page.locator('dialog[open],.overlay .dialog').last();
     async function closeModal() { await modal().getByRole('button', { name: '关闭', exact: true }).click(); await modal().waitFor({ state: 'hidden' }); }
     async function fit(label, target = page) {
       const layout = await target.evaluate(() => ({ width: innerWidth, scroll: document.documentElement.scrollWidth, clipped: [...document.querySelectorAll('button,input,select,textarea,a[href],summary')].filter(e => e.checkVisibility() && (!e.matches('.skip-link') || e === document.activeElement)).map(e => ({ e, r: e.getBoundingClientRect() })).filter(({ r }) => r.width && (r.left < -1 || r.right > innerWidth + 1)).map(({ e }) => e.getAttribute('aria-label') || e.textContent.trim().slice(0, 40)) }));
@@ -140,6 +140,13 @@ async function run() {
     async function inspectTicker(ticker) { await page.getByRole('table', { name: '核验任务' }).getByRole('row').filter({ hasText: ticker }).getByRole('button', { name: '查看证据' }).click(); await modal().waitFor(); }
     await page.goto(base); await page.getByRole('heading', { name: '登录 FinReceipts' }).waitFor(); await screenshot('login-1440');
     if (!baseline) {
+      assert.equal(await page.getByRole('combobox', { name: '页面字号' }).inputValue(), 'standard');
+      await page.getByRole('combobox', { name: '页面字号' }).selectOption('large');
+      await page.reload(); await page.getByRole('heading', { name: '登录 FinReceipts' }).waitFor();
+      assert.equal(await page.getByRole('combobox', { name: '页面字号' }).inputValue(), 'large');
+      assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).fontSize), '18px');
+      await page.getByRole('combobox', { name: '页面字号' }).selectOption('standard');
+      report.checks.push('font size defaults and selection persist across reload before login');
       for (const width of [1280, 768, 390, 375]) { await page.setViewportSize({ width, height: width < 768 ? 844 : 900 }); await fit('login-' + width); await screenshot('login-' + width); }
       await page.setViewportSize({ width: 1440, height: 900 });
     }
@@ -147,11 +154,13 @@ async function run() {
     if (baseline) {
       await page.getByRole('button', { name: /查看证据/ }).first().click(); await screenshot('evidence-1440'); await closeModal();
       await nav('用量与配额'); await screenshot('quota-1440'); await nav('团队与接入'); await screenshot('settings-1440');
+      await nav('批次与任务');
       await page.getByRole('button', { name: /新建核验批次/ }).click(); await screenshot('create-1440'); await closeModal();
       await page.setViewportSize({ width: 390, height: 844 }); await nav('批次与任务'); await screenshot('tasks-390'); report.status = 'BASELINE_CAPTURED'; return;
     }
     await fit('tasks-1440');
     const firstRow = await page.getByRole('table', { name: '核验任务' }).locator('tbody tr').first().boundingBox(); assert.ok(firstRow && firstRow.y + firstRow.height <= 900, 'first task row is visible in initial desktop viewport'); report.checks.push('first task row stays above fold with paginated batches');
+    report.density = { viewport: { width: 1440, height: 900 }, firstRowTop: firstRow.y, taskRowHeight: firstRow.height, tableWidth: firstRow.width };
     // Paging survives the five-second background refresh, including batches.
     await page.getByRole('button', { name: /加载.*批次|更多批次/ }).filter({ visible: true }).first().click();
     await page.locator('.batch-card').nth(8).waitFor();
@@ -160,6 +169,21 @@ async function run() {
     await page.getByRole('table', { name: '核验任务' }).locator('tbody tr').nth(6).waitFor();
     const rowsBefore = await page.getByRole('table', { name: '核验任务' }).locator('tbody tr').count(); assert.ok(rowsBefore > 6);
     await pause(5500); assert.equal(await page.getByRole('table', { name: '核验任务' }).locator('tbody tr').count(), rowsBefore); report.checks.push('loaded task and batch pages survive polling');
+    const taskTable = page.getByRole('table', { name: '核验任务' });
+    const search = page.getByRole('searchbox', { name: '搜索已加载任务' });
+    const postsBeforeFilter = fixture.posts.length;
+    await search.fill('aapl'); assert.equal(await taskTable.locator('tbody tr').count(), 1); assert.match(await taskTable.locator('tbody').innerText(), /AAPL/);
+    await search.fill('营业收入'); assert.equal(await taskTable.locator('tbody tr').count(), rowsBefore);
+    await search.fill('task0002'); assert.equal(await taskTable.locator('tbody tr').count(), 1); assert.match(await taskTable.locator('tbody').innerText(), /MSFT/);
+    await search.fill('fixture-no-match'); await page.getByRole('heading', { name: '没有匹配的任务' }).waitFor(); assert.equal(await taskTable.locator('tbody tr').count(), 0);
+    await page.getByRole('button', { name: '清除筛选', exact: true }).click(); assert.equal(await taskTable.locator('tbody tr').count(), rowsBefore);
+    const filterTabs = page.getByRole('group', { name: '筛选已加载任务' });
+    for (const [label, states] of [['需关注', ['FAILED', 'UNKNOWN']], ['进行中', ['QUEUED', 'READY', 'RUNNING']], ['已完成', ['COMPLETED']]]) {
+      await filterTabs.getByRole('button', { name: new RegExp('^' + label) }).click();
+      assert.equal(await taskTable.locator('tbody tr').count(), fixture.tasks.filter(t => states.includes(t.status)).length);
+    }
+    await filterTabs.getByRole('button', { name: /^全部任务/ }).click(); assert.equal(await taskTable.locator('tbody tr').count(), rowsBefore);
+    assert.equal(fixture.posts.length, postsBeforeFilter); report.checks.push('loaded-task search, translated metrics, IDs, empty/reset states and status filters; no mutations');
     await nav('待复核任务'); await screenshot('review-1440'); await nav('批次与任务');
     assert.equal(new URL('http://fixture' + report.requests.filter(r => r.path === '/tasks').at(-1).query).searchParams.get('review'), 'false'); report.checks.push('review navigation resets query context');
     await inspectTicker('AAPL'); await screenshot('evidence-1440');
@@ -204,6 +228,24 @@ async function run() {
       await nav('用量与配额'); await fit('quota-' + width); await screenshot('quota-' + width); await nav('团队与接入'); await fit('settings-' + width); await screenshot('settings-' + width); await nav('批次与任务');
     }
     report.checks.push('all target widths preserve controls, account access, and page layout');
+    for (const [size, rootSize, widths] of [['large', 18, [1440, 1024, 375]], ['xlarge', 20, [1440, 1280, 1024, 768, 390, 375]]]) {
+      await page.getByRole('combobox', { name: '页面字号' }).selectOption(size);
+      assert.equal(await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).fontSize)), rootSize);
+      assert.equal(await page.evaluate(() => localStorage.getItem('fr:ui:text-size')), size);
+      for (const width of widths) {
+        await page.setViewportSize({ width, height: width < 768 ? 844 : 900 });
+        await fit('font-' + size + '-tasks-' + width); await screenshot('font-' + size + '-tasks-' + width);
+        const taskTextSize = await page.locator('.task-identity strong').filter({ visible: true }).first().evaluate(e => parseFloat(getComputedStyle(e).fontSize));
+        assert.ok(taskTextSize >= rootSize * .9375, 'task labels grow with selected font size');
+        await page.getByRole('button', { name: '查看证据', exact: true }).filter({ visible: true }).first().click(); await modal().waitFor(); await fit('font-' + size + '-evidence-' + width); await screenshot('font-' + size + '-evidence-' + width); await closeModal();
+        await page.getByRole('button', { name: /新建核验批次/ }).click(); await fit('font-' + size + '-create-' + width); await screenshot('font-' + size + '-create-' + width); await closeModal();
+        for (const [label, name] of [['用量与配额', 'quota'], ['团队与接入', 'settings']]) { await nav(label); await fit('font-' + size + '-' + name + '-' + width); await screenshot('font-' + size + '-' + name + '-' + width); }
+        await nav('批次与任务');
+      }
+    }
+    await page.reload(); await page.getByRole('heading', { name: '批次与任务', exact: true }).waitFor(); assert.equal(await page.getByRole('combobox', { name: '页面字号' }).inputValue(), 'xlarge');
+    await page.getByRole('combobox', { name: '页面字号' }).selectOption('standard');
+    report.checks.push('larger and largest text sizes across pages, dialogs and 375–1440px; persistence after login');
     await page.setViewportSize({ width: 1440, height: 900 }); await page.emulateMedia({ reducedMotion: 'reduce' }); await screenshot('reduced-motion'); report.checks.push('reduced-motion layout');
     fixture.empty = true; await nav('待复核任务'); await screenshot('empty-review'); await fit('empty-review'); fixture.empty = false;
     // Real Chromium browser zoom in a NEW isolated profile, not CSS zoom or DPR emulation.

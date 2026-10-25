@@ -57,13 +57,13 @@ function backdrop(event: MouseEvent) {
 </template>
 
 <style scoped>
-.dialog { position: fixed; padding: 0; width: min(680px, calc(100vw - 40px)); max-width: none; max-height: calc(100dvh - 64px); border: 1px solid var(--line, #e3e8f0); border-radius: 12px; background: var(--surface, #fff); color: var(--ink, #1e2b40); box-shadow: 0 20px 90px #14254b26; overflow: auto; }
-.dialog::backdrop { background: #14233e70; backdrop-filter: blur(3px); }
-.dialog.evidence { inset: 0 0 0 auto; margin: 0; width: min(1110px, calc(100vw - 52px)); max-height: 100dvh; height: 100dvh; border-radius: 0; border-width: 0 0 0 1px; }
-.dialog-header { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 24px 28px; border-bottom: 1px solid var(--line, #e3e8f0); background: var(--surface, #fff); }
-h2 { margin: 0; color: var(--ink, #1e2b40); font-size: 21px; line-height: 1.5; font-weight: 650; }
-.close-button { display: grid; place-items: center; flex: none; width: 40px; height: 40px; padding: 0; border: 1px solid var(--line, #e3e8f0); border-radius: 6px; background: var(--surface, #fff); color: var(--muted, #657386); cursor: pointer; }
-.close-button:hover { color: var(--ink, #1e2b40); background: var(--canvas, #f4f6f9); }
-.dialog-content { padding: 26px 28px 30px; }
-@media (max-width: 680px) { .dialog { max-height: calc(100dvh - 24px); width: calc(100vw - 24px); } .dialog.evidence { width: 100%; } .dialog-header { padding: 18px; } .dialog-content { padding: 20px 18px; } .close-button { width: 44px; height: 44px; } h2 { font-size: 19px; } }
+.dialog { position: fixed; padding: 0; width: min(640px, calc(100vw - 40px)); max-width: none; max-height: calc(100dvh - 64px); border: 1px solid var(--line, #e5e7e3); border-radius: 6px; background: var(--surface, #fff); color: var(--ink, #202321); box-shadow: 0 12px 48px #20232124; overflow: auto; }
+.dialog::backdrop { background: #20232166; }
+.dialog.evidence { inset: 0 0 0 auto; margin: 0; width: min(1040px, calc(100vw - 52px)); max-height: 100dvh; height: 100dvh; border-radius: 0; border-width: 0 0 0 1px; }
+.dialog-header { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 18px 22px; border-bottom: 1px solid var(--line, #e5e7e3); background: var(--surface, #fff); }
+h2 { margin: 0; color: var(--ink, #202321); font-size: 1.125rem; line-height: 1.5; font-weight: 650; }
+.close-button { display: grid; place-items: center; flex: none; width: 36px; min-height: 36px; height: 36px; padding: 0; border: 1px solid var(--line, #e5e7e3); border-radius: 6px; background: var(--surface, #fff); color: var(--muted, #666b66); cursor: pointer; }
+.close-button:hover { color: var(--ink, #202321); background: var(--canvas, #f7f7f5); }
+.dialog-content { padding: 20px 22px 24px; }
+@media (max-width: 680px) { .dialog { max-height: calc(100dvh - 24px); width: calc(100vw - 24px); } .dialog.evidence { width: 100%; } .dialog-header { padding: 18px; } .dialog-content { padding: 20px 18px; } .close-button { width: 44px; min-height: 44px; height: 44px; } h2 { font-size: 1.125rem; } }
 </style>
