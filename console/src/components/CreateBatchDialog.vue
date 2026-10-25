@@ -85,33 +85,33 @@ function submit() {
 </template>
 
 <style scoped>
-.form-intro { margin: 0 0 22px; color: var(--muted, #657386); font-size: 14px; line-height: 1.8; }
+.form-intro { margin: 0 0 18px; color: var(--muted, #666b66); font-size: 0.9375rem; line-height: 1.8; }
 fieldset { margin: 0; border: 0; padding: 0; min-width: 0; }
-label { position: relative; display: flex; flex-direction: column; gap: 8px; margin: 0 0 19px; color: var(--ink, #1e2b40); font-size: 14px; font-weight: 600; }
-input, select, textarea { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid var(--line, #e3e8f0); border-radius: 6px; font: inherit; color: var(--ink, #1e2b40); background: var(--surface, #fff); font-weight: 400; line-height: 1.6; }
+label { position: relative; display: flex; flex-direction: column; gap: 6px; margin: 0 0 15px; color: var(--ink, #202321); font-size: 0.9375rem; font-weight: 600; }
+input, select, textarea { width: 100%; min-width: 0; padding: 8px 10px; min-height: 38px; border: 1px solid var(--line, #e5e7e3); border-radius: 6px; font: inherit; color: var(--ink, #202321); background: var(--surface, #fff); font-weight: 400; line-height: 1.6; }
 textarea { resize: vertical; }
-input:focus, select:focus, textarea:focus { outline: 2px solid var(--primary, #325ed1); outline-offset: 2px; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--primary, #255c48); outline-offset: 2px; }
 [aria-invalid='true'] { border-color: var(--danger, #bd4e4e); }
-.field-error { color: var(--danger, #bd4e4e); font-size: 12px; line-height: 1.6; font-weight: 400; }
-.form-error { padding: 12px 14px; border: 1px solid #edd6d4; color: var(--danger, #bd4e4e); background: #fcf2f1; border-radius: 6px; font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
-.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.mode-tabs { display: flex; gap: 24px; margin: 6px 0 24px; border-bottom: 1px solid var(--line, #e3e8f0); }
-.mode-tabs button { padding: 12px 0; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--muted, #657386); background: transparent; font: inherit; font-size: 14px; cursor: pointer; }
-.mode-tabs .active { color: var(--primary, #325ed1); border-bottom-color: var(--primary, #325ed1); font-weight: 650; }
-.section-label { margin: 23px 0 16px; color: var(--ink, #1e2b40); font-size: 14px; font-weight: 650; }
-.optional { position: absolute; right: 0; color: var(--muted, #657386); font-size: 12px; font-weight: 400; }
-.form-note { display: flex; align-items: flex-start; gap: 9px; padding: 12px 14px; margin: 4px 0 0; border-radius: 6px; background: var(--canvas, #f4f6f9); color: var(--muted, #657386); font-size: 12px; line-height: 1.8; }
+.field-error { color: var(--danger, #bd4e4e); font-size: 0.875rem; line-height: 1.6; font-weight: 400; }
+.form-error { padding: 12px 14px; border: 1px solid #edd6d4; color: var(--danger, #bd4e4e); background: #fcf2f1; border-radius: 6px; font-size: 0.9375rem; line-height: 1.7; overflow-wrap: anywhere; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.mode-tabs { display: flex; gap: 20px; margin: 0 0 18px; border-bottom: 1px solid var(--line, #e5e7e3); }
+.mode-tabs button { padding: 9px 0; min-height: 38px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--muted, #666b66); background: transparent; font: inherit; font-size: 0.9375rem; cursor: pointer; }
+.mode-tabs .active { color: var(--primary, #255c48); border-bottom-color: var(--primary, #255c48); font-weight: 650; }
+.section-label { margin: 18px 0 13px; color: var(--ink, #202321); font-size: 0.9375rem; font-weight: 650; }
+.optional { position: absolute; right: 0; color: var(--muted, #666b66); font-size: 0.875rem; font-weight: 400; }
+.form-note { display: flex; align-items: flex-start; gap: 9px; padding: 12px 14px; margin: 4px 0 0; border-radius: 6px; background: var(--canvas, #f7f7f5); color: var(--muted, #666b66); font-size: 0.875rem; line-height: 1.8; }
 .form-note svg { margin-top: 2px; }
-.json-input { font-family: Consolas, monospace; font-size: 14px; }
-.form-footer { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line, #e3e8f0); }
-.primary, .secondary { display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 42px; padding: 10px 16px; border: 1px solid var(--line, #e3e8f0); border-radius: 6px; font: inherit; font-size: 14px; cursor: pointer; }
-.primary { background: var(--primary, #325ed1); color: #fff; border-color: var(--primary, #325ed1); }
-.secondary { background: var(--surface, #fff); color: var(--muted, #657386); }
+.json-input { font-family: Consolas, monospace; font-size: 0.9375rem; }
+.form-footer { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line, #e5e7e3); }
+.primary, .secondary { display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 38px; padding: 8px 14px; border: 1px solid var(--line, #e5e7e3); border-radius: 6px; font: inherit; font-size: 0.9375rem; cursor: pointer; }
+.primary { background: var(--primary, #255c48); color: #fff; border-color: var(--primary, #255c48); }
+.secondary { background: var(--surface, #fff); color: var(--muted, #666b66); }
 button:disabled, fieldset:disabled { opacity: .65; cursor: wait; }
-.pending-note { display: flex; gap: 16px; padding: 20px; border: 1px solid var(--line, #e3e8f0); border-radius: 8px; background: var(--canvas, #f4f6f9); }
-.pending-note svg { margin-top: 3px; color: var(--primary, #325ed1); }
-.pending-note h3 { margin: 0 0 8px; font-size: 15px; }
-.pending-note p { margin: 0; color: var(--muted, #657386); font-size: 14px; line-height: 1.8; }
-@media (max-width: 680px) { input, select, textarea, .json-input { font-size: 16px; } .primary, .secondary { min-height: 44px; } }
+.pending-note { display: flex; gap: 12px; padding: 16px; border: 1px solid var(--line, #e5e7e3); border-radius: 6px; background: var(--canvas, #f7f7f5); }
+.pending-note svg { margin-top: 3px; color: var(--primary, #255c48); }
+.pending-note h3 { margin: 0 0 8px; font-size: 1rem; }
+.pending-note p { margin: 0; color: var(--muted, #666b66); font-size: 0.9375rem; line-height: 1.8; }
+@media (max-width: 680px) { input, select, textarea, .json-input { font-size: 1rem; min-height: 44px; } .mode-tabs button { min-height: 44px; } .primary, .secondary { min-height: 44px; } }
 @media (max-width: 420px) { .field-grid { grid-template-columns: 1fr; gap: 0; } .form-footer button { flex: 1; } }
 </style>
