@@ -1,0 +1,314 @@
+{
+  "case_id": "ADBE-3",
+  "provider": "minimax",
+  "profile": {
+    "provider": "minimax",
+    "model": "MiniMax-M3.1-Flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:50:07.748766+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0000796343-23-000007",
+        "cik": 796343,
+        "concept": "Revenues",
+        "duration_days": 364,
+        "end": "2022-12-02",
+        "entity_name": "ADOBE INC.",
+        "filed": "2023-01-17",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenues",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm",
+        "start": "2021-12-04",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 17606000000.0
+      },
+      "2023": {
+        "accn": "0000796343-24-000006",
+        "cik": 796343,
+        "concept": "Revenues",
+        "duration_days": 364,
+        "end": "2023-12-01",
+        "entity_name": "ADOBE INC.",
+        "filed": "2024-01-17",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenues",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm",
+        "start": "2022-12-03",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 19409000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "fc02fb9b-492d-462b-82a3-85fe1ae994e3",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "Compute YoY growth: (19409 - 17606)/17606 = 1803/17606 = 0.10241... = 10.24%.\n\nLet me check tool too? The evidence is supplied. Maybe call tool for revenue 2023 ADBE to confirm.\n\nLet's compute: 1803/17606 = 0.102408... 17606*0.1024 = 1802.85. So 10.24%.\n\nI'll call the tool for corroboration.",
+              "signature": "3d743d8572bfaf3abc4ff2d4a19e61e5ddf2641c09dba23d4043f0c4c2599137",
+              "type": "thinking"
+            },
+            {
+              "type": "tool_use",
+              "id": "call_01a16e2d0f9b73a992ab6b41",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2023,
+                "metric": "revenue",
+                "ticker": "ADBE"
+              }
+            },
+            {
+              "type": "tool_use",
+              "id": "call_01a16e2d0f9b73a992ab6b42",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2022,
+                "metric": "revenue",
+                "ticker": "ADBE"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_01a16e2d0f9b73a992ab6b41",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2023,
+              "metric": "revenue",
+              "ticker": "ADBE"
+            }
+          },
+          {
+            "id": "call_01a16e2d0f9b73a992ab6b42",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2022,
+              "metric": "revenue",
+              "ticker": "ADBE"
+            }
+          }
+        ],
+        "usage": {
+          "input_tokens": 930,
+          "output_tokens": 212,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 187,
+          "output_tokens_details": {
+            "thinking_tokens": 104
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "tool_use"
+      },
+      "estimated_micros": 5334
+    },
+    {
+      "attempt_id": "cf90a88e-0d72-49bd-8cf7-66a473f93c1e",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Target: Adobe (ADBE) FY2023 year-over-year revenue growth**\n\nCalculation: (FY2023 revenue − FY2022 revenue) ÷ FY2022 revenue = ($19,409M − $17,606M) ÷ $17,606M = $1,803M ÷ $17,606M ≈ 10.24%\n\nEvidence:\n- FY2023 revenue $19,409,000,000 (us-gaap:Revenues), 10-K filed 2024-01-17, accession 0000796343-24-000006 (https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm)\n- FY2022 revenue $17,606,000,000 (us-gaap:Revenues), 10-K filed 2023-01-17, accession 0000796343-23-000007 (https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm)\n\nBoth figures were confirmed independently against the SEC XBRL company facts and match the frozen evidence supplied.\n\nANSWER: 10.24%",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "Growth = 1803/17606 = 10.2413%.",
+              "signature": "258d6d3c851935a1e58d2b7c1ba36a211677398c50d55789896b2cac7440edba",
+              "type": "thinking"
+            },
+            {
+              "text": "**Target: Adobe (ADBE) FY2023 year-over-year revenue growth**\n\nCalculation: (FY2023 revenue − FY2022 revenue) ÷ FY2022 revenue = ($19,409M − $17,606M) ÷ $17,606M = $1,803M ÷ $17,606M ≈ 10.24%\n\nEvidence:\n- FY2023 revenue $19,409,000,000 (us-gaap:Revenues), 10-K filed 2024-01-17, accession 0000796343-24-000006 (https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm)\n- FY2022 revenue $17,606,000,000 (us-gaap:Revenues), 10-K filed 2023-01-17, accession 0000796343-23-000007 (https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm)\n\nBoth figures were confirmed independently against the SEC XBRL company facts and match the frozen evidence supplied.\n\nANSWER: 10.24%",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 505,
+          "output_tokens": 277,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1117,
+          "output_tokens_details": {
+            "thinking_tokens": 15
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 4839
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Target: Adobe (ADBE) FY2023 year-over-year revenue growth**\n\nCalculation: (FY2023 revenue − FY2022 revenue) ÷ FY2022 revenue = ($19,409M − $17,606M) ÷ $17,606M = $1,803M ÷ $17,606M ≈ 10.24%\n\nEvidence:\n- FY2023 revenue $19,409,000,000 (us-gaap:Revenues), 10-K filed 2024-01-17, accession 0000796343-24-000006 (https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm)\n- FY2022 revenue $17,606,000,000 (us-gaap:Revenues), 10-K filed 2023-01-17, accession 0000796343-23-000007 (https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm)\n\nBoth figures were confirmed independently against the SEC XBRL company facts and match the frozen evidence supplied.\n\nANSWER: 10.24%",
+      "audit": {
+        "claim": {
+          "text": "10.24%",
+          "value": 10.24,
+          "unit": "percent",
+          "metric": "year-over-year growth in revenue",
+          "entity": "ADOBE INC.",
+          "period_end": "2023-12-01",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 796343,
+              "entity_name": "ADOBE INC.",
+              "taxonomy": "us-gaap",
+              "concept": "Revenues",
+              "label": "Revenues",
+              "unit": "USD",
+              "value": 19409000000.0,
+              "start": "2022-12-03",
+              "end": "2023-12-01",
+              "accn": "0000796343-24-000006",
+              "form": "10-K",
+              "filed": "2024-01-17",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 364,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm"
+            },
+            {
+              "cik": 796343,
+              "entity_name": "ADOBE INC.",
+              "taxonomy": "us-gaap",
+              "concept": "Revenues",
+              "label": "Revenues",
+              "unit": "USD",
+              "value": 17606000000.0,
+              "start": "2021-12-04",
+              "end": "2022-12-02",
+              "accn": "0000796343-23-000007",
+              "form": "10-K",
+              "filed": "2023-01-17",
+              "fy": 2022,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 364,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm"
+            }
+          ],
+          "expected_value": 10.240826990798592,
+          "expected_unit": "percent",
+          "formula": "(Revenues[FY2023] - Revenues[FY2022]) / |Revenues[FY2022]| * 100",
+          "note": null
+        },
+        "relative_error": 8.075429839159108e-05
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 5.077999999994063,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 10.2408269908 %"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for ADBE; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"yoy_growth\", \"metric\": \"revenue\"}, \"ticker\": \"ADBE\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0000796343-23-000007\", \"cik\": 796343, \"concept\": \"Revenues\", \"duration_days\": 364, \"end\": \"2022-12-02\", \"entity_name\": \"ADOBE INC.\", \"filed\": \"2023-01-17\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenues\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm\", \"start\": \"2021-12-04\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 17606000000.0}, \"2023\": {\"accn\": \"0000796343-24-000006\", \"cik\": 796343, \"concept\": \"Revenues\", \"duration_days\": 364, \"end\": \"2023-12-01\", \"entity_name\": \"ADOBE INC.\", \"filed\": \"2024-01-17\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenues\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm\", \"start\": \"2022-12-03\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 19409000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "Compute YoY growth: (19409 - 17606)/17606 = 1803/17606 = 0.10241... = 10.24%.\n\nLet me check tool too? The evidence is supplied. Maybe call tool for revenue 2023 ADBE to confirm.\n\nLet's compute: 1803/17606 = 0.102408... 17606*0.1024 = 1802.85. So 10.24%.\n\nI'll call the tool for corroboration.",
+          "signature": "3d743d8572bfaf3abc4ff2d4a19e61e5ddf2641c09dba23d4043f0c4c2599137",
+          "type": "thinking"
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01a16e2d0f9b73a992ab6b41",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2023,
+            "metric": "revenue",
+            "ticker": "ADBE"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01a16e2d0f9b73a992ab6b42",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2022,
+            "metric": "revenue",
+            "ticker": "ADBE"
+          }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_01a16e2d0f9b73a992ab6b41",
+          "content": "{\"ticker\": \"ADBE\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 19409000000.0, \"unit\": \"USD\", \"period_start\": \"2022-12-03\", \"period_end\": \"2023-12-01\", \"concept\": \"Revenues\", \"accession\": \"0000796343-24-000006\", \"filed\": \"2024-01-17\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_01a16e2d0f9b73a992ab6b42",
+          "content": "{\"ticker\": \"ADBE\", \"metric\": \"revenue\", \"fiscal_year\": 2022, \"value\": 17606000000.0, \"unit\": \"USD\", \"period_start\": \"2021-12-04\", \"period_end\": \"2022-12-02\", \"concept\": \"Revenues\", \"accession\": \"0000796343-23-000007\", \"filed\": \"2023-01-17\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "Growth = 1803/17606 = 10.2413%.",
+          "signature": "258d6d3c851935a1e58d2b7c1ba36a211677398c50d55789896b2cac7440edba",
+          "type": "thinking"
+        },
+        {
+          "text": "**Target: Adobe (ADBE) FY2023 year-over-year revenue growth**\n\nCalculation: (FY2023 revenue − FY2022 revenue) ÷ FY2022 revenue = ($19,409M − $17,606M) ÷ $17,606M = $1,803M ÷ $17,606M ≈ 10.24%\n\nEvidence:\n- FY2023 revenue $19,409,000,000 (us-gaap:Revenues), 10-K filed 2024-01-17, accession 0000796343-24-000006 (https://www.sec.gov/Archives/edgar/data/796343/000079634324000006/0000796343-24-000006-index.htm)\n- FY2022 revenue $17,606,000,000 (us-gaap:Revenues), 10-K filed 2023-01-17, accession 0000796343-23-000007 (https://www.sec.gov/Archives/edgar/data/796343/000079634323000007/0000796343-23-000007-index.htm)\n\nBoth figures were confirmed independently against the SEC XBRL company facts and match the frozen evidence supplied.\n\nANSWER: 10.24%",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: FinReceipts
+    folder: FinReceipts
+    type: file
+    options:
+      path: /etc/grafana/provisioning/dashboards

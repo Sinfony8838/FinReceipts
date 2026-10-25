@@ -19,6 +19,11 @@ traces/
 # Generated benchmark output and redistributability-unreviewed external data
 results/
 wheelhouse/
+server/target/
+server/artifacts/
+console/node_modules/
+console/dist/
+.env.v2
 tests/fixtures/ashare/
 tests/fixtures/cninfo/
 evals/datasets/a_share_numeric_v0.jsonl

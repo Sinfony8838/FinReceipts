@@ -6,6 +6,8 @@ import json
 from collections.abc import Callable
 from datetime import date
 
+import httpx
+
 from finreceipts.llm.client import ToolSpec
 from finreceipts.tools.akshare_a import METRIC_FIELDS, is_a_share_code, normalize_code
 from finreceipts.xbrl.metrics import CONCEPTS, FactLookup
@@ -73,6 +75,8 @@ def run_get_fact(provider: LookupProvider, args: dict, as_of: date | None) -> st
         return json.dumps({"error": f"unknown metric {metric!r}", "allowed": sorted(CONCEPTS)})
     try:
         lookup = provider(ticker, as_of)
+    except (TimeoutError, httpx.TimeoutException):
+        return json.dumps({"error": "financial tool timed out", "code": "tool_timeout"})
     except Exception as exc:
         return json.dumps({"error": f"lookup failed: {type(exc).__name__}: {exc}"})
     fact = lookup.get(metric, {}).get(fy)

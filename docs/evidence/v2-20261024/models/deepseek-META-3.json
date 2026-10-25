@@ -1,0 +1,182 @@
+{
+  "case_id": "META-3",
+  "provider": "deepseek",
+  "profile": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:52:11.104132+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0001326801-23-000013",
+        "cik": 1326801,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2022-12-31",
+        "entity_name": "Meta Platforms, Inc.",
+        "filed": "2023-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm",
+        "start": "2022-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 116609000000.0
+      },
+      "2023": {
+        "accn": "0001326801-24-000012",
+        "cik": 1326801,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2023-12-31",
+        "entity_name": "Meta Platforms, Inc.",
+        "filed": "2024-02-02",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm",
+        "start": "2023-01-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 134902000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "90cc8cfb-e735-4fbd-a260-c859bc49c4c2",
+      "status": "SETTLED",
+      "response": {
+        "text": "META’s FY2023 revenue was $134.902B versus $116.609B in FY2022, an increase of $18.293B. YoY growth = $18.293B ÷ $116.609B ≈ 15.69%, based on the FY2023 10-K (accession 0001326801-24-000012) and FY2022 comparative revenue (accession 0001326801-23-000013).\n\nANSWER: 15.7%",
+        "assistant": {
+          "role": "assistant",
+          "content": "META’s FY2023 revenue was $134.902B versus $116.609B in FY2022, an increase of $18.293B. YoY growth = $18.293B ÷ $116.609B ≈ 15.69%, based on the FY2023 10-K (accession 0001326801-24-000012) and FY2022 comparative revenue (accession 0001326801-23-000013).\n\nANSWER: 15.7%",
+          "reasoning_content": "We need answer. Need compute YoY revenue growth FY2023 vs FY2022 = (134,902 - 116,609)/116,609 = 18,293/116,609 = 0.156874... Let's compute. 116609*0.1569 = 18,295. 18,293/116609. 116609*0.15687 = 18,292.7 maybe. Let's precise: 134902/116609 = 1.156876... Difference ratio. 18,293/116,609 = 0.156875? Compute: 116,609 * 0.156875 = 18,293.?? 116609*0.15=17491.35, *0.006875=801.6869, sum 18293.0369. Slight high. 0.1568747 gives 18292.99. So 15.6875%, about 15.7%.\n\nNeed briefly explain and cite accession/source. End exactly ANSWER: <value and unit>. So final should include explanation and end line. Need maybe use no tool since evidence provided. We can cite both accessions. The \"target\" asks annual financial target for META: YoY revenue growth FY2023. We have frozen evidence. We can calculate. Ensure units percent. ANSWER: 15.7%. Could answer exact 15.69%. Need maybe \"15.7% (approximately 15.69%)\". The final exact after ANSWER: 15.7% maybe. They want value and unit. Use 15.7%. Let's formulate.\n\nNeed mention revenue FY2023 $134.902B vs FY2022 $116.609B, difference $18.293B, divide by prior = 15.69%. Cite 10-K accession 0001326801-24-000012 and prior 0001326801-23-000013. End exactly ANSWER: 15.7%. Ensure no extra after."
+        },
+        "tools": [],
+        "usage": {
+          "prompt_tokens": 1044,
+          "completion_tokens": 526,
+          "total_tokens": 1570,
+          "prompt_tokens_details": {
+            "cached_tokens": 512
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 420
+          },
+          "prompt_cache_hit_tokens": 512,
+          "prompt_cache_miss_tokens": 532,
+          "input_tokens": 1044,
+          "output_tokens": 526
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "stop"
+      },
+      "estimated_micros": 9444
+    }
+  ],
+  "answers": [
+    {
+      "answer": "META’s FY2023 revenue was $134.902B versus $116.609B in FY2022, an increase of $18.293B. YoY growth = $18.293B ÷ $116.609B ≈ 15.69%, based on the FY2023 10-K (accession 0001326801-24-000012) and FY2022 comparative revenue (accession 0001326801-23-000013).\n\nANSWER: 15.7%",
+      "audit": {
+        "claim": {
+          "text": "15.7%",
+          "value": 15.7,
+          "unit": "percent",
+          "metric": "year-over-year growth in revenue",
+          "entity": "Meta Platforms, Inc.",
+          "period_end": "2023-12-31",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 1326801,
+              "entity_name": "Meta Platforms, Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 134902000000.0,
+              "start": "2023-01-01",
+              "end": "2023-12-31",
+              "accn": "0001326801-24-000012",
+              "form": "10-K",
+              "filed": "2024-02-02",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm"
+            },
+            {
+              "cik": 1326801,
+              "entity_name": "Meta Platforms, Inc.",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 116609000000.0,
+              "start": "2022-01-01",
+              "end": "2022-12-31",
+              "accn": "0001326801-23-000013",
+              "form": "10-K",
+              "filed": "2023-02-02",
+              "fy": 2022,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm"
+            }
+          ],
+          "expected_value": 15.687468377226457,
+          "expected_unit": "percent",
+          "formula": "(RevenueFromContractWithCustomerExcludingAssessedTax[FY2023] - RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]) / |RevenueFromContractWithCustomerExcludingAssessedTax[FY2022]| * 100",
+          "note": null
+        },
+        "relative_error": 0.0007988301536106572
+      },
+      "attempts_so_far": 1
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 4.23399999999674,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 15.6874683772 %"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for META; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"yoy_growth\", \"metric\": \"revenue\"}, \"ticker\": \"META\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0001326801-23-000013\", \"cik\": 1326801, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2022-12-31\", \"entity_name\": \"Meta Platforms, Inc.\", \"filed\": \"2023-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680123000013/0001326801-23-000013-index.htm\", \"start\": \"2022-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 116609000000.0}, \"2023\": {\"accn\": \"0001326801-24-000012\", \"cik\": 1326801, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2023-12-31\", \"entity_name\": \"Meta Platforms, Inc.\", \"filed\": \"2024-02-02\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm\", \"start\": \"2023-01-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 134902000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": "META’s FY2023 revenue was $134.902B versus $116.609B in FY2022, an increase of $18.293B. YoY growth = $18.293B ÷ $116.609B ≈ 15.69%, based on the FY2023 10-K (accession 0001326801-24-000012) and FY2022 comparative revenue (accession 0001326801-23-000013).\n\nANSWER: 15.7%",
+      "reasoning_content": "We need answer. Need compute YoY revenue growth FY2023 vs FY2022 = (134,902 - 116,609)/116,609 = 18,293/116,609 = 0.156874... Let's compute. 116609*0.1569 = 18,295. 18,293/116609. 116609*0.15687 = 18,292.7 maybe. Let's precise: 134902/116609 = 1.156876... Difference ratio. 18,293/116,609 = 0.156875? Compute: 116,609 * 0.156875 = 18,293.?? 116609*0.15=17491.35, *0.006875=801.6869, sum 18293.0369. Slight high. 0.1568747 gives 18292.99. So 15.6875%, about 15.7%.\n\nNeed briefly explain and cite accession/source. End exactly ANSWER: <value and unit>. So final should include explanation and end line. Need maybe use no tool since evidence provided. We can cite both accessions. The \"target\" asks annual financial target for META: YoY revenue growth FY2023. We have frozen evidence. We can calculate. Ensure units percent. ANSWER: 15.7%. Could answer exact 15.69%. Need maybe \"15.7% (approximately 15.69%)\". The final exact after ANSWER: 15.7% maybe. They want value and unit. Use 15.7%. Let's formulate.\n\nNeed mention revenue FY2023 $134.902B vs FY2022 $116.609B, difference $18.293B, divide by prior = 15.69%. Cite 10-K accession 0001326801-24-000012 and prior 0001326801-23-000013. End exactly ANSWER: 15.7%. Ensure no extra after."
+    }
+  ]
+}

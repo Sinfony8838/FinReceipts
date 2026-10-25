@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: io.finreceipts.PlatformIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 73.89 s -- in io.finreceipts.PlatformIntegrationTest

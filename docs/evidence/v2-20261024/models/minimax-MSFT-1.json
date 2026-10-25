@@ -1,0 +1,241 @@
+{
+  "case_id": "MSFT-1",
+  "provider": "minimax",
+  "profile": {
+    "provider": "minimax",
+    "model": "MiniMax-M3.1-Flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "f912c79fbe1544bd62d70c9536871f754932c9e63e4fb6557a63d31f3a78928a",
+  "date": "2026-10-24T13:47:09.254653+00:00",
+  "evidence": {
+    "revenue": {
+      "2022": {
+        "accn": "0001564590-22-026876",
+        "cik": 789019,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2022-06-30",
+        "entity_name": "Microsoft Corporation",
+        "filed": "2022-07-28",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2022,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000156459022026876/0001564590-22-026876-index.htm",
+        "start": "2021-07-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 198270000000.0
+      },
+      "2023": {
+        "accn": "0000950170-23-035122",
+        "cik": 789019,
+        "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "duration_days": 365,
+        "end": "2023-06-30",
+        "entity_name": "Microsoft Corporation",
+        "filed": "2023-07-27",
+        "filing_url": null,
+        "form": "10-K",
+        "fp": "FY",
+        "frame": null,
+        "fy": 2023,
+        "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+        "period_type": "duration",
+        "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm",
+        "start": "2022-07-01",
+        "taxonomy": "us-gaap",
+        "unit": "USD",
+        "value": 211915000000.0
+      }
+    }
+  },
+  "calls": [
+    {
+      "attempt_id": "dfe698bb-73d4-490b-b687-63755fd13471",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "thinking": "The task: report revenue for FY2023 from evidence, and possibly verify with tool.\n\nLet me call the tool.",
+              "signature": "261d36d6a69fe719d8c8daf4c7fa3a149e404beae9b1b417d4521d4881d86055",
+              "type": "thinking"
+            },
+            {
+              "type": "tool_use",
+              "id": "call_c1e4449a4e8e4337885f7134",
+              "name": "get_financial_fact",
+              "input": {
+                "fiscal_year": 2023,
+                "metric": "revenue",
+                "ticker": "MSFT"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_c1e4449a4e8e4337885f7134",
+            "name": "get_financial_fact",
+            "arguments": {
+              "fiscal_year": 2023,
+              "metric": "revenue",
+              "ticker": "MSFT"
+            }
+          }
+        ],
+        "usage": {
+          "input_tokens": 632,
+          "output_tokens": 82,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens_details": {
+            "thinking_tokens": 24
+          }
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "tool_use"
+      },
+      "estimated_micros": 2880
+    },
+    {
+      "attempt_id": "ade193a4-46f0-4d9e-93c2-00df14b83587",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Microsoft FY2023 revenue: $211,915 million (≈$211.9 billion)**\n\nExplanation: Microsoft's fiscal 2023 ran from 2022-07-01 to 2023-06-30. The value is the as-reported annual revenue under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` (total revenue including all segments), taken directly from the frozen 10-K evidence — no arithmetic or derivation was needed beyond reading the reported figure. The tool lookup independently confirms the same figure, accession, and period.\n\nEvidence: Microsoft Corporation 10-K, FY2023, accession 0000950170-23-035122, filed 2023-07-27 (SEC EDGAR: https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm). For context, FY2022 revenue was $198,270 million (accession 0001564590-22-026876), implying ~6.9% year-over-year growth.\n\nANSWER: $211,915,000,000 (USD)",
+        "assistant": {
+          "role": "assistant",
+          "content": [
+            {
+              "text": "**Microsoft FY2023 revenue: $211,915 million (≈$211.9 billion)**\n\nExplanation: Microsoft's fiscal 2023 ran from 2022-07-01 to 2023-06-30. The value is the as-reported annual revenue under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` (total revenue including all segments), taken directly from the frozen 10-K evidence — no arithmetic or derivation was needed beyond reading the reported figure. The tool lookup independently confirms the same figure, accession, and period.\n\nEvidence: Microsoft Corporation 10-K, FY2023, accession 0000950170-23-035122, filed 2023-07-27 (SEC EDGAR: https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm). For context, FY2022 revenue was $198,270 million (accession 0001564590-22-026876), implying ~6.9% year-over-year growth.\n\nANSWER: $211,915,000,000 (USD)",
+              "type": "text"
+            }
+          ]
+        },
+        "tools": [],
+        "usage": {
+          "input_tokens": 361,
+          "output_tokens": 236,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024
+        },
+        "model": "MiniMax-M3.1-Flash",
+        "fingerprint": null,
+        "stop_reason": "end_turn"
+      },
+      "estimated_micros": 3915
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Microsoft FY2023 revenue: $211,915 million (≈$211.9 billion)**\n\nExplanation: Microsoft's fiscal 2023 ran from 2022-07-01 to 2023-06-30. The value is the as-reported annual revenue under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` (total revenue including all segments), taken directly from the frozen 10-K evidence — no arithmetic or derivation was needed beyond reading the reported figure. The tool lookup independently confirms the same figure, accession, and period.\n\nEvidence: Microsoft Corporation 10-K, FY2023, accession 0000950170-23-035122, filed 2023-07-27 (SEC EDGAR: https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm). For context, FY2022 revenue was $198,270 million (accession 0001564590-22-026876), implying ~6.9% year-over-year growth.\n\nANSWER: $211,915,000,000 (USD)",
+      "audit": {
+        "claim": {
+          "text": "$211,915,000,000",
+          "value": 211915000000.0,
+          "unit": "USD",
+          "metric": "revenue",
+          "entity": "Microsoft Corporation",
+          "period_end": "2023-06-30",
+          "span": null
+        },
+        "verdict": "supported",
+        "reason_codes": [],
+        "evidence": {
+          "facts": [
+            {
+              "cik": 789019,
+              "entity_name": "Microsoft Corporation",
+              "taxonomy": "us-gaap",
+              "concept": "RevenueFromContractWithCustomerExcludingAssessedTax",
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "unit": "USD",
+              "value": 211915000000.0,
+              "start": "2022-07-01",
+              "end": "2023-06-30",
+              "accn": "0000950170-23-035122",
+              "form": "10-K",
+              "filed": "2023-07-27",
+              "fy": 2023,
+              "fp": "FY",
+              "frame": null,
+              "filing_url": null,
+              "period_type": "duration",
+              "duration_days": 365,
+              "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm"
+            }
+          ],
+          "expected_value": 211915000000.0,
+          "expected_unit": "USD",
+          "formula": "RevenueFromContractWithCustomerExcludingAssessedTax[FY2023]",
+          "note": null
+        },
+        "relative_error": 0.0
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 3.3910000000032596,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: 211915000000 USD"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for MSFT; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2023, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"MSFT\", \"evidence\": {\"revenue\": {\"2022\": {\"accn\": \"0001564590-22-026876\", \"cik\": 789019, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2022-06-30\", \"entity_name\": \"Microsoft Corporation\", \"filed\": \"2022-07-28\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2022, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/789019/000156459022026876/0001564590-22-026876-index.htm\", \"start\": \"2021-07-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 198270000000.0}, \"2023\": {\"accn\": \"0000950170-23-035122\", \"cik\": 789019, \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"duration_days\": 365, \"end\": \"2023-06-30\", \"entity_name\": \"Microsoft Corporation\", \"filed\": \"2023-07-27\", \"filing_url\": null, \"form\": \"10-K\", \"fp\": \"FY\", \"frame\": null, \"fy\": 2023, \"label\": \"Revenue from Contract with Customer, Excluding Assessed Tax\", \"period_type\": \"duration\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm\", \"start\": \"2022-07-01\", \"taxonomy\": \"us-gaap\", \"unit\": \"USD\", \"value\": 211915000000.0}}}}"
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "thinking": "The task: report revenue for FY2023 from evidence, and possibly verify with tool.\n\nLet me call the tool.",
+          "signature": "261d36d6a69fe719d8c8daf4c7fa3a149e404beae9b1b417d4521d4881d86055",
+          "type": "thinking"
+        },
+        {
+          "type": "tool_use",
+          "id": "call_c1e4449a4e8e4337885f7134",
+          "name": "get_financial_fact",
+          "input": {
+            "fiscal_year": 2023,
+            "metric": "revenue",
+            "ticker": "MSFT"
+          }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_c1e4449a4e8e4337885f7134",
+          "content": "{\"ticker\": \"MSFT\", \"metric\": \"revenue\", \"fiscal_year\": 2023, \"value\": 211915000000.0, \"unit\": \"USD\", \"period_start\": \"2022-07-01\", \"period_end\": \"2023-06-30\", \"concept\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"accession\": \"0000950170-23-035122\", \"filed\": \"2023-07-27\", \"source_url\": \"https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm\"}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "**Microsoft FY2023 revenue: $211,915 million (≈$211.9 billion)**\n\nExplanation: Microsoft's fiscal 2023 ran from 2022-07-01 to 2023-06-30. The value is the as-reported annual revenue under XBRL concept `RevenueFromContractWithCustomerExcludingAssessedTax` (total revenue including all segments), taken directly from the frozen 10-K evidence — no arithmetic or derivation was needed beyond reading the reported figure. The tool lookup independently confirms the same figure, accession, and period.\n\nEvidence: Microsoft Corporation 10-K, FY2023, accession 0000950170-23-035122, filed 2023-07-27 (SEC EDGAR: https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/0000950170-23-035122-index.htm). For context, FY2022 revenue was $198,270 million (accession 0001564590-22-026876), implying ~6.9% year-over-year growth.\n\nANSWER: $211,915,000,000 (USD)",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

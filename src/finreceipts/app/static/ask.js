@@ -1,5 +1,7 @@
 (() => {
   const $ = id => document.getElementById(id), U = window.FinUI;
+  const auth = window.FinRunAuth;
+  let authenticated = false, running = false;
   function body() {
     return {question: $('question').value, ticker: $('ticker').value.trim(), fiscal_years: U.years($('years').value),
       mode: $('mode').value, feedback: $('feedback').value, max_revisions: 2, as_of: $('as_of').value || null};
@@ -13,7 +15,7 @@
     if (raw) li.append(U.rawDetails(raw));
     $('steps').append(li);
   }
-  function setBusy(busy) { for (const id of ['btnStream','btnAsk','exAapl','exNvda']) $(id).disabled = busy; }
+  function setBusy(busy) { running=busy; for (const id of ['btnStream','btnAsk','exAapl','exNvda']) $(id).disabled = busy || !authenticated; }
   function status(text, tone = '') { $('ask-status').textContent = text; $('ask-status').dataset.tone = tone; }
   $('exNvda').onclick = () => {
     $('question').value = '总结英伟达（NVDA）2025 财年的业绩，并与 2024 财年对比。';
@@ -33,7 +35,7 @@
     if (!$('ask-form').reportValidity()) return;
     setBusy(true); $('error').replaceChildren(); $('steps').replaceChildren(); status('执行中', 'active');
     try {
-      const response = await fetch(streaming ? '/api/ask/stream' : '/api/ask',
+      const response = await auth.request(streaming ? '/api/ask/stream' : '/api/ask',
         {method: 'POST', headers: {'Content-Type': 'application/json', ...(streaming ? {'Accept': 'text/event-stream'} : {})}, body: JSON.stringify(body())});
       if (!response.ok) throw U.apiError(await response.json(), response.headers.get('X-Request-ID'));
       if (!streaming) { const data = await response.json(); handleEvent('done', data); return; }
@@ -64,4 +66,8 @@
   $('ask-form').onsubmit = event => { event.preventDefault(); run(true); };
   $('btnAsk').onclick = () => run(false);
   U.environment();
+  window.addEventListener('fin-auth-required', () => {authenticated=false; setBusy(false); $('report').replaceChildren(); $('steps').replaceChildren();});
+  async function authenticate(token='') { authenticated=false; setBusy(false); await auth.connect(token); authenticated=true; setBusy(false); }
+  $('auth-form').onsubmit=async event=>{event.preventDefault(); if(running)return; const token=$('auth-token').value; $('auth-token').value=''; $('report').replaceChildren(); $('steps').replaceChildren(); try{await authenticate(token); $('error').replaceChildren();}catch(error){U.showError($('error'),error);}};
+  authenticate().catch(error=>U.showError($('error'),error));
 })();

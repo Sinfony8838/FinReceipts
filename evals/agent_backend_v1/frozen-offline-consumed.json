@@ -1,0 +1,18 @@
+{
+  "policy": {
+    "implementation_id": "0f624d5824c96bd896572c616b8bd89b2384aaaffadebb58a264571f977da41e",
+    "strategies": [
+      "direct",
+      "audit_only",
+      "bounded_revision"
+    ],
+    "temperature": 0,
+    "max_tokens": 1024,
+    "max_revisions": 2,
+    "use_tools": true,
+    "shared_initial_answer": true,
+    "model_escalation": false
+  },
+  "output": "D:\\FinReceipts\\runs\\agent-backend-20261021\\frozen-final",
+  "time": "2026-10-21T13:01:18.095078+00:00"
+}

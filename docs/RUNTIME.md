@@ -122,7 +122,10 @@ sequence after an advance. It does not keep a connection alive with heartbeats,
 start a worker or emit token-level streams. Invalid cursors return 422; a cursor
 ahead of the current revision returns 409. The UI saves the run ID in its URL.
 
-No authentication or tenant isolation is provided. Bind locally, keep the run
+The default local mode uses the fixed `local` identity. Optional bearer-token mode now
+authenticates every `/api/*` request and scopes durable runs and idempotency to the
+server-resolved user. See [authentication, ownership and explicit v1 migration](AUTH_AND_IDEMPOTENCY.md).
+This is a minimal identity/ownership boundary, not a production tenant operations system. Bind locally, keep the run
 database private, and do not put real credentials into questions or tool results:
 those messages are part of the requested export. Arbitrary provider exception
 text is not persisted by the durable runner. Model-produced content itself is

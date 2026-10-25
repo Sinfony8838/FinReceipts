@@ -1,0 +1,158 @@
+{
+  "case_id": "AMZN-4",
+  "provider": "deepseek",
+  "profile": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:51:59.282441+00:00",
+  "evidence": {
+    "revenue": {}
+  },
+  "calls": [
+    {
+      "attempt_id": "47e6b03c-0558-45e0-920a-8c8778699761",
+      "status": "SETTLED",
+      "response": {
+        "text": "I'll check the frozen evidence for this request.",
+        "assistant": {
+          "role": "assistant",
+          "content": "I'll check the frozen evidence for this request.",
+          "reasoning_content": "The user asks for AMZN revenue for fiscal year 2099 — a future year, no evidence. Evidence is empty. I should probably try the tool? The evidence dict is empty. Fiscal year 2099 doesn't exist. I could call the tool to confirm, but it's a future year; likely returns nothing. Let me call the tool to verify.",
+          "tool_calls": [
+            {
+              "index": 0,
+              "id": "call_00_eCISCmf4Gq8dKCERujQc4121",
+              "type": "function",
+              "function": {
+                "name": "get_financial_fact",
+                "arguments": "{\"ticker\": \"AMZN\", \"metric\": \"revenue\", \"fiscal_year\": 2099}"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_00_eCISCmf4Gq8dKCERujQc4121",
+            "name": "get_financial_fact",
+            "arguments": {
+              "ticker": "AMZN",
+              "metric": "revenue",
+              "fiscal_year": 2099
+            }
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 603,
+          "completion_tokens": 163,
+          "total_tokens": 766,
+          "prompt_tokens_details": {
+            "cached_tokens": 384
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 74
+          },
+          "prompt_cache_hit_tokens": 384,
+          "prompt_cache_miss_tokens": 219,
+          "input_tokens": 603,
+          "output_tokens": 163
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "tool_calls"
+      },
+      "estimated_micros": 3765
+    },
+    {
+      "attempt_id": "9ddd7fc3-2841-4cc0-8add-0645e523446b",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Requested metric:** AMZN annual revenue (net sales) for fiscal year 2099 — the top-line figure as reported in the company's Form 10-K.\n\n**Result:** The supplied evidence set contains an empty `revenue` object (no accession, no period, no value), and a lookup against the evidence source returns \"no revenue for AMZN FY2099.\" Fiscal year 2099 is a future period, so no 10-K exists that could report it; there is consequently no accession or filing citation to provide. Per the instruction not to invent evidence, I will not estimate, extrapolate, or substitute a different fiscal year's figure.\n\nANSWER: N/A",
+        "assistant": {
+          "role": "assistant",
+          "content": "**Requested metric:** AMZN annual revenue (net sales) for fiscal year 2099 — the top-line figure as reported in the company's Form 10-K.\n\n**Result:** The supplied evidence set contains an empty `revenue` object (no accession, no period, no value), and a lookup against the evidence source returns \"no revenue for AMZN FY2099.\" Fiscal year 2099 is a future period, so no 10-K exists that could report it; there is consequently no accession or filing citation to provide. Per the instruction not to invent evidence, I will not estimate, extrapolate, or substitute a different fiscal year's figure.\n\nANSWER: N/A",
+          "reasoning_content": "Report N/A. Explain metric: revenue = top-line net sales per 10-K. No evidence for FY2099 (future year). Refuse to invent."
+        },
+        "tools": [],
+        "usage": {
+          "prompt_tokens": 795,
+          "completion_tokens": 173,
+          "total_tokens": 968,
+          "prompt_tokens_details": {
+            "cached_tokens": 640
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 33
+          },
+          "prompt_cache_hit_tokens": 640,
+          "prompt_cache_miss_tokens": 155,
+          "input_tokens": 795,
+          "output_tokens": 173
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "stop"
+      },
+      "estimated_micros": 4461
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Requested metric:** AMZN annual revenue (net sales) for fiscal year 2099 — the top-line figure as reported in the company's Form 10-K.\n\n**Result:** The supplied evidence set contains an empty `revenue` object (no accession, no period, no value), and a lookup against the evidence source returns \"no revenue for AMZN FY2099.\" Fiscal year 2099 is a future period, so no 10-K exists that could report it; there is consequently no accession or filing citation to provide. Per the instruction not to invent evidence, I will not estimate, extrapolate, or substitute a different fiscal year's figure.\n\nANSWER: N/A",
+      "audit": {
+        "claim": null,
+        "verdict": "unsupported",
+        "reason_codes": [
+          "missing_evidence"
+        ],
+        "evidence": null,
+        "relative_error": null
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 3.235000000000582,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: N/A"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for AMZN; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2099, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"AMZN\", \"evidence\": {\"revenue\": {}}}"
+    },
+    {
+      "role": "assistant",
+      "content": "I'll check the frozen evidence for this request.",
+      "reasoning_content": "The user asks for AMZN revenue for fiscal year 2099 — a future year, no evidence. Evidence is empty. I should probably try the tool? The evidence dict is empty. Fiscal year 2099 doesn't exist. I could call the tool to confirm, but it's a future year; likely returns nothing. Let me call the tool to verify.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_eCISCmf4Gq8dKCERujQc4121",
+          "type": "function",
+          "function": {
+            "name": "get_financial_fact",
+            "arguments": "{\"ticker\": \"AMZN\", \"metric\": \"revenue\", \"fiscal_year\": 2099}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_00_eCISCmf4Gq8dKCERujQc4121",
+      "content": "{\"error\": \"no revenue for AMZN FY2099 (as of None)\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "**Requested metric:** AMZN annual revenue (net sales) for fiscal year 2099 — the top-line figure as reported in the company's Form 10-K.\n\n**Result:** The supplied evidence set contains an empty `revenue` object (no accession, no period, no value), and a lookup against the evidence source returns \"no revenue for AMZN FY2099.\" Fiscal year 2099 is a future period, so no 10-K exists that could report it; there is consequently no accession or filing citation to provide. Per the instruction not to invent evidence, I will not estimate, extrapolate, or substitute a different fiscal year's figure.\n\nANSWER: N/A",
+      "reasoning_content": "Report N/A. Explain metric: revenue = top-line net sales per 10-K. No evidence for FY2099 (future year). Refuse to invent."
+    }
+  ]
+}

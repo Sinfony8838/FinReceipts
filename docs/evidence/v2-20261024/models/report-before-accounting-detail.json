@@ -1,0 +1,379 @@
+{
+  "scope": "Numeric final-target contract; prose correctness is not certified.",
+  "groups": {
+    "minimax_dev": {
+      "totals": {
+        "total": 12,
+        "DONE": 12,
+        "http_attempts": 27,
+        "elapsed_seconds_sum": 71.2950000000128,
+        "estimated_micros": 128463,
+        "input_tokens": 18929,
+        "output_tokens": 5973,
+        "tool_calls": 21,
+        "initial_target_pass": 9,
+        "initial_supported": 6,
+        "initial_missing_rejected": 3,
+        "initial_false_accept": 0,
+        "final_target_pass": 12,
+        "final_supported": 9,
+        "final_missing_rejected": 3,
+        "final_false_accept": 0,
+        "shared_draft_attempts": 24,
+        "incremental_repair_attempts": 3
+      },
+      "items": [
+        {
+          "id": "AAPL-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AAPL-1.json",
+          "sha256": "a2fba6f3770a636f0e9e5dbe48a1657b4c6928f38ec049a603457e8a5d1960ef"
+        },
+        {
+          "id": "AAPL-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AAPL-2.json",
+          "sha256": "e733979cde8c66549c9e96ea7a2533b30cb4d62a97ff1d22aaf1484e08101ffc"
+        },
+        {
+          "id": "AAPL-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AAPL-3.json",
+          "sha256": "31c63b02e13b67af67527e061f87a481e754ebbd27fe2302d7e2b5ff9f9ff92e"
+        },
+        {
+          "id": "AAPL-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AAPL-4.json",
+          "sha256": "286fa7517966daa0b54e4ec4f0b3088a92517a51c35e9dcfcede839430e98ab1"
+        },
+        {
+          "id": "MSFT-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-MSFT-1.json",
+          "sha256": "9e2cec11b4200445818786a04b030391576ec75ec7437a045814b99f33202c50"
+        },
+        {
+          "id": "MSFT-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-MSFT-2.json",
+          "sha256": "5717ca6e73665ab61d5377f5ccebf09d9c0f07acab4e7944c36b825668989201"
+        },
+        {
+          "id": "MSFT-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-MSFT-3.json",
+          "sha256": "d549d06af917f5726c13630ed214f6c9ed71bf8dd918a60a14c05e62f4dfbb06"
+        },
+        {
+          "id": "MSFT-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-MSFT-4.json",
+          "sha256": "ade9e6cd68b6caae5c5914e7e241a91f028151807f9807e1fa66796f2354e7e6"
+        },
+        {
+          "id": "NVDA-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-NVDA-1.json",
+          "sha256": "bb66cb58a515c7735f3c50f674434201e4b4e88e02dfb161e800410d1599eac8"
+        },
+        {
+          "id": "NVDA-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-NVDA-2.json",
+          "sha256": "7c8fd2524327e9f83081dc670b0ba21bdb2289821c5ec00efccafe107e83c2f4"
+        },
+        {
+          "id": "NVDA-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-NVDA-3.json",
+          "sha256": "0875b8d4b098abc0d2345e6ac9a20a7d0538467f619f92444fcbe63036ffdec3"
+        },
+        {
+          "id": "NVDA-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-NVDA-4.json",
+          "sha256": "a005c89a548bf048e76176114a2d468d33bcedd6891943dba764433f3d31f80b"
+        }
+      ]
+    },
+    "minimax_frozen": {
+      "totals": {
+        "total": 24,
+        "DONE": 24,
+        "http_attempts": 58,
+        "elapsed_seconds_sum": 151.28199999997742,
+        "estimated_micros": 256086,
+        "input_tokens": 35550,
+        "output_tokens": 12453,
+        "tool_calls": 47,
+        "initial_target_pass": 18,
+        "initial_supported": 12,
+        "initial_missing_rejected": 6,
+        "initial_false_accept": 0,
+        "final_target_pass": 24,
+        "final_supported": 18,
+        "final_missing_rejected": 6,
+        "final_false_accept": 0,
+        "shared_draft_attempts": 52,
+        "incremental_repair_attempts": 6
+      },
+      "items": [
+        {
+          "id": "GOOGL-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-GOOGL-1.json",
+          "sha256": "57825bf5ae74e2bbdab4418733350ccd8bc83a194e7d46b7f567679761ecb6c4"
+        },
+        {
+          "id": "GOOGL-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-GOOGL-2.json",
+          "sha256": "5ece4332453caebcaf036c10a9af3925011bbb40dbd5700dc9ca6de974656a52"
+        },
+        {
+          "id": "GOOGL-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-GOOGL-3.json",
+          "sha256": "4379aa77345c76688a4eb57577e60f021c1ef16132ddd5143024b64b998e2e6b"
+        },
+        {
+          "id": "GOOGL-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-GOOGL-4.json",
+          "sha256": "4f437f8f68e615710ddf456f36fd1140914a8e1fcc0c68a665896719ae0f8246"
+        },
+        {
+          "id": "AMZN-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AMZN-1.json",
+          "sha256": "af6b507c635e5aac2e5eea2080b55244c892559f7f4b3900c7288382aa9d5c8e"
+        },
+        {
+          "id": "AMZN-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AMZN-2.json",
+          "sha256": "98c563911518f4aef0388b5e33ed3c7aa182d1baf91ccf1d3986e80826110a6d"
+        },
+        {
+          "id": "AMZN-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AMZN-3.json",
+          "sha256": "8b27fa17e7961cc9b0d3eac906600b8bf60433f6171f61199a4962a0c873e584"
+        },
+        {
+          "id": "AMZN-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-AMZN-4.json",
+          "sha256": "9968d998a560dfe108b34f6fb4c69b51aeef1820ed8d20035ac86d59c50a40eb"
+        },
+        {
+          "id": "META-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-META-1.json",
+          "sha256": "166470ba039fc69e2e0e61ef3cd07e35dca38fd525002fee9d25099dc0406ccc"
+        },
+        {
+          "id": "META-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-META-2.json",
+          "sha256": "7772aa5796b4d692fa7a8873ddb8040d2253dad7ce44e5760f2141dcbb65fe33"
+        },
+        {
+          "id": "META-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-META-3.json",
+          "sha256": "994dfa213f080a50fb939f751302290909c58089e98401d76d793c7b1c496ba1"
+        },
+        {
+          "id": "META-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-META-4.json",
+          "sha256": "a55b69d822620cd9b7c681f354d68955cce6e7bb48537b31575f4b3b3e921805"
+        },
+        {
+          "id": "ADBE-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ADBE-1.json",
+          "sha256": "5834e17d0397c30d751609096ce54cb5a43afa0678c167c5dd224402f508e369"
+        },
+        {
+          "id": "ADBE-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ADBE-2.json",
+          "sha256": "b6bb1afc8d5623a3fc59780390d7e6e23639813976abd488e98d2a34d3e4ba73"
+        },
+        {
+          "id": "ADBE-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ADBE-3.json",
+          "sha256": "9f96582871f78f4b4a2b6f620b48aae2ae016ad1afe6ecdd49090ec3ac6e17b5"
+        },
+        {
+          "id": "ADBE-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ADBE-4.json",
+          "sha256": "bb5442ba691ea6e679a5f67d765164584038013cf8dea91dbe326c906e3a9b21"
+        },
+        {
+          "id": "CRM-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-CRM-1.json",
+          "sha256": "4f18f873a0bb319cc3495ae19594e82a5f504e9448ead45afc69eebd0e138b6b"
+        },
+        {
+          "id": "CRM-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-CRM-2.json",
+          "sha256": "8fc28949a4a36c310c9970bdce0b3c6e3156626bccd0a313fc1d51f992023124"
+        },
+        {
+          "id": "CRM-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-CRM-3.json",
+          "sha256": "79aea8f189e815a3ff9eed9f45fb6453f9555a89d8c65f28a6a423535c529086"
+        },
+        {
+          "id": "CRM-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-CRM-4.json",
+          "sha256": "a3138c3aeeb203009bff6ff87b921a588dcd2df7e1e9b2576a1d96a704b8447a"
+        },
+        {
+          "id": "ORCL-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ORCL-1.json",
+          "sha256": "ed73ff228edc549f9f6086285f9b93d7cd842a6924c77acf12b38c24dbdfb7ac"
+        },
+        {
+          "id": "ORCL-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ORCL-2.json",
+          "sha256": "56f077a0baf0e3142f2efc1bef36f95bb079d422847f29e96de9fae83727270b"
+        },
+        {
+          "id": "ORCL-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ORCL-3.json",
+          "sha256": "254486a2acff2e02b4ad579a3c93e42f6ecdda03250ea4b1bba503c85db0e441"
+        },
+        {
+          "id": "ORCL-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\minimax-ORCL-4.json",
+          "sha256": "b8faa806ee1d19d51410336b70c719ae310a8c4dfede919387bdfd794cbc767a"
+        }
+      ]
+    },
+    "deepseek_frozen": {
+      "totals": {
+        "total": 12,
+        "DONE": 12,
+        "http_attempts": 25,
+        "elapsed_seconds_sum": 52.9380000000092,
+        "estimated_micros": 190449,
+        "input_tokens": 35091,
+        "output_tokens": 7098,
+        "tool_calls": 14,
+        "initial_target_pass": 9,
+        "initial_supported": 6,
+        "initial_missing_rejected": 3,
+        "initial_false_accept": 0,
+        "final_target_pass": 12,
+        "final_supported": 9,
+        "final_missing_rejected": 3,
+        "final_false_accept": 0,
+        "shared_draft_attempts": 22,
+        "incremental_repair_attempts": 3
+      },
+      "items": [
+        {
+          "id": "GOOGL-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-GOOGL-1.json",
+          "sha256": "366a7a24eabac913048aef7dc0ac375db8887f001d7be165b65d6728c421529e"
+        },
+        {
+          "id": "GOOGL-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-GOOGL-2.json",
+          "sha256": "289deb758fb8cdb6234ebfb8bf65247ce795c8afeee2d28f7772edd84f873298"
+        },
+        {
+          "id": "GOOGL-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-GOOGL-3.json",
+          "sha256": "bd7c3144202227db0a04b0d918de421450a290fcc6791be26da8c09be9c18d75"
+        },
+        {
+          "id": "GOOGL-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-GOOGL-4.json",
+          "sha256": "bc27bd4d7ec2e7e0dcd0b6df02d9316d265a8e05f7e666148f28c1c8a0efca37"
+        },
+        {
+          "id": "AMZN-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-AMZN-1.json",
+          "sha256": "84fa68de966d240b607873d4da9dabfdacdd290773039b040a1f592192e9fb7d"
+        },
+        {
+          "id": "AMZN-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-AMZN-2.json",
+          "sha256": "cdcf57f071bc69e52407801bc2ae33a343047e1f32dc572af52ecf8130cf2615"
+        },
+        {
+          "id": "AMZN-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-AMZN-3.json",
+          "sha256": "62ba1d8c6b2ecc344cfd7d4f15465dd42ce33fa6b0f9f4334427d8a24058fb11"
+        },
+        {
+          "id": "AMZN-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-AMZN-4.json",
+          "sha256": "ae275e288daf9dbe6709081dbd974ade20ba89fc771acd637fd34dface195e58"
+        },
+        {
+          "id": "META-1",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-META-1.json",
+          "sha256": "1d525ce7d64d91acee9900f4c7bb61a0f5d8840754e0172549151dcf43186466"
+        },
+        {
+          "id": "META-2",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-META-2.json",
+          "sha256": "9f1d67e0a2d77a603bed7ce552d9bf3de47423af7b5057e8d0ed876499f9c49f"
+        },
+        {
+          "id": "META-3",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-META-3.json",
+          "sha256": "7db270fca8e5bd0408cbf7f96fc6ca8ab9f7e295df3b873e4d63a88ea1794840"
+        },
+        {
+          "id": "META-4",
+          "status": "DONE",
+          "artifact": "runs\\platform-v2-live\\deepseek-META-4.json",
+          "sha256": "0ba0509890cb2fcedc30de0018d3fca78e71535b89c411549c8815602e4ad4a2"
+        }
+      ]
+    }
+  },
+  "budget": {
+    "authorized_total_cny": 20,
+    "evaluation_purse_cny": 10,
+    "business_ceiling_cny": 10,
+    "settled_estimate_cny": 0.574998,
+    "unresolved_reserved_cny": 0.0,
+    "note": "Conservative CNY 3/12 per million input/output tokens, all input uncached; not a supplier invoice."
+  },
+  "limitations": [
+    "Small, targeted numeric dataset; no general finance quality claim.",
+    "Verification uses the same deterministic policy as the system, not independent human labels.",
+    "The paired initial draft is shared, not charged three times.",
+    "Historical artifacts are preserved; implementation IDs are recorded per case."
+  ]
+}

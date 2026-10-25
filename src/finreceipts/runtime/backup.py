@@ -14,9 +14,10 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from finreceipts.runtime.codec import canonical
-from finreceipts.runtime.store import WORKFLOW_VERSION, IntegrityError, verify_export
+from finreceipts.runtime.store import WORKFLOW_VERSION, IntegrityError, scoped_key, verify_export
 
-FORMAT = "finreceipts-backup-v1"
+FORMAT = "finreceipts-backup-v2"
+LEGACY_FORMAT = "finreceipts-backup-v1"
 DATABASE = "runs.sqlite3"
 MANIFEST = "manifest.json"
 # A closed schema contract: do not restore unknown tables, triggers or views into
@@ -31,6 +32,18 @@ _TABLES = {
         PRIMARY KEY (run_id, seq)
     )""",
 }
+_TABLES_V2 = {
+    **_TABLES,
+    "runs": """CREATE TABLE runs (
+    run_id TEXT PRIMARY KEY, request_key TEXT UNIQUE NOT NULL, document TEXT NOT NULL,
+    owner_id TEXT NOT NULL DEFAULT 'local', operation TEXT NOT NULL DEFAULT 'create_run'
+)""",
+}
+
+
+def _schema_version(db):
+    columns = {r[1] for r in db.execute("PRAGMA table_info(runs)")}
+    return 2 if {"owner_id", "operation"} <= columns else 1
 
 
 def _normalize(sql: str) -> str:
@@ -62,7 +75,8 @@ def inspect_database(path: Path) -> dict:
     _no_sidecars(path)
     with closing(_readonly(path, immutable=True)) as db:
         schema = db.execute("SELECT type, name, tbl_name, sql FROM sqlite_master").fetchall()
-        expected = {("table", name, name, _normalize(sql)) for name, sql in _TABLES.items()} | {
+        tables = _TABLES_V2 if _schema_version(db) == 2 else _TABLES
+        expected = {("table", name, name, _normalize(sql)) for name, sql in tables.items()} | {
             ("index", "sqlite_autoindex_runs_1", "runs", None),
             ("index", "sqlite_autoindex_runs_2", "runs", None),
             ("index", "sqlite_autoindex_events_1", "events", None),
@@ -95,6 +109,15 @@ def inspect_database(path: Path) -> dict:
             if doc["run_id"] != run_id or doc["workflow_version"] != WORKFLOW_VERSION:
                 raise IntegrityError("run identity or workflow version mismatch")
             verify_export({"run": doc, "events": events})
+            if tables is _TABLES_V2:
+                owner, operation = db.execute(
+                    "SELECT owner_id,operation FROM runs WHERE run_id=?", (run_id,)
+                ).fetchone()
+                if doc.get("scope", {"principal_id": "local", "operation": "create_run"}) != {
+                    "principal_id": owner,
+                    "operation": operation,
+                }:
+                    raise IntegrityError("run ownership binding mismatch")
             anchors.append(
                 {
                     "run_id": run_id,
@@ -159,7 +182,7 @@ def create_backup(source: Path, destination: Path, *, timeout: float = 30) -> di
     summary = inspect_database(target)
     _sync(target)
     payload = {
-        "format": FORMAT,
+        "format": _database_format(target),
         "created_at": datetime.now(UTC).isoformat(),
         "database": DATABASE,
         "sha256": file_hash(target),
@@ -177,7 +200,7 @@ def _read_manifest(directory: Path) -> dict:
     if not isinstance(payload, dict):
         raise IntegrityError("backup manifest must be an object")
     if (
-        payload.get("format") != FORMAT
+        payload.get("format") not in {FORMAT, LEGACY_FORMAT}
         or payload.get("database") != DATABASE
         or payload.get("workflow_version") != WORKFLOW_VERSION
     ):
@@ -189,9 +212,51 @@ def _check_copy(path: Path, payload: dict) -> dict:
     if path.stat().st_size != payload["bytes"] or file_hash(path) != payload["sha256"]:
         raise IntegrityError("backup size or SHA256 mismatch")
     summary = inspect_database(path)
+    if payload["format"] != _database_format(path):
+        raise IntegrityError("backup format does not match schema")
     if summary != payload["summary"]:
         raise IntegrityError("backup summary mismatch")
     return summary
+
+
+def _database_format(path):
+    with closing(_readonly(path, immutable=True)) as db:
+        return FORMAT if _schema_version(db) == 2 else LEGACY_FORMAT
+
+
+def migrate_database(source: Path, destination: Path, *, timeout: float = 30) -> dict:
+    """Copy a verified v1 snapshot, then migrate only the copy. Keep all event bytes."""
+    payload = create_backup(source, destination, timeout=timeout)
+    if payload["format"] != LEGACY_FORMAT:
+        raise ValueError("source is already scoped; the copied backup is unchanged")
+    destination = Path(destination)
+    target = destination / DATABASE
+    before = payload["summary"]
+    (destination / MANIFEST).rename(destination / "source-manifest.json")
+    with closing(sqlite3.connect(target)) as db:
+        db.execute("BEGIN IMMEDIATE")
+        db.execute("ALTER TABLE runs ADD COLUMN owner_id TEXT NOT NULL DEFAULT 'local'")
+        db.execute("ALTER TABLE runs ADD COLUMN operation TEXT NOT NULL DEFAULT 'create_run'")
+        for run_id, key in db.execute("SELECT run_id,request_key FROM runs").fetchall():
+            db.execute("UPDATE runs SET request_key=? WHERE run_id=?", (scoped_key(key), run_id))
+        db.commit()
+    after = inspect_database(target)
+    if before != after:
+        raise IntegrityError("migration changed an event or checkpoint anchor")
+    _sync(target)
+    migrated = {
+        **payload,
+        "format": FORMAT,
+        "sha256": file_hash(target),
+        "bytes": target.stat().st_size,
+        "migration": {
+            "from": LEGACY_FORMAT,
+            "legacy_owner": "local",
+            "source_snapshot_sha256": payload["sha256"],
+        },
+    }
+    _manifest(destination, migrated)
+    return migrated
 
 
 def verify_backup(directory: Path) -> dict:

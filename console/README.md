@@ -13,7 +13,7 @@ npm --prefix console run dev
 
 打开终端显示的本机地址。Vite 将 `/api` 代理到现有 Compose 入口 `http://127.0.0.1:8090`，无需在浏览器保存 API Token。启动控制台本身不会启动 Docker 或模型服务。
 
-控制台依赖另行配置的 `/api/v2` 服务；旧版 Python `/api` 不能替代该接口。本次前端提交不包含 V2 服务端与部署栈。离线浏览器验收使用内存夹具，可独立于服务端运行。
+控制台使用 V2 平台的 `/api/v2` 服务；旧版 Python `/api` 不能替代该接口。服务端与部署说明见 `docs/V2_START.md`。离线浏览器验收使用内存夹具，可独立于服务端运行。
 
 ```powershell
 npm --prefix console run build

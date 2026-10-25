@@ -30,6 +30,8 @@
   reasons.audit_input_limit='回答超过核验范围，当前任务无法恢复。请缩小问题范围后创建新任务；原答案、证据和调用记录仍可导出。';
   reasons.numeric_out_of_range='回答包含超出可表示范围的数值，当前任务无法恢复。请调整问题后创建新任务；原答案、证据和调用记录仍可导出。';
   const verdicts = {supported:'匹配', unsupported:'未支持', contradicted:'矛盾'};
+  reasons.target_value_verified='目标数值核验通过，仍需复查正文与语义归属。';
+  reasons.unresolved_target_or_claims='执行已结束，目标数值或其他声明仍未通过核验。';
   const eventNames = {created:'任务已创建',step_started:'开始步骤',budget_reserved:'预留调用额度',step_completed:'步骤已完成',step_stopped:'执行已停止',cancelled:'任务已取消',resumed:'任务已恢复'};
   const node = value => nodes[value] || '未知步骤';
   const el = (tag, text, cls) => { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (cls) e.className = cls; return e; };
@@ -82,6 +84,8 @@
     const guidance = {
       cascade_unconfigured:'尚未配置升级模型，请在核验设置中选择其他执行方式，或配置升级模型后重试。',
       invalid_request:'请求参数不符合要求，请检查输入内容与核验设置。',
+      authentication_required:'请使用当前服务配置的访问令牌重新认证。',
+      creation_identity_mismatch:'待确认请求属于其他用户，请切换回原身份后确认。',
       creation_storage_unavailable:'浏览器无法保存或读取创建恢复记录。请允许会话存储后重新加载，确认原请求结果。',
       creation_record_invalid:'创建恢复记录无法读取。请先处理上方的恢复提示，避免另建重复任务。',
       history_cursor_expired:'任务列表位置已变化，请点击“刷新列表”重新读取。',

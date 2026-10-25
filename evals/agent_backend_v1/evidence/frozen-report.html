@@ -1,0 +1,539 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Agent backend acceptance</title><style>body{max-width:1000px;margin:2rem auto;font:16px system-ui}pre{white-space:pre-wrap;overflow-wrap:anywhere}svg{width:100%;fill:#147d92}</style><h1>工程契约验收</h1><p>固定响应及受控故障；不代表真实模型准确率或业务效果。各策略共享初稿，实际调用不重复相加。拒绝缺证据与数值匹配分别统计。小样本分位数波动较大，以下同时展示逐题原始分布。</p><p>direct · n=20 · max=0.034658s</p><svg viewBox="0 0 740 40" role="img" aria-label="raw latency distribution"><circle cx="162.72" cy="20" r="3" /><circle cx="165.66" cy="20" r="3" /><circle cx="169.44" cy="20" r="3" /><circle cx="170.76" cy="20" r="3" /><circle cx="173.02" cy="20" r="3" /><circle cx="174.27" cy="20" r="3" /><circle cx="174.93" cy="20" r="3" /><circle cx="177.09" cy="20" r="3" /><circle cx="178.04" cy="20" r="3" /><circle cx="178.13" cy="20" r="3" /><circle cx="179.14" cy="20" r="3" /><circle cx="179.31" cy="20" r="3" /><circle cx="180.49" cy="20" r="3" /><circle cx="184.15" cy="20" r="3" /><circle cx="186.80" cy="20" r="3" /><circle cx="188.12" cy="20" r="3" /><circle cx="192.19" cy="20" r="3" /><circle cx="192.57" cy="20" r="3" /><circle cx="256.68" cy="20" r="3" /><circle cx="720.00" cy="20" r="3" /></svg><p>audit_only · n=20 · max=0.034942s</p><svg viewBox="0 0 740 40" role="img" aria-label="raw latency distribution"><circle cx="161.59" cy="20" r="3" /><circle cx="164.51" cy="20" r="3" /><circle cx="168.28" cy="20" r="3" /><circle cx="173.70" cy="20" r="3" /><circle cx="173.90" cy="20" r="3" /><circle cx="175.13" cy="20" r="3" /><circle cx="178.93" cy="20" r="3" /><circle cx="179.13" cy="20" r="3" /><circle cx="179.14" cy="20" r="3" /><circle cx="183.93" cy="20" r="3" /><circle cx="184.30" cy="20" r="3" /><circle cx="184.81" cy="20" r="3" /><circle cx="186.07" cy="20" r="3" /><circle cx="187.26" cy="20" r="3" /><circle cx="191.93" cy="20" r="3" /><circle cx="193.72" cy="20" r="3" /><circle cx="196.40" cy="20" r="3" /><circle cx="196.67" cy="20" r="3" /><circle cx="262.15" cy="20" r="3" /><circle cx="720.00" cy="20" r="3" /></svg><p>bounded_revision · n=20 · max=0.035470s</p><svg viewBox="0 0 740 40" role="img" aria-label="raw latency distribution"><circle cx="159.49" cy="20" r="3" /><circle cx="162.36" cy="20" r="3" /><circle cx="166.08" cy="20" r="3" /><circle cx="171.42" cy="20" r="3" /><circle cx="189.17" cy="20" r="3" /><circle cx="191.33" cy="20" r="3" /><circle cx="192.18" cy="20" r="3" /><circle cx="193.63" cy="20" r="3" /><circle cx="194.82" cy="20" r="3" /><circle cx="196.51" cy="20" r="3" /><circle cx="199.20" cy="20" r="3" /><circle cx="201.97" cy="20" r="3" /><circle cx="202.17" cy="20" r="3" /><circle cx="203.73" cy="20" r="3" /><circle cx="205.80" cy="20" r="3" /><circle cx="206.57" cy="20" r="3" /><circle cx="210.35" cy="20" r="3" /><circle cx="210.85" cy="20" r="3" /><circle cx="269.47" cy="20" r="3" /><circle cx="720.00" cy="20" r="3" /></svg><h2>报告</h2><pre>{
+  &quot;evidence_type&quot;: &quot;scripted_engineering_acceptance&quot;,
+  &quot;new_live_evaluation&quot;: &quot;UNRUN&quot;,
+  &quot;split&quot;: &quot;frozen&quot;,
+  &quot;policy&quot;: {
+    &quot;implementation_id&quot;: &quot;0f624d5824c96bd896572c616b8bd89b2384aaaffadebb58a264571f977da41e&quot;,
+    &quot;strategies&quot;: [
+      &quot;direct&quot;,
+      &quot;audit_only&quot;,
+      &quot;bounded_revision&quot;
+    ],
+    &quot;temperature&quot;: 0,
+    &quot;max_tokens&quot;: 1024,
+    &quot;max_revisions&quot;: 2,
+    &quot;use_tools&quot;: true,
+    &quot;shared_initial_answer&quot;: true,
+    &quot;model_escalation&quot;: false
+  },
+  &quot;manifest_sha256&quot;: &quot;832b8ed6fbb503717a567b3bf6acbdc3b7c10d51d1fb3d8cec3758cf4a628702&quot;,
+  &quot;configuration&quot;: null,
+  &quot;complete&quot;: true,
+  &quot;stopped&quot;: null,
+  &quot;strategies&quot;: {
+    &quot;direct&quot;: {
+      &quot;success&quot;: 8,
+      &quot;total&quot;: 20,
+      &quot;numeric_matched&quot;: 4,
+      &quot;answerable&quot;: 16,
+      &quot;completed&quot;: 16,
+      &quot;rejected&quot;: 4,
+      &quot;errors&quot;: 0,
+      &quot;unrun&quot;: 0,
+      &quot;error_types&quot;: {
+        &quot;unit_mismatch&quot;: 4,
+        &quot;value_mismatch&quot;: 4,
+        &quot;missing_evidence&quot;: 4,
+        &quot;no_final_number&quot;: 4
+      },
+      &quot;latencies_s&quot;: [
+        0.007066199999826495,
+        0.007212000000436092,
+        0.007399099999020109,
+        0.0074643999978434294,
+        0.007576500000141095,
+        0.00763820000065607,
+        0.007670799997868016,
+        0.007777800001349533,
+        0.007824899999832269,
+        0.007829500002117129,
+        0.007879500000854023,
+        0.0078877999985707,
+        0.007946000001538778,
+        0.008127400000375928,
+        0.008258699999714736,
+        0.008323800000653137,
+        0.008525200002623023,
+        0.008544299998902716,
+        0.011718599998857826,
+        0.034658100001252024
+      ],
+      &quot;latency_n&quot;: 20,
+      &quot;p50_s&quot;: 0.007879500000854023,
+      &quot;p95_s&quot;: 0.011718599998857826,
+      &quot;shared_model_calls&quot;: 32,
+      &quot;incremental_model_calls&quot;: 0
+    },
+    &quot;audit_only&quot;: {
+      &quot;success&quot;: 8,
+      &quot;total&quot;: 20,
+      &quot;numeric_matched&quot;: 4,
+      &quot;answerable&quot;: 16,
+      &quot;completed&quot;: 16,
+      &quot;rejected&quot;: 4,
+      &quot;errors&quot;: 0,
+      &quot;unrun&quot;: 0,
+      &quot;error_types&quot;: {
+        &quot;unit_mismatch&quot;: 4,
+        &quot;value_mismatch&quot;: 4,
+        &quot;missing_evidence&quot;: 4,
+        &quot;no_final_number&quot;: 4
+      },
+      &quot;latencies_s&quot;: [
+        0.007067599999572849,
+        0.007213199998659547,
+        0.007401499999104999,
+        0.007672399999137269,
+        0.00768189999871538,
+        0.007743599999230355,
+        0.007933100001537241,
+        0.00794310000128462,
+        0.007943500000692438,
+        0.00818259999869042,
+        0.008201399999961723,
+        0.008226699999795528,
+        0.008289400000649039,
+        0.008348800001840573,
+        0.00858209999933024,
+        0.008671600000525359,
+        0.008805499997833977,
+        0.00881880000088131,
+        0.012087399998563342,
+        0.03494150000187801
+      ],
+      &quot;latency_n&quot;: 20,
+      &quot;p50_s&quot;: 0.008201399999961723,
+      &quot;p95_s&quot;: 0.012087399998563342,
+      &quot;shared_model_calls&quot;: 32,
+      &quot;incremental_model_calls&quot;: 0
+    },
+    &quot;bounded_revision&quot;: {
+      &quot;success&quot;: 20,
+      &quot;total&quot;: 20,
+      &quot;numeric_matched&quot;: 16,
+      &quot;answerable&quot;: 16,
+      &quot;completed&quot;: 16,
+      &quot;rejected&quot;: 4,
+      &quot;errors&quot;: 0,
+      &quot;unrun&quot;: 0,
+      &quot;error_types&quot;: {
+        &quot;missing_evidence&quot;: 4
+      },
+      &quot;latencies_s&quot;: [
+        0.007068200000503566,
+        0.007213699998828815,
+        0.0074022000007971656,
+        0.007672799998545088,
+        0.008571800000936491,
+        0.008681300001626369,
+        0.00872449999951641,
+        0.008798200000455836,
+        0.008858099998178659,
+        0.008943799999542534,
+        0.009079999999812571,
+        0.00922079999872949,
+        0.009230600000591949,
+        0.00931000000127824,
+        0.009414600001036888,
+        0.009453799997572787,
+        0.009645099999033846,
+        0.009670300001744181,
+        0.012641099998290883,
+        0.0354695999994874
+      ],
+      &quot;latency_n&quot;: 20,
+      &quot;p50_s&quot;: 0.009079999999812571,
+      &quot;p95_s&quot;: 0.012641099998290883,
+      &quot;shared_model_calls&quot;: 32,
+      &quot;incremental_model_calls&quot;: 12
+    }
+  },
+  &quot;actual_model_dispatches&quot;: 44,
+  &quot;tool_attempts&quot;: 16,
+  &quot;http_attempts&quot;: 0,
+  &quot;unknown_http_attempts&quot;: 0,
+  &quot;unknown_usage_attempts&quot;: 0,
+  &quot;estimated_cny&quot;: null,
+  &quot;wall_time_s&quot;: 0.3945601999985229
+}</pre><h2>失败案例（来源为人工注入）</h2><pre>[
+  {
+    &quot;id&quot;: &quot;AAPL-2023-direct-net_income:wrong_unit&quot;,
+    &quot;strategy&quot;: &quot;direct&quot;,
+    &quot;scenario&quot;: &quot;wrong_unit&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;answer&quot;: &quot;ANSWER: 96995000000.0元&quot;,
+    &quot;numeric_matched&quot;: false,
+    &quot;contract_passed&quot;: false,
+    &quot;reason_codes&quot;: [
+      &quot;unit_mismatch&quot;
+    ],
+    &quot;target_audit&quot;: {
+      &quot;claim&quot;: {
+        &quot;text&quot;: &quot;96995000000.0元&quot;,
+        &quot;value&quot;: 96995000000.0,
+        &quot;unit&quot;: &quot;CNY&quot;,
+        &quot;metric&quot;: &quot;net income&quot;,
+        &quot;entity&quot;: &quot;Apple Inc.&quot;,
+        &quot;period_end&quot;: &quot;2023-09-30&quot;,
+        &quot;span&quot;: null
+      },
+      &quot;verdict&quot;: &quot;contradicted&quot;,
+      &quot;reason_codes&quot;: [
+        &quot;unit_mismatch&quot;
+      ],
+      &quot;evidence&quot;: {
+        &quot;facts&quot;: [
+          {
+            &quot;cik&quot;: 320193,
+            &quot;entity_name&quot;: &quot;Apple Inc.&quot;,
+            &quot;taxonomy&quot;: &quot;us-gaap&quot;,
+            &quot;concept&quot;: &quot;NetIncomeLoss&quot;,
+            &quot;label&quot;: &quot;Net Income (Loss) Attributable to Parent&quot;,
+            &quot;unit&quot;: &quot;USD&quot;,
+            &quot;value&quot;: 96995000000.0,
+            &quot;start&quot;: &quot;2022-09-25&quot;,
+            &quot;end&quot;: &quot;2023-09-30&quot;,
+            &quot;accn&quot;: &quot;0000320193-23-000106&quot;,
+            &quot;form&quot;: &quot;10-K&quot;,
+            &quot;filed&quot;: &quot;2023-11-03&quot;,
+            &quot;fy&quot;: 2023,
+            &quot;fp&quot;: &quot;FY&quot;,
+            &quot;frame&quot;: null,
+            &quot;filing_url&quot;: null,
+            &quot;period_type&quot;: &quot;duration&quot;,
+            &quot;duration_days&quot;: 371,
+            &quot;source_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm&quot;
+          }
+        ],
+        &quot;expected_value&quot;: 96995000000.0,
+        &quot;expected_unit&quot;: &quot;USD&quot;,
+        &quot;formula&quot;: &quot;NetIncomeLoss[FY2023]&quot;,
+        &quot;note&quot;: null
+      },
+      &quot;relative_error&quot;: null
+    },
+    &quot;attempts&quot;: [
+      {
+        &quot;answer&quot;: &quot;ANSWER: 96995000000.0元&quot;,
+        &quot;model&quot;: &quot;fixture&quot;,
+        &quot;audit_mode&quot;: &quot;numeric_only&quot;,
+        &quot;numbers&quot;: 1,
+        &quot;supported&quot;: 0,
+        &quot;contradicted&quot;: 0,
+        &quot;unsupported&quot;: 1,
+        &quot;audit&quot;: [
+          {
+            &quot;claim&quot;: {
+              &quot;text&quot;: &quot;96995000000.0元&quot;,
+              &quot;value&quot;: 96995000000.0,
+              &quot;unit&quot;: &quot;CNY&quot;,
+              &quot;metric&quot;: null,
+              &quot;entity&quot;: null,
+              &quot;period_end&quot;: null,
+              &quot;span&quot;: [
+                8,
+                22
+              ]
+            },
+            &quot;verdict&quot;: &quot;unsupported&quot;,
+            &quot;evidence&quot;: null,
+            &quot;relative_error&quot;: null,
+            &quot;reasons&quot;: [
+              &quot;no matching fact found&quot;
+            ]
+          }
+        ],
+        &quot;target_audit&quot;: {
+          &quot;claim&quot;: {
+            &quot;text&quot;: &quot;96995000000.0元&quot;,
+            &quot;value&quot;: 96995000000.0,
+            &quot;unit&quot;: &quot;CNY&quot;,
+            &quot;metric&quot;: &quot;net income&quot;,
+            &quot;entity&quot;: &quot;Apple Inc.&quot;,
+            &quot;period_end&quot;: &quot;2023-09-30&quot;,
+            &quot;span&quot;: null
+          },
+          &quot;verdict&quot;: &quot;contradicted&quot;,
+          &quot;reason_codes&quot;: [
+            &quot;unit_mismatch&quot;
+          ],
+          &quot;evidence&quot;: {
+            &quot;facts&quot;: [
+              {
+                &quot;cik&quot;: 320193,
+                &quot;entity_name&quot;: &quot;Apple Inc.&quot;,
+                &quot;taxonomy&quot;: &quot;us-gaap&quot;,
+                &quot;concept&quot;: &quot;NetIncomeLoss&quot;,
+                &quot;label&quot;: &quot;Net Income (Loss) Attributable to Parent&quot;,
+                &quot;unit&quot;: &quot;USD&quot;,
+                &quot;value&quot;: 96995000000.0,
+                &quot;start&quot;: &quot;2022-09-25&quot;,
+                &quot;end&quot;: &quot;2023-09-30&quot;,
+                &quot;accn&quot;: &quot;0000320193-23-000106&quot;,
+                &quot;form&quot;: &quot;10-K&quot;,
+                &quot;filed&quot;: &quot;2023-11-03&quot;,
+                &quot;fy&quot;: 2023,
+                &quot;fp&quot;: &quot;FY&quot;,
+                &quot;frame&quot;: null,
+                &quot;filing_url&quot;: null,
+                &quot;period_type&quot;: &quot;duration&quot;,
+                &quot;duration_days&quot;: 371,
+                &quot;source_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm&quot;
+              }
+            ],
+            &quot;expected_value&quot;: 96995000000.0,
+            &quot;expected_unit&quot;: &quot;USD&quot;,
+            &quot;formula&quot;: &quot;NetIncomeLoss[FY2023]&quot;,
+            &quot;note&quot;: null
+          },
+          &quot;relative_error&quot;: null
+        }
+      }
+    ],
+    &quot;revisions&quot;: 0,
+    &quot;latency_s&quot;: 0.008323800000653137,
+    &quot;shared_model_calls&quot;: 2,
+    &quot;incremental_model_calls&quot;: 0
+  },
+  {
+    &quot;id&quot;: &quot;AAPL-2023-direct-net_income:time_confusion&quot;,
+    &quot;strategy&quot;: &quot;direct&quot;,
+    &quot;scenario&quot;: &quot;time_confusion&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;answer&quot;: &quot;ANSWER: 93736000000.0 USD&quot;,
+    &quot;numeric_matched&quot;: false,
+    &quot;contract_passed&quot;: false,
+    &quot;reason_codes&quot;: [
+      &quot;value_mismatch&quot;
+    ],
+    &quot;target_audit&quot;: {
+      &quot;claim&quot;: {
+        &quot;text&quot;: &quot;93736000000.0 USD&quot;,
+        &quot;value&quot;: 93736000000.0,
+        &quot;unit&quot;: &quot;USD&quot;,
+        &quot;metric&quot;: &quot;net income&quot;,
+        &quot;entity&quot;: &quot;Apple Inc.&quot;,
+        &quot;period_end&quot;: &quot;2023-09-30&quot;,
+        &quot;span&quot;: null
+      },
+      &quot;verdict&quot;: &quot;contradicted&quot;,
+      &quot;reason_codes&quot;: [
+        &quot;value_mismatch&quot;
+      ],
+      &quot;evidence&quot;: {
+        &quot;facts&quot;: [
+          {
+            &quot;cik&quot;: 320193,
+            &quot;entity_name&quot;: &quot;Apple Inc.&quot;,
+            &quot;taxonomy&quot;: &quot;us-gaap&quot;,
+            &quot;concept&quot;: &quot;NetIncomeLoss&quot;,
+            &quot;label&quot;: &quot;Net Income (Loss) Attributable to Parent&quot;,
+            &quot;unit&quot;: &quot;USD&quot;,
+            &quot;value&quot;: 96995000000.0,
+            &quot;start&quot;: &quot;2022-09-25&quot;,
+            &quot;end&quot;: &quot;2023-09-30&quot;,
+            &quot;accn&quot;: &quot;0000320193-23-000106&quot;,
+            &quot;form&quot;: &quot;10-K&quot;,
+            &quot;filed&quot;: &quot;2023-11-03&quot;,
+            &quot;fy&quot;: 2023,
+            &quot;fp&quot;: &quot;FY&quot;,
+            &quot;frame&quot;: null,
+            &quot;filing_url&quot;: null,
+            &quot;period_type&quot;: &quot;duration&quot;,
+            &quot;duration_days&quot;: 371,
+            &quot;source_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm&quot;
+          }
+        ],
+        &quot;expected_value&quot;: 96995000000.0,
+        &quot;expected_unit&quot;: &quot;USD&quot;,
+        &quot;formula&quot;: &quot;NetIncomeLoss[FY2023]&quot;,
+        &quot;note&quot;: null
+      },
+      &quot;relative_error&quot;: 0.033599670086086914
+    },
+    &quot;attempts&quot;: [
+      {
+        &quot;answer&quot;: &quot;ANSWER: 93736000000.0 USD&quot;,
+        &quot;model&quot;: &quot;fixture&quot;,
+        &quot;audit_mode&quot;: &quot;numeric_only&quot;,
+        &quot;numbers&quot;: 1,
+        &quot;supported&quot;: 0,
+        &quot;contradicted&quot;: 0,
+        &quot;unsupported&quot;: 1,
+        &quot;audit&quot;: [
+          {
+            &quot;claim&quot;: {
+              &quot;text&quot;: &quot;93736000000.0 USD&quot;,
+              &quot;value&quot;: 93736000000.0,
+              &quot;unit&quot;: &quot;USD&quot;,
+              &quot;metric&quot;: null,
+              &quot;entity&quot;: null,
+              &quot;period_end&quot;: null,
+              &quot;span&quot;: [
+                8,
+                25
+              ]
+            },
+            &quot;verdict&quot;: &quot;unsupported&quot;,
+            &quot;evidence&quot;: null,
+            &quot;relative_error&quot;: null,
+            &quot;reasons&quot;: [
+              &quot;no matching fact found&quot;
+            ]
+          }
+        ],
+        &quot;target_audit&quot;: {
+          &quot;claim&quot;: {
+            &quot;text&quot;: &quot;93736000000.0 USD&quot;,
+            &quot;value&quot;: 93736000000.0,
+            &quot;unit&quot;: &quot;USD&quot;,
+            &quot;metric&quot;: &quot;net income&quot;,
+            &quot;entity&quot;: &quot;Apple Inc.&quot;,
+            &quot;period_end&quot;: &quot;2023-09-30&quot;,
+            &quot;span&quot;: null
+          },
+          &quot;verdict&quot;: &quot;contradicted&quot;,
+          &quot;reason_codes&quot;: [
+            &quot;value_mismatch&quot;
+          ],
+          &quot;evidence&quot;: {
+            &quot;facts&quot;: [
+              {
+                &quot;cik&quot;: 320193,
+                &quot;entity_name&quot;: &quot;Apple Inc.&quot;,
+                &quot;taxonomy&quot;: &quot;us-gaap&quot;,
+                &quot;concept&quot;: &quot;NetIncomeLoss&quot;,
+                &quot;label&quot;: &quot;Net Income (Loss) Attributable to Parent&quot;,
+                &quot;unit&quot;: &quot;USD&quot;,
+                &quot;value&quot;: 96995000000.0,
+                &quot;start&quot;: &quot;2022-09-25&quot;,
+                &quot;end&quot;: &quot;2023-09-30&quot;,
+                &quot;accn&quot;: &quot;0000320193-23-000106&quot;,
+                &quot;form&quot;: &quot;10-K&quot;,
+                &quot;filed&quot;: &quot;2023-11-03&quot;,
+                &quot;fy&quot;: 2023,
+                &quot;fp&quot;: &quot;FY&quot;,
+                &quot;frame&quot;: null,
+                &quot;filing_url&quot;: null,
+                &quot;period_type&quot;: &quot;duration&quot;,
+                &quot;duration_days&quot;: 371,
+                &quot;source_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm&quot;
+              }
+            ],
+            &quot;expected_value&quot;: 96995000000.0,
+            &quot;expected_unit&quot;: &quot;USD&quot;,
+            &quot;formula&quot;: &quot;NetIncomeLoss[FY2023]&quot;,
+            &quot;note&quot;: null
+          },
+          &quot;relative_error&quot;: 0.033599670086086914
+        }
+      }
+    ],
+    &quot;revisions&quot;: 0,
+    &quot;latency_s&quot;: 0.008525200002623023,
+    &quot;shared_model_calls&quot;: 2,
+    &quot;incremental_model_calls&quot;: 0
+  },
+  {
+    &quot;id&quot;: &quot;AAPL-2023-direct-net_income:tool_timeout&quot;,
+    &quot;strategy&quot;: &quot;direct&quot;,
+    &quot;scenario&quot;: &quot;tool_timeout&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;answer&quot;: &quot;ANSWER: N/A&quot;,
+    &quot;numeric_matched&quot;: false,
+    &quot;contract_passed&quot;: false,
+    &quot;reason_codes&quot;: [
+      &quot;no_final_number&quot;
+    ],
+    &quot;target_audit&quot;: {
+      &quot;claim&quot;: null,
+      &quot;verdict&quot;: &quot;unsupported&quot;,
+      &quot;reason_codes&quot;: [
+        &quot;no_final_number&quot;
+      ],
+      &quot;evidence&quot;: {
+        &quot;facts&quot;: [
+          {
+            &quot;cik&quot;: 320193,
+            &quot;entity_name&quot;: &quot;Apple Inc.&quot;,
+            &quot;taxonomy&quot;: &quot;us-gaap&quot;,
+            &quot;concept&quot;: &quot;NetIncomeLoss&quot;,
+            &quot;label&quot;: &quot;Net Income (Loss) Attributable to Parent&quot;,
+            &quot;unit&quot;: &quot;USD&quot;,
+            &quot;value&quot;: 96995000000.0,
+            &quot;start&quot;: &quot;2022-09-25&quot;,
+            &quot;end&quot;: &quot;2023-09-30&quot;,
+            &quot;accn&quot;: &quot;0000320193-23-000106&quot;,
+            &quot;form&quot;: &quot;10-K&quot;,
+            &quot;filed&quot;: &quot;2023-11-03&quot;,
+            &quot;fy&quot;: 2023,
+            &quot;fp&quot;: &quot;FY&quot;,
+            &quot;frame&quot;: null,
+            &quot;filing_url&quot;: null,
+            &quot;period_type&quot;: &quot;duration&quot;,
+            &quot;duration_days&quot;: 371,
+            &quot;source_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm&quot;
+          }
+        ],
+        &quot;expected_value&quot;: 96995000000.0,
+        &quot;expected_unit&quot;: &quot;USD&quot;,
+        &quot;formula&quot;: &quot;NetIncomeLoss[FY2023]&quot;,
+        &quot;note&quot;: null
+      },
+      &quot;relative_error&quot;: null
+    },
+    &quot;attempts&quot;: [
+      {
+        &quot;answer&quot;: &quot;ANSWER: N/A&quot;,
+        &quot;model&quot;: &quot;fixture&quot;,
+        &quot;audit_mode&quot;: &quot;numeric_only&quot;,
+        &quot;numbers&quot;: 0,
+        &quot;supported&quot;: 0,
+        &quot;contradicted&quot;: 0,
+        &quot;unsupported&quot;: 0,
+        &quot;audit&quot;: [],
+        &quot;target_audit&quot;: {
+          &quot;claim&quot;: null,
+          &quot;verdict&quot;: &quot;unsupported&quot;,
+          &quot;reason_codes&quot;: [
+            &quot;no_final_number&quot;
+          ],
+          &quot;evidence&quot;: {
+            &quot;facts&quot;: [
+              {
+                &quot;cik&quot;: 320193,
+                &quot;entity_name&quot;: &quot;Apple Inc.&quot;,
+                &quot;taxonomy&quot;: &quot;us-gaap&quot;,
+                &quot;concept&quot;: &quot;NetIncomeLoss&quot;,
+                &quot;label&quot;: &quot;Net Income (Loss) Attributable to Parent&quot;,
+                &quot;unit&quot;: &quot;USD&quot;,
+                &quot;value&quot;: 96995000000.0,
+                &quot;start&quot;: &quot;2022-09-25&quot;,
+                &quot;end&quot;: &quot;2023-09-30&quot;,
+                &quot;accn&quot;: &quot;0000320193-23-000106&quot;,
+                &quot;form&quot;: &quot;10-K&quot;,
+                &quot;filed&quot;: &quot;2023-11-03&quot;,
+                &quot;fy&quot;: 2023,
+                &quot;fp&quot;: &quot;FY&quot;,
+                &quot;frame&quot;: null,
+                &quot;filing_url&quot;: null,
+                &quot;period_type&quot;: &quot;duration&quot;,
+                &quot;duration_days&quot;: 371,
+                &quot;source_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm&quot;
+              }
+            ],
+            &quot;expected_value&quot;: 96995000000.0,
+            &quot;expected_unit&quot;: &quot;USD&quot;,
+            &quot;formula&quot;: &quot;NetIncomeLoss[FY2023]&quot;,
+            &quot;note&quot;: null
+          },
+          &quot;relative_error&quot;: null
+        }
+      }
+    ],
+    &quot;revisions&quot;: 0,
+    &quot;latency_s&quot;: 0.008127400000375928,
+    &quot;shared_model_calls&quot;: 2,
+    &quot;incremental_model_calls&quot;: 0
+  }
+]</pre></html>

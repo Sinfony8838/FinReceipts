@@ -11,6 +11,7 @@ only in the SDK client, and scrubbed from any error text via :func:`redact`.
 
 from __future__ import annotations
 
+import copy
 import json
 import time
 from collections.abc import Callable, Sequence
@@ -55,6 +56,15 @@ class LLMResponse:
     usage: Usage = field(default_factory=Usage)
     model: str = ""
     stop_reason: str | None = None
+    native_content: list[dict[str, Any]] | None = None
+
+    def assistant_message(self) -> dict[str, Any]:
+        message = {"role": "assistant", "content": self.text}
+        if self.tool_calls:
+            message["tool_calls"] = self.tool_calls
+        if self.native_content is not None:
+            message["anthropic_content"] = copy.deepcopy(self.native_content)
+        return message
 
 
 Message = dict[str, Any]
@@ -205,7 +215,9 @@ class AnthropicCompatClient:
     def _to_wire(messages: Sequence[Message]) -> list[dict[str, Any]]:
         wire: list[dict[str, Any]] = []
         for m in messages:
-            if m["role"] == "tool":
+            if m["role"] == "assistant" and m.get("anthropic_content") is not None:
+                wire.append({"role": "assistant", "content": copy.deepcopy(m["anthropic_content"])})
+            elif m["role"] == "tool":
                 block = {
                     "type": "tool_result",
                     "tool_use_id": m["tool_call_id"],
@@ -238,9 +250,14 @@ class AnthropicCompatClient:
         max_tokens: int = 1024,
         temperature: float = 0.0,
     ) -> LLMResponse:
+        if model == "MiniMax-M3.1-Flash+think":
+            raise ValueError("MiniMax-M3.1-Flash always thinks; use its model name without +think")
         model, thinking = split_thinking_alias(model)
         body: dict[str, Any] = {"temperature": temperature}
-        if thinking:
+        if model == "MiniMax-M3.1-Flash":
+            body = {"output_config": {"effort": "medium"}}
+            max_tokens = 4096
+        elif thinking:
             body["thinking"] = {"type": "adaptive"}
             max_tokens = max(max_tokens, THINKING_MIN_MAX_TOKENS)  # thinking counts toward it
         kwargs: dict[str, Any] = {
@@ -272,6 +289,9 @@ class AnthropicCompatClient:
             usage=Usage(r.usage.input_tokens, r.usage.output_tokens, 1, dt),
             model=model,
             stop_reason=r.stop_reason,
+            native_content=[b.model_dump(exclude_none=True) for b in r.content]
+            if all(hasattr(b, "model_dump") for b in r.content)
+            else None,
         )
 
 

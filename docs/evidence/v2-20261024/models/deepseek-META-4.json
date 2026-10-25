@@ -1,0 +1,158 @@
+{
+  "case_id": "META-4",
+  "provider": "deepseek",
+  "profile": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "effort": "medium",
+    "max_output_tokens": 4096
+  },
+  "implementation_id": "c851cf150771a5db460fbc0297c90d8d8e45bd11d0e2dccfa919fc8fe7e1c129",
+  "date": "2026-10-24T13:52:15.392270+00:00",
+  "evidence": {
+    "revenue": {}
+  },
+  "calls": [
+    {
+      "attempt_id": "880e1fd0-5f67-4086-8ceb-c9e04c8803fd",
+      "status": "SETTLED",
+      "response": {
+        "text": "",
+        "assistant": {
+          "role": "assistant",
+          "content": "",
+          "reasoning_content": "The user asks for META revenue for fiscal year 2099. Evidence is empty. This is a future year — no evidence. I should check with the tool? The evidence provided is empty: {\"revenue\": {}}. I could call the tool to verify, but fiscal year 2099 doesn't exist. Let me call the tool to confirm unavailability.\n\nActually the instruction says evidence is frozen and untrusted; the tool may return data. Let me try the call — it will presumably return no data. Making the call is reasonable diligence.",
+          "tool_calls": [
+            {
+              "index": 0,
+              "id": "call_00_yJddrxptTcnH4uAIN4vD1673",
+              "type": "function",
+              "function": {
+                "name": "get_financial_fact",
+                "arguments": "{\"ticker\": \"META\", \"metric\": \"revenue\", \"fiscal_year\": 2099}"
+              }
+            }
+          ]
+        },
+        "tools": [
+          {
+            "id": "call_00_yJddrxptTcnH4uAIN4vD1673",
+            "name": "get_financial_fact",
+            "arguments": {
+              "ticker": "META",
+              "metric": "revenue",
+              "fiscal_year": 2099
+            }
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 603,
+          "completion_tokens": 191,
+          "total_tokens": 794,
+          "prompt_tokens_details": {
+            "cached_tokens": 384
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 111
+          },
+          "prompt_cache_hit_tokens": 384,
+          "prompt_cache_miss_tokens": 219,
+          "input_tokens": 603,
+          "output_tokens": 191
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "tool_calls"
+      },
+      "estimated_micros": 4101
+    },
+    {
+      "attempt_id": "180eab78-ee8b-42f4-800e-7d2f20654097",
+      "status": "SETTLED",
+      "response": {
+        "text": "**Requested metric:** META total annual revenue (top-line revenue as reported in the Form 10-K, XBRL revenue concept, in US dollars) for fiscal year 2099.\n\n**What the evidence shows:**\n- The supplied evidence bundle contains an empty `revenue` object — no value, no period, no accession number to cite.\n- A lookup against the filing data for META, `revenue`, FY2099 returned no record: *\"no revenue for META FY2099.\"*\n\n**Calculation:** None can be performed. Fiscal year 2099 is a future period that ends roughly 73 years after the most recent reporting cycle, so no 10-K covering it can exist, and no reported figure is available to verify. Deriving a number by extrapolation or by substituting a different fiscal year's revenue would be inventing evidence, which I won't do.\n\n**Conclusion:** No verifiable revenue figure exists for META FY2099. I am declining to supply a number rather than fabricate one.\n\nANSWER: N/A",
+        "assistant": {
+          "role": "assistant",
+          "content": "**Requested metric:** META total annual revenue (top-line revenue as reported in the Form 10-K, XBRL revenue concept, in US dollars) for fiscal year 2099.\n\n**What the evidence shows:**\n- The supplied evidence bundle contains an empty `revenue` object — no value, no period, no accession number to cite.\n- A lookup against the filing data for META, `revenue`, FY2099 returned no record: *\"no revenue for META FY2099.\"*\n\n**Calculation:** None can be performed. Fiscal year 2099 is a future period that ends roughly 73 years after the most recent reporting cycle, so no 10-K covering it can exist, and no reported figure is available to verify. Deriving a number by extrapolation or by substituting a different fiscal year's revenue would be inventing evidence, which I won't do.\n\n**Conclusion:** No verifiable revenue figure exists for META FY2099. I am declining to supply a number rather than fabricate one.\n\nANSWER: N/A",
+          "reasoning_content": "Confirm: no evidence. Refuse to invent.\n\nExplain metric: revenue = total annual revenue as reported in 10-K (XBRL Revenues), in USD base units.\n\nAnswer N/A."
+        },
+        "tools": [],
+        "usage": {
+          "prompt_tokens": 823,
+          "completion_tokens": 257,
+          "total_tokens": 1080,
+          "prompt_tokens_details": {
+            "cached_tokens": 640
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 39
+          },
+          "prompt_cache_hit_tokens": 640,
+          "prompt_cache_miss_tokens": 183,
+          "input_tokens": 823,
+          "output_tokens": 257
+        },
+        "model": "deepseek-flash",
+        "fingerprint": "e72d3c7f663d3e1383b00b3884cb4501",
+        "stop_reason": "stop"
+      },
+      "estimated_micros": 5553
+    }
+  ],
+  "answers": [
+    {
+      "answer": "**Requested metric:** META total annual revenue (top-line revenue as reported in the Form 10-K, XBRL revenue concept, in US dollars) for fiscal year 2099.\n\n**What the evidence shows:**\n- The supplied evidence bundle contains an empty `revenue` object — no value, no period, no accession number to cite.\n- A lookup against the filing data for META, `revenue`, FY2099 returned no record: *\"no revenue for META FY2099.\"*\n\n**Calculation:** None can be performed. Fiscal year 2099 is a future period that ends roughly 73 years after the most recent reporting cycle, so no 10-K covering it can exist, and no reported figure is available to verify. Deriving a number by extrapolation or by substituting a different fiscal year's revenue would be inventing evidence, which I won't do.\n\n**Conclusion:** No verifiable revenue figure exists for META FY2099. I am declining to supply a number rather than fabricate one.\n\nANSWER: N/A",
+      "audit": {
+        "claim": null,
+        "verdict": "unsupported",
+        "reason_codes": [
+          "missing_evidence"
+        ],
+        "evidence": null,
+        "relative_error": null
+      },
+      "attempts_so_far": 2
+    }
+  ],
+  "status": "DONE",
+  "elapsed_seconds": 3.811999999990803,
+  "comparison": {
+    "direct_answer": "first answer, no gate",
+    "verify_only": "same first answer with deterministic gate",
+    "bounded_revision": "last answer with at most two repairs",
+    "cost_allocation": "shared draft counted once; repairs are incremental",
+    "rules_answer": "ANSWER: N/A"
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"kind\": \"research\", \"question\": \"Report the requested annual financial target for META; briefly explain the calculation and cite filing evidence. If unavailable, refuse to invent a number.\", \"target\": {\"fiscal_year\": 2099, \"kind\": \"direct\", \"metric\": \"revenue\"}, \"ticker\": \"META\", \"evidence\": {\"revenue\": {}}}"
+    },
+    {
+      "role": "assistant",
+      "content": "",
+      "reasoning_content": "The user asks for META revenue for fiscal year 2099. Evidence is empty. This is a future year — no evidence. I should check with the tool? The evidence provided is empty: {\"revenue\": {}}. I could call the tool to verify, but fiscal year 2099 doesn't exist. Let me call the tool to confirm unavailability.\n\nActually the instruction says evidence is frozen and untrusted; the tool may return data. Let me try the call — it will presumably return no data. Making the call is reasonable diligence.",
+      "tool_calls": [
+        {
+          "index": 0,
+          "id": "call_00_yJddrxptTcnH4uAIN4vD1673",
+          "type": "function",
+          "function": {
+            "name": "get_financial_fact",
+            "arguments": "{\"ticker\": \"META\", \"metric\": \"revenue\", \"fiscal_year\": 2099}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "call_00_yJddrxptTcnH4uAIN4vD1673",
+      "content": "{\"error\": \"no revenue for META FY2099 (as of None)\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "**Requested metric:** META total annual revenue (top-line revenue as reported in the Form 10-K, XBRL revenue concept, in US dollars) for fiscal year 2099.\n\n**What the evidence shows:**\n- The supplied evidence bundle contains an empty `revenue` object — no value, no period, no accession number to cite.\n- A lookup against the filing data for META, `revenue`, FY2099 returned no record: *\"no revenue for META FY2099.\"*\n\n**Calculation:** None can be performed. Fiscal year 2099 is a future period that ends roughly 73 years after the most recent reporting cycle, so no 10-K covering it can exist, and no reported figure is available to verify. Deriving a number by extrapolation or by substituting a different fiscal year's revenue would be inventing evidence, which I won't do.\n\n**Conclusion:** No verifiable revenue figure exists for META FY2099. I am declining to supply a number rather than fabricate one.\n\nANSWER: N/A",
+      "reasoning_content": "Confirm: no evidence. Refuse to invent.\n\nExplain metric: revenue = total annual revenue as reported in 10-K (XBRL Revenues), in USD base units.\n\nAnswer N/A."
+    }
+  ]
+}
